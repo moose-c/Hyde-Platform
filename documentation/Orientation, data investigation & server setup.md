@@ -373,7 +373,16 @@ def create_tables():
 	cur.close()
 	cur.commit()
 
-Develop script for reading .txt file, creating psql table and writing txt to psql.
+Develop script for reading .txt file, creating psql table and writing txt to psql, see txt_psql.py !
+### Interacting with operating system to view files in folders 
+import os
+folder_path = ''
+files = os.listdir(folder_path)
+os.path.join(folder_path, file)
+DROP SCHEMA public CASCADE
+CREATE SCHEMA public
+**In all txt the final line is "Total", I gave this isocode 1000**
+
 
 
 15.4) How to create queries:
