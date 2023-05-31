@@ -345,15 +345,36 @@ This leads to the following database:
 I will use a python script, since it does not really matter which language you [use](https://stackoverflow.com/questions/2168045/which-language-to-use-for-scripting-postgresql)
 ### Python scripting for TXT into Postgresql
 https://www.postgresqltutorial.com/postgresql-python/
+create test psql user:
+sudo -u postgres createuser -d -E -P -r -s test
+password 12345678
+
 install package`pip install psycopg2`
 creating testingdb
 connecting with:
 `conn = psycopg2.connect(
     host="localhost",
     database="suppliers",
-    user="postgres",
-    password="Abcd1234")`
+    user="test",
+    password="12345678")`
 or .ini file for automatic connection, not necessary for our purposes now.
+create tables through python:
+def create_tables():
+	commands = (
+	"""
+	CREATE TABLE tb (jkhw)
+	""",
+	"""
+	CREATE TABEL othertbl (jkhw)
+	""")
+	curr = conn.cursor()
+	for command in commands:
+		cur.execute(command)
+	cur.close()
+	cur.commit()
+
+Develop script for reading .txt file, creating psql table and writing txt to psql.
+
 
 15.4) How to create queries:
 https://docs.qgis.org/3.28/en/docs/training_manual/database_concepts/queries.html
