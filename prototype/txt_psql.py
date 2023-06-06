@@ -13,7 +13,7 @@ folder = "/home/moos/Documents/HYDE Platform/prototype/data-investigation/lower/
 files = os.listdir(folder)
 
 def create_table(file, header):
-    table_command = f"CREATE TABLE {name} (iso_code int PRIMARY KEY NOT NULL"
+    table_command = f"CREATE TABLE {name} (id serial PRIMARY KEY NOT NULL, iso_code int NOT NULL REFERENCES iso_code(id)"
 
     for col in header[0:-1].split(' ')[1:]:
         if col[0] == '-':

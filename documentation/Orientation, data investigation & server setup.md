@@ -379,10 +379,11 @@ import os
 folder_path = ''
 files = os.listdir(folder_path)
 os.path.join(folder_path, file)
-DROP SCHEMA public CASCADE
-CREATE SCHEMA public
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
 **In all txt the final line is "Total", I gave this isocode 1000**
-
+Remaining things for the txt database:
+reference one more table where isocodes are mapped to countries, and include references in all tables.
 
 
 15.4) How to create queries:
