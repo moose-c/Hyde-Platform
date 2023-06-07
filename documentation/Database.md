@@ -209,3 +209,5 @@ Being no a bit knowledgeable about bash scripts, we can investigate how to write
 With this knowledge and the script provided [here](https://medium.com/@royalosyin/export-a-netcdf-data-as-a-time-series-of-geotiff-images-f8effe78d1b3) the script for converting a .netcdf to a .tiff file is easy enough.
 Pretty big files: 70 mb * 70 files* 30 indicators = 150000 mb, ook veel redundancy
 Perhaps just one big .netcdf file better
+
+have setup 2-fac auth
