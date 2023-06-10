@@ -211,3 +211,11 @@ Pretty big files: 70 mb * 70 files* 30 indicators = 150000 mb, ook veel redundan
 Perhaps just one big .netcdf file better
 
 have setup 2-fac auth
+is now synched with utrecht?
+
+Importing now all tiff into database, let's see the resulting size
+But also, just what is tiff: Tag image file format. Store raster graphics  & image information.
+It is probably a lot more memory efficient to just make 1 large .nc file:
+google 'Merging netCDF files with NCO/CDO'.
+But does this fit in a postgres database? Do you even want it in postGIS? Or imediately into geoserver.
+

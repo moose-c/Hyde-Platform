@@ -2,8 +2,9 @@ import netCDF4 as nc
 import os
 from osgeo import gdal, ogr
 import numpy as np
+import pandas as pd
 
-path = "/home/moos/Documents/HYDE_Platform/prototype/doesitwork_9998.tif"
+path = "/home/moos/Documents/Temp-Folder/HYDE_Platform/prototype/doesitwork_9998.tif"
 tiff = gdal.Open(path)
 # tiff.show()
 tiffar = np.array(tiff)
