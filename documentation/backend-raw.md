@@ -13,7 +13,7 @@ Avoid data duplication (a lot in HYDE)
 
 id, first_name, last_name, city, streetname, number
 indexes allow you to quickly just to relevant information (**for our case country**)
-map database usinng *Entity-relationship Diagram* (ER-diagram) 
+map database usinn *Entity-relationship Diagram* (ER-diagram) 
 streets relation: id, name
 people relatioin: id, name, house_no, street_id
 
@@ -62,7 +62,7 @@ SELECT * FROM testdb
 connect tables:
 - add foreign key after table has been created: `alter table people 
 	add constraint people_streets_fk foreign key (street_id) references streets(id)`
-- or whenn creating the table: create table people (..., street_id int references streets(id) not null, ...)
+- or when creating the table: create table people (..., street_id int references streets(id) not null, ...)
 
 Search fast on particular columns (countries!):
 `create index people_name_idx on people(name);`
@@ -84,7 +84,7 @@ The .txt file is structured as follows:
 One for each indicator (conv_rangeland, )crop_land, population, etc.), per country (isocode) a timeseries
 This leads to the following database:
 - countries (id=isocode serial primary key not null, country varchar not null)
-- pop (id (*linked to counries?*), all years ..)
+- indicator, (id (*linked to counries?*), all years)
 I will use a python script, since it does not really matter which language you [use](https://stackoverflow.com/questions/2168045/which-language-to-use-for-scripting-postgresql)
 ### Python scripting for TXT into Postgresql
 https://www.postgresqltutorial.com/postgresql-python/

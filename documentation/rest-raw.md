@@ -18,12 +18,6 @@ First data stored in nestings of folders, but Shapefiles and other traditional d
 
 Geoserver: publish data to web, inputs as PostgreSQL & Oracle, shapefiles, geopackages, databases 
 
-## Openlayers
-
-Openlayers seems promising for front-end: 
-
-How to just get a map of the world, with areas that [one can zoom into](https://openlayers.org/doc/tutorials/concepts.html)
-Promising OpenLayers example, allowing to [click on certain areas](https://openlayers.org/en/latest/examples/box-selection.html)
 
 TODO: obtain correct layer for the countries with good borders	 
 
@@ -118,7 +112,7 @@ Java, javacsudo -u postgres psql
 vscode
 geoserver: https://docs.geoserver.org/latest/en/user/installation/linux.html
 
-##postGIS leren
+## PostGIS leren
 https://postgis.net/documentation/getting_started/
 https://postgis.net/workshops/postgis-intro/
 change user: `set role [user]`
@@ -166,14 +160,14 @@ We will work with a git repository, and a way needs to be found to link to the d
 
 **Q**, what github account do you want me to use?
 
-The project is now devided into chapters:
-1) orientation & data investigation & server setup
-2) Database
+The project is now devided into chapters:s
+1) Rest
 3) Backend
-4) Geoserver
+4) Middle-end
 5) Frontend
-6) Addons
 The notes will be structured accordingly. For each, there will be a raw md file such as this one, more or less a diary, and there will be a summary containing relevent, stepwise information.
+
+Just have the repository on your own account on github, invate Kees & Britta as collaborators. 
 
 ## Investigate Existing Websites
 https://plataforma.brasil.mapbiomas.org/cobertura?activeBaseMap=9&layersOpacity=100&activeModule=coverage&activeModuleContent=coverage%3Acoverage_main&activeYear=2021&mapPosition=-15.114553%2C-51.416016%2C4&timelineLimitsRange=1985%2C2021&baseParams[territoryType]=1&baseParams[territories]=1%3BBrasil%3B1%3BPa%C3%ADs%3B0%3B0%3B0%3B0&baseParams[activeClassTreeOptionValue]=default&baseParams[activeClassTreeNodeIds]=1%2C7%2C8%2C9%2C10%2C2%2C11%2C12%2C13%2C14%2C15%2C16%2C3%2C17%2C18%2C27%2C37%2C38%2C39%2C40%2C41%2C28%2C42%2C43%2C44%2C19%2C20%2C4%2C21%2C22%2C23%2C24%2C5%2C25%2C26%2C6&baseParams[activeSubmodule]=coverage_main
@@ -227,7 +221,7 @@ This should be enough information already. Click op a country, retrieve isocode,
 so:
 - 1 database just from .txt files, need an iso code, indicator, timeperiod and a region to request information, generate graphs etc.
 - 1 database based on spatial information where can be queried based on spatial information, need indicator, timeperiod and a region. This will return maps for particular period, for that country over time
-- Perhaps also just select indicator and year and show layer over the whole globe
+- Select indicator and year and show layer over the whole globe
 
 projectie aan koppelen wg84, ooit koppelen aan bestanden
 **spatie header weg bij niet werkende bestanden!!**
