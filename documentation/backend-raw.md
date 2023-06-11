@@ -218,4 +218,53 @@ But also, just what is tiff: Tag image file format. Store raster graphics  & ima
 It is probably a lot more memory efficient to just make 1 large .nc file:
 google 'Merging netCDF files with NCO/CDO'.
 But does this fit in a postgres database? Do you even want it in postGIS? Or imediately into geoserver.
+# 10-June-2023
 
+## Netcdf
+Hmm it is indeed probably more efficient to make 1 large NetCDF. But the question remains how to query this. Geoserver can be used to display NetCDF files: https://docs.geoserver.org/stable/en/user/extensions/netcdf/netcdf.html
+
+But ncWMS is also promising https://stackoverflow.com/questions/25393611/netcdf-format-to-openlayers-map I got this working.
+https://github.com/Reading-eScience-Centre/ncwms/blob/master/docs/02-installation.md
+For now the standalone version to just use it. Go to website, Insert netcdf as specified in Config and view with the interface.
+
+https://stackoverflow.com/questions/21833255/is-there-a-way-to-read-a-local-netcdf-file-from-a-web-application
+https://github.com/cheminfo/netcdfjs
+https://github.com/Reading-eScience-Centre/ncwms/blob/master/docs/02-installation.md
+
+At least, there seem to be enough options to load a netcdf. Therefore, I think it is wise to try and combine the netcdf into 1 large netcdf, and see what this can do for space saving purposes.
+
+Learning:
+WMS (Web Map Service) server: 
+WMS Client: Software/application that interacts with WMS Server to retrieve and display map data.
+
+To assess the quality of how well the data is served from each of the above two methods, I think it is necessary to have some (bare) frontend in place. Than you can really experiment with how to make requests etc. 
+Therefore, 
+**Todo**: 
+- make frontend for displaying data, how this all is done is the part that is most unknown.
+- merge NetCDF into 1 big one
+
+**Merging doesn't work well as of yet, and resulting files does not seem to be noticably smaller than original files. Keep like this for now, in theory is accessing a netcdf as is also not too bad.**
+
+Great! That means this part is done for now
+
+### Python Annotations
+https://peps.python.org/pep-0008/
+Follow def func(args):
+by # explain method
+if a public method write a **docstring** also for modules classes
+
+## Create tests. 
+`import unittest
+import file
+
+class TestFile(unittest.TestCase):
+	def setUp(self):
+		# called first
+		self.something = ...
+
+	def tearDown(self):
+		# called at the end
+		self.seomthing.remove()
+`		
+execute using
+`python -m unittest (test_module1(.TestClass(.test_method)))`
