@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 fn = "/home/moos/Documents/Hyde-Platform/data"
 name = "irrigated_rice.nc"
-ds = xr.open_dataset(os.path.join(fn, name), decode_times=False)
+ds = xr.open_dataset(os.path.join(fn, name))
 
 # make spacial using rioxarray, with coordinae reference system you can do:
 # yields non_type, no crs in our netcdf
