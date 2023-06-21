@@ -9,11 +9,14 @@ example_indicator:
 
 import psycopg2 # psql driver
 import os # interact with operating system
+import sys
+# add parent directory to path for this file
+sys.path.append('../Hyde-Platform')
+from passwords import postgresql_username, postgresql_password
 
 def create_table(name, header):
     # create psql command, table as isocode, BCE_year1, BCE_year2, ..., CE_year1, CE_year2, ...
     table_command = f"CREATE TABLE {name} (iso_code int PRIMARY KEY" # Perhaps you want to change this to serial id & iso_code referencing another table
-
     for col in header[0:-1].split(' ')[1:]:
         if col[0] == '-':
             table_command += f", BCE_{col[1:]} float" # BCE_year1
@@ -22,18 +25,38 @@ def create_table(name, header):
     table_command += ')'
     cur.execute(table_command)
 
-if __name__ == "__main__":
-    # connection to psql, to database test
+def clean_database(conn, cur):
+    conn.autocommit = True # for some reason this has to be here.
+    cur.execute('DROP DATABASE timeseries')
+    cur.execute('CREATE DATABASE timeseries')
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
     conn = psycopg2.connect(host="localhost", 
-                            database = "test",
-                            user="test",
-                            password="12345678")
+                        database = "timeseries",
+                        user=postgresql_username,
+                        password=postgresql_password)
     cur = conn.cursor()
+    return conn, cur
+
+
+if __name__ == "__main__":
+    # connection to psql, to temporary database to first clean final database
+    conn = psycopg2.connect(host="localhost", 
+                            database = "temp",
+                            user=postgresql_username,
+                            password=postgresql_password)
+    cur = conn.cursor()
+    
+    # clean timeseries database and connects to timeseries db.
+    conn, cur = clean_database(conn, cur)
 
     # path to all txt files
     folder = "/home/moos/Documents/Hyde-Platform/data/lower/txt/"
     files = os.listdir(folder) # list all within the folder
-    
+
     for file in files:
         # only do it for countries not for 'r'egions.
         if file.split('.')[0][-1] != 'r':
@@ -45,7 +68,7 @@ if __name__ == "__main__":
                 f.writelines(lines)
 
             with open(os.path.join(folder,file), 'r') as f:
-                name = file.split('.')[0]
+                name = file.split('_c')[0]
                 create_table(name, next(f)) # create the table
                 cur.copy_from(f, name, sep=' ') # insert data into table
 
