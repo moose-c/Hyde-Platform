@@ -268,3 +268,285 @@ class TestFile(unittest.TestCase):
 `		
 execute using
 `python -m unittest (test_module1(.TestClass(.test_method)))`
+
+# Django 
+After discussing with a former colleague.. .
+Django for beginers
+Ch2:
+`__init__.py` indicates that we're in a python package. For importing.
+asgi.py -> Allows for option Asynchronous Servet Getaway Interface to be run
+settings.py -> overall djanngo settigns
+urls.py -> which pages to build in response to a browser or url request
+wsgi.py -> WEb Server Getaway Interface helps serve django our eventual webpages.
+
+## The Django Book
+First 1 .cgi file to do everything (cool example).
+Division of labour, modularity, automation -> Web Frameworks. 
+Web frameworks provides infrastructure for application, then I only write clean code.
+models.py -> description of objects as a class (model).
+views.py -> business logic as function (view)
+urls.py -> which view called for given URL pattern.
+latest_books.html -> described page design
+Folow Model-View-Controller (MVC) design: seperated define and access data (model), request routing logic (controller), seperate from user interface (view)
+______
+### Ch2
+**pip install psycopg**
+change django port: python manage.py runserver 2019
+_____
+### Ch3 Dynamic Web Page basics:
+1) View: takes web request, returns web response (can be anything, Html contents, redirect, 404, XML document, image, or whatever).
+2) Use with URLconfs (mapping between URL patterns and corresponding views)
+
+*Basic what happens*: python3 manage.py runserver imports settings.py, containing ROOT_URLCONF (pointing to urls.py). Request made (to URL /time/)-> Django loads URLconf pointed to by ROOT_URLCONF, checks each of the URLpatterns in URLconf in order, comparing each until it maches, upon match -> calls view function associated with that pattern, passing HTTPRequest as first param.
+
+*Detailed*: All sorts of middleware, augmenting request objects, handling of specific types, exception can help with bugs.
+
+Loose coupling: changes to 1 piece of code does not change the other. 
+
+Dynamic URLs: /time/plus/1, gives time+1 hour
+patterns append -> `time/plus/<int:offset>/, hours_ahead`, parenthesis to capture data
+
+Insert `assert False` to trigger debug page.
+
+### Ch4 Django Template system
+
+{{ variable }}
+% template tag % (do something, for example for loop)
+{{ filter }}: {{ var|filter:" "}}
+
+Using this by: 
+1) Create Template object, by providing raw code as string
+2) call render() method of Template object with a set of variables.
+
+#### Template Objects:
+(played with by instigating python3 manage.py shell): 
+`django.template import Template`
+t = Template("My name is {{ name }}")
+c = Context({"name": "Moos"}) (still usable as dictionary)
+t.render(c)
+
+Using dictionaries is nice: 
+`person = {'name': 'Moos', 'age':39}`
+`t = Template('{{ person.name }} is {{ person.age }} years old.')`
+`c = Context('person': person)`
+`t.render(c)`
+
+or to class attributes:
+`d = datetime.date(...)`
+`t = Template('The month is {{ date.month }} and the year is {{ date.year }}.')`
+
+or to methods:
+`t = Template('{{ var }} -- {{ var.upper }} -- {{ var.isdigit }}')`
+but to prevent access to method: `method.alters_data = True`
+
+or list indices:
+`t = Template('Item 2 is {{ items.2 }}.')`
+
+#### example tags and filter
+{% if and/or/not %}
+{% else %}
+{% endif %}
+{% for %}
+{% ifequal %}
+{% endifequal %}
+forloop.counter
+
+{% endfor %}
+
+[], (), {}, '', 0 and None are False, everythig else is True
+
+filters..
+
+Load templates, within settings.py, add dir to DIRS in TEMPLATE
+then create template within dir as .html
+`from django.template.loader import get_template`
+get_template('template.html') looks at directory
+
+`
+    t = get_template('current_datetime.html')
+    html = t.render({'current_date': now})
+    return HttpResponse(html)`
+or 
+`from django.shortcuts import render_to_response`
+`now = datetime.datetime.now()`
+`return render_to_response('current_datetime.html', {'current_date': now}`
+
+#### sick trick
+locals() return dictionary of all local veriables mapping their names to their values
+`current_date = datetime.datetime.now()
+return render_to_response('current_datetime.html', locals())`
+
+#### include other template within template:
+{% include %}
+& Inheritance: base.html, basic template, children overwrite if inncluded.
+Usually: 
+`base.html`, `base_section.html`, `section.html`
+- `block.super` -> include parent content
+
+### CH5: Database Interactions
+Can be done within a view, but is not smart.
+#### MTV Development pattern
+as with templates, that can be split from a view, same with database layer
+data access logic, business logic, presentation logic (Model-View-Controller) patter
+View: views and templates
+Controller: framework itself + URLconf
+Also revered to as MTV framework (Model, Template, View (bridges models and templates))
+
+#### Database configuration
+within settings.py, DATABASES, see google and created example
+Test in shell: `python3 manage.py shell`
+>>> from django.db import connection
+>>> cursor = connection.cursor()
+
+#### First app
+Bundle to package represention full application.
+Project: instance of set of Django apps, plus configuration of those apps
+App: portable set of Django functionality, usually including models and views, lives in a single python package
+Apps not strickly necessary except for when working with databases: Models must live within an app:
+`python manage.py startapp [appname]`
+Tables both within database and within django framework, have be manually kept in synch.
+#### Create model:
+
+`class Publisher(models.Model):
+	name = models.CharField(maxlength=30)
+	address = models.CharField(maxlength=50)
+	city = models.CharField(maxlength=60)
+	state_province = models.CharField(maxlength=30)
+	country = models.CharField(maxlength=50)
+	website = models.URLField()`
+
+`class Author(models.Model):
+	salutation = models.CharField(maxlength=10)
+	first_name = models.CharField(maxlength=30)
+	last_name = models.CharField(maxlength=40)
+	email = models.EmailField()
+	headshot = models.ImageField(upload_to='/tmp')`
+	
+`class Book(models.Model):
+	title = models.CharField(maxlength=100)
+	authors = models.ManyToManyField(Author)
+	publisher = models.ForeignKey(Publisher)
+	publication_date = models.DateField()`
+	
+#### installing:
+app into settings.py: add mysite.books to INSTALLED_APPS
+`python manage.py validate`
+https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-20-04
+creating superuser with: python3 manage.py createsuperuser
+### Production
+Server option: Gunicorn or uWSGI
+Hosting provider: Heroku
+Create deployment checklist:
+- Gunicorn
+- requirements.txt (python -m pip freeze > requirements.txt)
+- Update Allowed_Hosts (host/domain names our Django can serve, *)
+- create Procfile (Heroku specific, website information)
+- create runtime.txt file (Contains python version)
+
+## apache
+httpd.apache.org: getting started.
+### Clients, Servers, and URLs
+adresses on web expressed by URLs (Uniform Resource Locators), consist of protocol (http), servername (www.apache.org) and URL path (/docs/current/getting-started.html), and possibly query string (?arg=value). Client (a browser) connects to a server with the specified protocol , and makes a **request** for a resource using the URL path.
+URL path may point to any number of things: file (.html), handler or program file (index.php). Server will send a **response** consisting of a status code and optionally a response body. Details of transaction and error conditions are written in log files.
+
+### Hostnames and DNS
+To connect to server, client needs to resolve servername to IP adress (actual location). Therefore, servername needs to be in DNS.
+Many hostname can point to the same IP-adres, more than 1 Ip-adresses can be attached to the same physical server. Possible to run more than 1 website on the same server
+For local production: put host name in /etc/hosts
+
+### Configuration Files and Directives
+Unclear, switch to: https://www.guru99.com/apache.html
+Most widely user Web Server application (>50% commercial web server market). Modular, process-based web server application.
+unclear, now:loca
+https://geek-university.com/what-is-apache-http-server/: 
+robust web server tha can handle large volumes of traffic. 
+Many different websites hostable using virtual hosts.
+###What is a webserver
+Web server: software with primary funnction to store, process and deliver web pages to clients, through HTTP protocol. HTTP: Client-Server protocol. Webserver running appache receives request and responds with contents. Usually use TCP port 80 
+### Install:
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install apache2
+service apache2 status
+localhost:80
+Located at: 
+/etc/apache2
+
+https://ubuntu.com/tutorials/install-and-configure-apache#1-overview
+https://www.fosstechnix.com/how-to-install-apache2-on-ubuntu-22-04-lts/
+However, only available at localhost:80.
+https://www.digitalocean.com/community/tutorials/apache-configuration-error-ah00558-could-not-reliably-determine-the-server-s-fully-qualified-domain-name
+Geen idee, niet te doen.
+Ook, wijzen naar directory within /home/ mag niet blijkbaar
+
+# PHP
+https://www.strato.nl/hosting/php-tutorial-voor-beginners/
+Serverbased scripttaal voor Dynamische Webpaginas. PHP: Hypertext Preprocessor. Javascript etc op webbrowser draaien, PHP draait op server. PHP maakt HTML pagina's die de server naar de webbrowser stuurt, ontvangt dus niet PHP. 79% vd websites begruikt PHP. 
+`sudo apt install php`
+
+
+## installeren
+WEbserver die scripttaal kan interpreteren: PHP-interpreter. Gebruikt vaak met Apache HTTP Server. XAMPP: Apache, MariaDB, PHP & Perl
+
+https://httpd.apache.org/docs/2.4/getting-started.html
+
+https://www.phptutorial.net/php-tutorial/install-php/
+
+https://www.wikihow.com/Install-XAMPP-on-Linux
+Xampp also doesn't work, installer gets stuck...
+F* this for now, 
+from folder where files:
+`php -S localhost:2019 `
+Now server running, acces files as urls.
+
+https://www.phptutorial.net/php-tutorial/php-syntax/
+spacing doesn't matter
+sudo apt-get install php-pgsql
+pg_connect("host=localhost dbname=timeseries user=postgres password=Papaver_rhoeas");
+pg_query("pg code")
+
+https://code-boxx.com/use-html-css-javascript-php-mysql/?utm_content=cmp-true
+
+# Javascript to PHP:
+https://stackoverflow.com/questions/23740548/how-do-i-pass-variables-and-data-from-php-to-javascript
+Try all things with php supported local server: php -S localhost:8000
+`npm start` doesn't, this give a vite local server which doesn't support php.
+
+Population Count
+Population Density
+Urban Population
+Rural Population
+Build Area
+Cropland
+Grazig
+Pasture 
+Rangeland
+Conventional Rangeland
+Rice Irrigated
+Rice Rainfed
+Total Rice
+Other Irrigated
+Other Rainfed
+Total Irrigated
+Total Rainfed
+
+  
+
+popc
+popd
+urbc
+rurc
+uopp
+cropland
+grazing
+pasture
+rangeland
+conv_rangeland
+ir_rice
+rf_rice
+tot_rice
+ir_norice
+rf_norice
+tot_irri
+tot_rainfed
+
+

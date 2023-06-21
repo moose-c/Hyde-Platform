@@ -3,6 +3,7 @@ This document will include:
 - Overview of the project
 - Orientation, why where the components chosen and how do they relate
 - Tranfering to Linux
+- Installing necessary components
 - An exploration of the HYDE data
 - Github Setup and workflow
 
@@ -35,17 +36,17 @@ So for your example and if you want to stick with Open Source software you could
 ## Postgresql & PostGIS
 The data from the HYDE model should be stored within a database that makes retrievel and display on the website easy. Since at least the rasters is spatial information a database which can easily incorporate spatial data would be usefull. A well known and widely used database system is the Postgresql database system, this also has the PostGIS extenction specifically made to work with spatial data
 
-# Server 
-
 # Transfering to Linux
 Since the eventual server would also run on a Linus operating system for FAIR reasons, it was agreed that I would also work within a Linux environment. Therefore, I installed the dual operating system on my laptop. This is done with [these steps](https://itsfoss.com/install-ubuntu-1404-dual-boot-mode-windows-8-81-uefi/) and [this](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/).
+
+# Installing Necessary components
 Some things are necessary on our now blank Linux OS, such as:
 - [Git](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-20-04#setting-up-git)
 - node, npm
 - [Geoserver](https://docs.geoserver.org/latest/en/user/installation/linux.html)
 - java
 - Visual Studio Code
-- [PostgreSQL](https://www.cherryservers.com/blog/how-to-install-and-setup-postgresql-server-on-ubuntu-20-04) + [PostGIS]
+- [PostgreSQL](https://www.cherryservers.com/blog/how-to-install-and-setup-postgresql-server-on-ubuntu-20-04)(, can be uninstalled as [here](https://bobcares.com/blog/uninstall-psql-ubuntu/))
 - Python
 
 # Data investigation

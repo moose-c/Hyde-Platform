@@ -13,7 +13,7 @@ Learning:
 WMS (Web Map Service) server: 
 WMS Client: Software/application that interacts with WMS Server to retrieve and display map data.
 
-#Geoserver
+## Geoserver
 geoserver: https://docs.geoserver.org/latest/en/user/installation/linux.html
 6) env variable: export GEOSERVER_HOME=/usr/share/geoserver
 start: 
@@ -275,5 +275,89 @@ Great.
 Does not work, I think the servlet needs to be set up.
 
 ## servlet
-Java programs run inside a container for web development. servlets are **Responsible for accepting a request, processing and responding**. Under controll of Servlet Container (Tomcat, JBOss or Glassfish), if server receives request -> container -> servlet. See [this](https://github.com/Reading-eScience-Centre/ncwms/blob/master/docs/02-installation.md#security), and google.
+Java programs run inside a container for web development. servlets are **Responsible for accepting a request, processing and responding**. Runs under Servlet Container (*Tomcat*, JBOss or Glassfish), if server receives request -> container -> servlet. See [this](https://github.com/Reading-eScience-Centre/ncwms/blob/master/docs/02-installation.md#security), and google.
+servlet is just a program written in Java dat runs on a (J2EE-)container on a server. Uses services provided by webcontainer, such as (HTTP) communication with a client.
 
+### Tomcat:
+https://www.youtube.com/watch?v=c7qZAL1bHi0
+Apache Tomcat Server (Java). Servlet Container. Free Open source web server and java servlet container. Used to run Java webapplications. Each webapp has to be executed in a server. To run Tomcat, java has to be installed. 
+By default, uses port 8080. (change in server.xml file).
+#### Setup:
+Each version of Tomcat is supported for any stable Java release that meets the requirements of the final column in the table above. I think ncWMS iuses java version 11. Yes.
+[install](https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-10-on-ubuntu-20-04): 
+- create new user group (groups of users, all with save privilages): 
+- useradd -m -d /opt/tomcat -U -s /bin/false tomcat
+- sudo chown -R tomcat:tomcat /opt/tomcat/
+- sudo chmod -R u+x /opt/tomcat/bin
+- Passwords stored again in tomcat_manager, tomcat_admin environmental variables. No these are removed: print with env, 
+- Create systemd service (keep tomcat running in background), by creating service in /etc/systemd/system/tomcat.service, see file
+	- java location: /usr/lib/jvm/java-1.11.0-openjdk-amd64
+	- reload system: sudo systemctl daemon-reload
+	- start tomcat: sudo systemctl start tomcat
+	- Allow tomcat to start at system startup: sudo systemctl enable tomcat
+- Access Web Interface:
+	- allow traffic: sudo ufw allow 8080 (tomcat runs at port 8080, this opens that so to speak)
+	- Access at `http://serverip:8080`, for us: http://localhost:8080/
+	- (reload with: sudo /opt/tomcat/bin/shutdown.sh, sudo /opt/tomcat/bin/startup.sh)
+
+It runs now! And should be open for trafic. Let's see:
+#### Find IP adress
+https://itsfoss.com/check-ip-address-ubuntu/
+Internet Protocol Adress, label assigned to each device connected to a computer network. Serves for identification and localization. Is *unique* within network, allowing communication between all connected devices. 2 types:
+- Public, communicate over internet, like physical adress
+- private: local network to assign each device a unique private IP within subnetwork. used locally without exposing the public IP
+also IPv4 (classic format) & IPv6 protocols (longer to accompany more devices)
+- `ip a`: 145.107.105.230
+Can be accessed locally with: http://145.107.105.230:8080 But this is unsecured.
+
+#### Add security
+Perhaps evt, also wants a registered domain name.
+https://www.digitalocean.com/community/tutorials/how-to-secure-tomcat-10-with-apache-or-nginx-on-ubuntu-20-04
+
+### Change port
+sudo gedit /opt/tomcat/conf/server.xml
+8080 -> 2420
+new url: http://[ip]:0420
+
+### ncWMS
+https://github.com/marceloandrioni/configure_tomcat_stack
+
+To deploy: download .war file, go to tomcat -> manager app -> Deploy war file.
+**Does not work!**
+**works now magically when restarting system**
+**Does not work, cannot sign into admin role**
+Potentially usefull: https://www.researchgate.net/figure/Outline-architecture-of-the-ncWMS-software-From-bottom-to-top-1-Data-and-metadata-are_fig2_257550077
+
+### Try to do it for another project..
+https://husbch.medium.com/mini-project-deploying-java-application-with-tomcat-bd7d96bfcc7
+
+ideeen uit bovenstaande: Constroleer pom.xml voor tomcat versie en java versie
+
+curl: transfer data from a server using any of supported protocol. 
+chgrp: change group ownership
+chmod: change directory permissions
+
+# 13 June 2023
+I had a thought: also the communication between the timeseries vs raster components and the website is going to be very different. Therefore it is probably easier to start again with the psql <-> website communication.
+## PSQL website communication
+We have the postgres user which has timeseries as a database 
+create timeseries db: 
+`sudo -i -u postgres`
+`createdb -O postgres timeseries`
+
+updated python txt_psql script to automatically clean the database before inserting the new data.
+
+[start server](https://www.cherryservers.com/blog/how-to-install-and-setup-postgresql-server-on-ubuntu-20-04) using this.
+`sudo apt -y install gnome`
+`sudo gedit /etc/postgresql/15/main/postgresql.conf`
+change listen_adresses line: `listen_addresses = '*'`
+`sudo gedit /etc/postgresql/15/main/pg_hba.conf`
+Here still wrong.
+add to bottom new connection policy: 
+`host	timeseries	all		0.0.0.0/0		md5`
+reload postgresql:
+`systemctl restart postgresql`
+sytem listening to 5432 port reserved for postgreSQL: `ss -nlt | grep 5432`
+Now, connection on remote machine should be possible:
+
+psql -h 
