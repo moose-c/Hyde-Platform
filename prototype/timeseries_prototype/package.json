@@ -1,0 +1,18 @@
+{
+  "name": "timeseries_prototype",
+  "version": "1.0.0",
+  "description": "Trying to map some timeseries",
+  "main": "index.html",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "author": "Moos Castelijn",
+  "devDependencies": {
+    "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "chart.js": "^4.0.0"
+  }
+}
