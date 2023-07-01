@@ -2,8 +2,8 @@
 
 Reads all files in a folder, insert each txt file in a different table, structured as:
 example_indicator:
-    isocode | BCE_year1 | BCE_year2 | ... | CE_year1 | CE_year2
-    int        float       float     ...     float      float
+    isocode | BCE_year1 | BCE_year2 | ... | CE_year1 | CE_year2 | ...
+    int        float       float     ...     float      float     ...
 
 """
 

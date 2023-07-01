@@ -1,5 +1,10 @@
+"""Module for obtaining al years from the PostgreSQL database
+
+Largely stolen from txt_psql.
+"""
+
 import psycopg2 # psql driver
-import pandas as pd # interact with operating system
+import pandas as pd 
 import sys
 # add parent directory to path for this file
 sys.path.append('../Hyde-Platform')
