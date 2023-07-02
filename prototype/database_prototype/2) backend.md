@@ -1,5 +1,7 @@
 In this document a structured explanation will be given of how the Backend components of the HYDE-Platform were created. 
+
 There are two types of data that need to be stored efficiently and where retrieval is doable, the timeseries for each country and gritted data. 
+
 # Understanding Databases
 postgress was [learned](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04)& [here](https://docs.qgis.org/3.28/en/docs/training_manual/). How to do [queries](https://www.digitalocean.com/community/tutorials/introduction-to-queries-postgresql) can be found in the previous link. How the entire learning process went, see the raw file. 
 Databased are mapped using *Entity-relationship Diagram* (ER-diagram) showing the relations between different tables.
@@ -12,17 +14,19 @@ As mentioned above, the database will be constructued from (at least) two sepera
 The .txt file is structured as follows:
 One for each indicator (conv_rangeland, crop_land, population, etc.), per country (isocode) a timeseries
 This leads to the following database:
-- countries (id=isocode serial primary key not null, country varchar not null)
-- indicator, (id (*linked to counries?*), all years)
+- indicator with columns: (iso_code, all years)
 I will use a python script, since it does not really matter which language you [use](https://stackoverflow.com/questions/2168045/which-language-to-use-for-scripting-postgresql)
+
 ### Python script
 [this](https://www.postgresqltutorial.com/postgresql-python/) was adapted for our purposes, and implemented in txt_psql.py. See the raw file for the process and the annoted code (which can be found in the tools folder) for explanations.
 **In all txt the final line is "Total", I gave this isocode 1000**
 
+### Docker environment
+
 ## Rasters
-The other data that need to be used is stored in the form of large zip files or as netcdf data (containing spatial timeseries).
+The other data that need to be used are stored in the form of large zip files or as netcdf data (containing spatial timeseries).
 Viewing these files can be done with [panoply](https://www.giss.nasa.gov/tools/panoply/)
-or played with with [python](https://opensourceoptions.com/blog/intro-to-netcdf-with-python-netcdf4/), As can also be seen in the *tools* folder
+or played with with [python](https://opensourceoptions.com/blog/intro-to-netcdf-with-python-netcdf4/), As can also be seen in the *tools* folder, netcdf_investigation file
 
 ### Tiff files
 Initially, I thought making individual tiff files would be a good idea, since then for each indicator, one year would be stored as a raster for the entire year.

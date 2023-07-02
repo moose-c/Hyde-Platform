@@ -1,6 +1,6 @@
 # 23/05/2023: 1st day 
 
-Where to begin… 
+Where to begin…
 
 ## Navigating geospatial open source 
 
@@ -9,6 +9,15 @@ Where to begin…
 **GIS data and Software Standards:**
 
 Open Geospatial Consortium (OGC) standards 
+https://www.youtube.com/watch?v=9k-7kp1midM
+OGC is responsible for developing international consensus standardization since 1994.
+Open standards adopted by many different organizations as development and implementation standards.
+Global forum for making location FAIR.
+Comprises more thann 30 standarts, including:
+- CWS: Catalog Service for the Web, there is acces to catalog informattion
+- GML: Geography Markup Language, geographical information represented in XML-format.
+- SRID: Identify coordinate system.
+
 
 **Relational databases:**
 
@@ -18,13 +27,9 @@ First data stored in nestings of folders, but Shapefiles and other traditional d
 
 Geoserver: publish data to web, inputs as PostgreSQL & Oracle, shapefiles, geopackages, databases 
 
-
-TODO: obtain correct layer for the countries with good borders	 
-
 ## Server
 
 Using SSH keys, one can access a server. 
-**TODO**: How to transfer files to from server to here and vise versa
 
 ## Geoserver
 
@@ -33,6 +38,9 @@ Open-source software server written in Java, allows users to chare and edit geos
 So for your example and if you want to stick with Open Source software you could easily use GeoServer as your geographic server to serve your data from your PostGIS database to your OpenLayers HTML web page.” 
 
 https://gis.stackexchange.com/questions/52818/how-to-connect-openlayers-to-postgis-data 
+
+Some thoughts about using this to serve netcdfs:
+Need an extension, as of yet no example understood of extracting timeslices, I got something to work at one time, bu did not seem reliable.
 
 
 ## Transferring to Linux 
@@ -56,7 +64,7 @@ https://www.youtube.com/watch?v=cDsR0wnJ98g:
 
 Necessary: 
 - Nodejs & npm 
-- vscode
+- vscode 
 - git 
 
 Terminal:  
@@ -68,6 +76,7 @@ Terminal:
 Script within package.json allows for direct executable commands within that location?, as npm [command] 
 
     He wants layerswitcher all the time 
+	Seems usefull for switching between different layers: https://github.com/walkermatt/ol-layerswitcher
 
     This guy has a lot more videos and example codes, very nice. 
 
@@ -81,15 +90,15 @@ Information: username: postgres; password: ... Port: 5432
 
 Findable in start now: stackbuilder, pgadmin -> Opens, navigate to databases, create database “Tools, query tool” command: CREATE EXTENSION postgis, to preview database: Select * from name of table (under schemas) 
 
-Install Geoserver, now accaccible at: http://localhost:8080/geoserver/  also contains layers for countries, along with clickable elements, investigate 
+Install Geoserver, now accaccible at: http://localhost:8080/geoserver/  also contains layers for countries, along with clickable elements, investigate.
 
 ## PostGIS
-
+THIS HAS BEEN IDENTIFIED AS UNNECESSARY, DIRECT SERVING OF NETCDF, OR REQUEST BASED SLICING OF INDIVIDUAL NETCDF.
 Import postGIS database (SQL) into geoserver as follows: 
 
 https://docs.geoserver.org/latest/en/user/gettingstarted/postgis-quickstart/index.html 
 
-TODO: This means that pushing from kees to the server means updating the postGIS database, then also refreshing, updating the database connected to geoserver. (there should be something to do this automatically) 
+TODO: This means that pushing from kees to the server means updating the postGIS database, then also refreshing, updating the database connected to geoserver. (there should be something to do this automatically).
 
 TODO: investigate above document further 
 
@@ -137,7 +146,6 @@ Learned that structuring such a big project is very important, since otherwise y
 To realise this I took the following steps:
 1) Identify the components that need to be learned and build. For this, [this website](link!) was very usefull. They turned out to be the following:
 	1)	postgresql -> postGIS for the database
-	2)	Django (python) for backend (still a  mmunication
 	3)	geoserver 
 	5)	Openlayers for frontend
 	6)	(frontend framework)
@@ -216,7 +224,7 @@ Dan 3 scenarios: Baseline Estimate, Lower estimate & Upper estimate,
 elk scenario bevat: /png (deze niet te groot?), /zip, /txt & /anthromes
 - png: figures for each category for all years in .png format
 - TXT: for an indicator, for each country at all timesteps. Organized by Isocode: every 4 is more or less an existing country, redundancy for spliting countries.
-This should be enough information already. Click op a country, retrieve isocode, select indicators, search in database based on isocode and indicator. No PostGIS? Not even Geoserver probably. 
+This should be enough information already. Click op a country, retrieve isocode, select indicators, search in database based on isocode and indicator. Not even Geoserver probably. 
 **jawel want 2e doel ook om ruimtelijk van een bepaalde periode of over een bepaalde periode weer te geven, dit wel spatieel**
 so:
 - 1 database just from .txt files, need an iso code, indicator, timeperiod and a region to request information, generate graphs etc.
@@ -254,5 +262,3 @@ Questions:
 python3 -m venv .venv
 source .venv/bin/activate
 deactivate
-
-# Git Long time not done

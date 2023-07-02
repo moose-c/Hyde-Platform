@@ -1,15 +1,16 @@
 __pycache__
 .venv/
-django-proberen/
 
 node_modules/
 dist/
-charting/
-map_prototype/
+*-proberen/
+
 
 data/
 
 *.nc
 passwords.*
+TODO.md
+
 
 

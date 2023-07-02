@@ -550,3 +550,51 @@ tot_irri
 tot_rainfed
 
 
+
+## Creating postgres docker environment
+https://docker-curriculum.com/
+Deploy applicatons within a sandbox (Container). Benefit: package an applicaton with all of its dependencies into a standardized unit.
+
+Container: 
+- Industry standard is to use VMs to run software applications, these run inside guest Operating System. This runs on virtual hardware powered by server's host OS.
+ => full isolation, but large computational overhead
+=> Containers: leverage low-level mechanics of host OS, mostly isolated at fractoin of computing power.
+
+### Easy application
+Why: 
+Logical packeging mechanism, abstracted applications from build environment. Easily and consistet application.
+
+Installing:
+https://docs.docker.com/engine/install/ubuntu/#installation-methods
+
+docker pull ...
+docker images -> display available images
+docker run [image] [command], executes commands from image
+`docker ps`, display running images
+`docker ps -a`, display more usefull things
+`docker run -it [image] sh -> interactive shell
+`docker container prune` deletes all exited containers.
+
+Images: Blueprints of application, basis of containers
+Containers: running actual application
+Docker Daemon: Background service running onn the host that manages building, running and distributing containers
+Docker Client: command line tool, that allows the client (us) to talk to the daemon.
+
+### Webapplication
+
+`docker run --rm -it prakhar1989/static-site`
+`docker run -d -P --name static-site prakhar1989/static-site`
+`docker port static-site`
+docker run -p 8888:80 static-site
+
+### Creating own image
+
+Base images: no parent image, usable on their own
+Child images, build on top of a base imiage.
+
+Official images: maintained by Docker people
+User images: by users, formatted as user/image-name
+
+See docker-proberen/docker-curriculum/flask-app/Dockerfile for an example dockerfile. 
+build application with:
+`docker build -t mooscastelijn/flask-example .`

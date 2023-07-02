@@ -11,7 +11,7 @@ import psycopg2 # psql driver
 import os # interact with operating system
 import sys
 # add parent directory to path for this file
-sys.path.append('../Hyde-Platform')
+sys.path.append('../../Hyde-Platform')
 from passwords import postgresql_username, postgresql_password
 
 def create_table(name, header):

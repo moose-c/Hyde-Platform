@@ -3,7 +3,7 @@ import psycopg2
 import os
 
 # Import the module containing the functions to be tested
-import txt_psql  # Replace 'your_script_name' with the actual name of your script
+import prototype.database_prototype.txt_psql as txt_psql  # Replace 'your_script_name' with the actual name of your script
 
 class Txt_psql(unittest.TestCase):
     def setUp(self):
