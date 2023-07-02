@@ -21,8 +21,6 @@ I will use a python script, since it does not really matter which language you [
 [this](https://www.postgresqltutorial.com/postgresql-python/) was adapted for our purposes, and implemented in txt_psql.py. See the raw file for the process and the annoted code (which can be found in the tools folder) for explanations.
 **In all txt the final line is "Total", I gave this isocode 1000**
 
-### Docker environment
-
 ## Rasters
 The other data that need to be used are stored in the form of large zip files or as netcdf data (containing spatial timeseries).
 Viewing these files can be done with [panoply](https://www.giss.nasa.gov/tools/panoply/)

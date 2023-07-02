@@ -9,10 +9,7 @@ example_indicator:
 
 import psycopg2 # psql driver
 import os # interact with operating system
-import sys
-# add parent directory to path for this file
-sys.path.append('../../Hyde-Platform')
-from passwords import postgresql_username, postgresql_password
+password = os.environ['POSTGRESS_PASSWORD']
 
 def create_table(name, header):
     # create psql command, table as isocode, BCE_year1, BCE_year2, ..., CE_year1, CE_year2, ...
@@ -25,33 +22,35 @@ def create_table(name, header):
     table_command += ')'
     cur.execute(table_command)
 
-def clean_database(conn, cur):
-    conn.autocommit = True # for some reason this has to be here.
-    cur.execute('DROP DATABASE timeseries')
-    cur.execute('CREATE DATABASE timeseries')
+# def clean_database(conn, cur):
+#     conn.autocommit = True # for some reason this has to be here.
+#     cur.execute('DROP DATABASE timeseries')
+#     cur.execute('CREATE DATABASE timeseries')
 
-    conn.commit()
-    cur.close()
-    conn.close()
+#     conn.commit()
+#     cur.close()
+#     conn.close()
 
-    conn = psycopg2.connect(host="localhost", 
-                        database = "timeseries",
-                        user=postgresql_username,
-                        password=postgresql_password)
-    cur = conn.cursor()
-    return conn, cur
+#     conn = psycopg2.connect(host="localhost", 
+#                         port=1234,
+#                         database = "timeseries",
+#                         user="postgres",
+#                         password=password)
+#     cur = conn.cursor()
+#     return conn, cur
 
 
 if __name__ == "__main__":
     # connection to psql, to temporary database to first clean final database
-    conn = psycopg2.connect(host="localhost", 
-                            database = "temp",
-                            user=postgresql_username,
-                            password=postgresql_password)
+    conn = psycopg2.connect(host="0.0.0.0",
+                            port=1234, 
+                            database = "timeseries",
+                            user="postgres",
+                            password=password)
     cur = conn.cursor()
     
     # clean timeseries database and connects to timeseries db.
-    conn, cur = clean_database(conn, cur)
+    # conn, cur = clean_database(conn, cur)
 
     # path to all txt files
     folder = "/home/moos/Documents/Hyde-Platform/data/lower/txt/"
