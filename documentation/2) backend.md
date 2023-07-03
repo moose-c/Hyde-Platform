@@ -3,8 +3,7 @@ In this document a structured explanation will be given of how the Backend compo
 There are two types of data that need to be stored efficiently and where retrieval is doable, the timeseries for each country and gritted data. 
 
 # Understanding Databases
-postgress was [learned](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04)& [here](https://docs.qgis.org/3.28/en/docs/training_manual/). How to do [queries](https://www.digitalocean.com/community/tutorials/introduction-to-queries-postgresql) can be found in the previous link. How the entire learning process went, see the raw file. 
-Databased are mapped using *Entity-relationship Diagram* (ER-diagram) showing the relations between different tables.
+Databases are mapped using *Entity-relationship Diagram* (ER-diagram) showing the relations between different tables.
 Constraints: 
 - Primary key: that which makes a record unique (usually id and a sequence)
 - Foreign key: used to refer to unique record on another table (using that table's prim key) ER linkage usually between Foreign keys linking to primary keys

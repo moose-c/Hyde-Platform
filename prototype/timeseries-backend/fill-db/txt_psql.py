@@ -9,7 +9,7 @@ example_indicator:
 
 import psycopg2 # psql driver
 import os # interact with operating system
-password = os.environ['POSTGRESS_PASSWORD']
+password = os.environ['POSTGRES_PASSWORD']
 
 def create_table(name, header):
     # create psql command, table as isocode, BCE_year1, BCE_year2, ..., CE_year1, CE_year2, ...
@@ -42,18 +42,17 @@ def create_table(name, header):
 
 if __name__ == "__main__":
     # connection to psql, to temporary database to first clean final database
-    conn = psycopg2.connect(host="0.0.0.0",
-                            port=1234, 
+    conn = psycopg2.connect(host="timeseries-database",
                             database = "timeseries",
                             user="postgres",
-                            password=password)
+                            password="voorbeeld")
     cur = conn.cursor()
     
     # clean timeseries database and connects to timeseries db.
     # conn, cur = clean_database(conn, cur)
 
     # path to all txt files
-    folder = "/home/moos/Documents/Hyde-Platform/data/lower/txt/"
+    folder = "/usr/share/data/txt"
     files = os.listdir(folder) # list all within the folder
 
     for file in files:
@@ -70,7 +69,6 @@ if __name__ == "__main__":
                 name = file.split('_c')[0]
                 create_table(name, next(f)) # create the table
                 cur.copy_from(f, name, sep=' ') # insert data into table
-
     conn.commit()
     conn.close()
 

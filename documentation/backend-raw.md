@@ -421,7 +421,7 @@ Tables both within database and within django framework, have be manually kept i
 	last_name = models.CharField(maxlength=40)
 	email = models.EmailField()
 	headshot = models.ImageField(upload_to='/tmp')`
-	
+	How to do [queries](https://www.digitalocean.com/community/tutorials/introduction-to-queries-postgresql) can be found in the previous link. How the entire learning process went, see the raw file. 
 `class Book(models.Model):
 	title = models.CharField(maxlength=100)
 	authors = models.ManyToManyField(Author)

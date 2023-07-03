@@ -1,0 +1,3 @@
+Flask==2.3.2
+Flask-RESTFUL==0.3.10
+psycopg2==2.9.6

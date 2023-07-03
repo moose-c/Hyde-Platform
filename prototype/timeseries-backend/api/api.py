@@ -1,25 +1,28 @@
 ## Setup Flask application
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-from flask_cors import CORS
+
+# from flask_cors import CORS
+# # this allows to access endpoint on same machine.
+# cors = CORS(app)
+# app.config['CORS_HEADERS'] = 'Content-Type'
+
+import os
+password = os.environ['POSTGRESS_PASSWORD']
 
 app = Flask(__name__)
 api = Api(app)
 
-# this allows to access endpoint on same machine.
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
 
-# ## Connect to database
-# import sys
+
+## Connect to database
+
 # import psycopg2
-# # url = os.environ.get("DATABASE_URL") Alternatives for 
-# sys.path.append('../../../../Hyde-Platform')
-# from passwords import postgresql_username, postgresql_password
 # conn = psycopg2.connect(host="localhost", 
-#                             database = "temp",
-#                             user=postgresql_username,
-#                             password=postgresql_password)
+#                         port=1234,
+#                         database = "timeseries",
+#                         user="postgres",
+#                         password=password)
 # cur = conn.cursor()
 
 
@@ -71,4 +74,5 @@ api.add_resource(StudentsList, '/students/')
 api.add_resource(Student, '/students/<student_id>')
 
 if __name__ == "__main__":
-  app.run(debug=True)
+    ENVIRONMENT_DEBUG = os.environ.get("DEBUG", False)
+    app.run(host='0.0.0.0', port=5000, debug=ENVIRONMENT_DEBUG)

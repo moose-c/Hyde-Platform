@@ -11,20 +11,20 @@ docker network create postgres
 # '-e' sets environmental variable within container, used by the constructor
 # "$[ENVIRONMENTAL VARIABLE]" gives value of environmental variable on host
 # 'postgres' from with image a container will be constructed, pulls from the web.
+# -p 2019:5432 \
 docker run --rm -d \
-    -p 1234:5432 \ 
-    --name timeseries-container \
+    --name timeseries-database \
     --net postgres \
-    -e POSTGRES_PASSWORD="$POSTGRESS_PASSWORD" \
+    -e POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
     -e POSTGRES_DB=timeseries \
     postgres
-# utilizes env variable POSTGRES_PASSWORD, and creates the 'timeseries' db
 
-docker build -t mooscastelijn/psql-population .
-docker run --rm \
-    -e POSTGRESS_PASSWORD="$POSTGRESS_PASSWORD" \
-    --net postgres \
-    mooscastelijn/psql-populatioin
+# create docker image called mooscastelijn/psql-population, from the Dockerfile within this directory (.)
+# docker build -t mooscastelijn/psql-population .
 
-# Populate database (probably the following, test when pulling from db)
-python3 txt_psql.py
+# # Create docker environment from python, and run txt_psql.py from there. 
+# # Since within the same network as db, connection should be possible
+# docker run --rm \
+#     -e POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
+#     --net postgres \
+#     mooscastelijn/psql-population
