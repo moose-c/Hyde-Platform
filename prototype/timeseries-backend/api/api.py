@@ -1,6 +1,6 @@
 ## Setup Flask application
 from flask import Flask
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, Api
 
 # from flask_cors import CORS
 # # this allows to access endpoint on same machine.
@@ -8,71 +8,38 @@ from flask_restful import Resource, Api, reqparse
 # app.config['CORS_HEADERS'] = 'Content-Type'
 
 import os
-password = os.environ['POSTGRESS_PASSWORD']
+password = os.environ['POSTGRES_PASSWORD']
 
 app = Flask(__name__)
 api = Api(app)
 
+# Connect to database
 
+import psycopg2
+conn = psycopg2.connect(host="timeseries-database",
+                        database = "timeseries",
+                        user="postgres",
+                        password=password)
+cur = conn.cursor()
 
-## Connect to database
+# obtain names of the timesteps
+cur.execute("SELECT * FROM uopp WHERE false")
+column_names = [desc[0] for desc in cur.description]
 
-# import psycopg2
-# conn = psycopg2.connect(host="localhost", 
-#                         port=1234,
-#                         database = "timeseries",
-#                         user="postgres",
-#                         password=password)
-# cur = conn.cursor()
+# query and return timeseries of interest
+class Timeseries(Resource):
+  def get(self, indicator, isocode, start, end):
+    # select columns in correct format, inicluding the endpoint
+    columns = ", ".join(column_names[column_names.index(start):column_names.index(end)+1])
+    cur.execute(f'SELECT {columns} FROM {indicator} WHERE iso_code={isocode}')
+    ts = cur.fetchall()
+    return ts
 
-
-
-
-
-STUDENTS = {
-  'student1': {'name': 'Mark', 'age': 23, 'spec': 'math'},
-  'student2': {'name': 'Jane', 'age': 20, 'spec': 'biology'},
-  'student3': {'name': 'Peter', 'age': 21, 'spec': 'history'},
-  'student4': {'name': 'Kate', 'age': 22, 'spec': 'science'},
-}
-
-
-class StudentsList(Resource):
+# test class to see whether the api is setup correctly
+class Test(Resource):
   def get(self):
-    return STUDENTS
-  
-  
-  def post(self):
-    parser = reqparse.RequestParser()
-    parser.add_argument("name")
-    parser.add_argument("age")
-    parser.add_argument("spec")
-    args = parser.parse_args()
-    student_id = int(max(STUDENTS.keys())) + 1
-    student_id = '%i' % student_id
-    STUDENTS[student_id] = {
-      "name": args["name"],
-      "age": args["age"],
-      "spec": args["spec"],
-    }
-    return STUDENTS[student_id], 201
+    return "Setup is correct!"
 
-class Student(Resource):
-  def get(self, student_id):
-    if student_id not in STUDENTS:
-      return "Not found", 404
-    else:
-      return STUDENTS[student_id]
-    
-  def put(self, student_id):  
-    pass
+api.add_resource(Test, '/test')
+api.add_resource(Timeseries, '/<indicator>/<isocode>/<start>/<end>')
 
-  def delete(self, student_id):
-    pass
-
-api.add_resource(StudentsList, '/students/')
-api.add_resource(Student, '/students/<student_id>')
-
-if __name__ == "__main__":
-    ENVIRONMENT_DEBUG = os.environ.get("DEBUG", False)
-    app.run(host='0.0.0.0', port=5000, debug=ENVIRONMENT_DEBUG)

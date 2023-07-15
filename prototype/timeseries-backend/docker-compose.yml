@@ -1,15 +1,13 @@
 version: "3"
 services:
   timeseries-database:
+    user: postgres
     container_name: timeseries-database
     image: postgres 
-    # user and POSTGRES_USER defined om error, 'root user not found' of zoiets te repareren. niet meer gechecked.
-    user: posgres
     environment:
       DEBUG: 1
-      POSTGRES_PASSWORD: voorbeeld
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_DB: timeseries
-      POSTGRES_USER: postgrespsql -U postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
@@ -19,27 +17,24 @@ services:
   timeseries-fill:
     container_name: timeseries-fill
     build: ./fill-db
-    # image: mooscastelijn/foodtrucks-web
     command: python3 txt_psql.py
-    # This changes image based when editing
     environment:
       DEBUG: 1
-      POSTGRES_PASSWORD: voorbeeld
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     depends_on: 
       timeseries-database:
         condition: service_healthy
     volumes:
-      - ./data/txt:/usr/share/data/txt
+      - ./fill-db/data/txt:/usr/share/data/txt
 
-  # timeseries-api:
-  #   container_name: timeseries-api
-  #   build: ./api
-  #   command: python3 api.py
-  #   environment:
-  #     DEBUG: 1
-  #     POSTGRES_PASSWORD: voorbeeld
-  #   depends_on:
-  #     timeseries-fill:
-  #       condition: service_completed_succesfully
-  #   ports:
-  #     - 2019:5000
+  timeseries-api:
+    container_name: timeseries-api
+    build: ./api
+    environment:
+      DEBUG: 1
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    depends_on:
+      timeseries-fill:
+        condition: service_completed_successfully
+    ports: 
+      - 8000:8000

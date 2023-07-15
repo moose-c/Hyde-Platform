@@ -4,7 +4,7 @@ __pycache__
 node_modules/
 dist/
 leren/
-
+redundand_code/
 
 data/
 
@@ -12,5 +12,6 @@ data/
 passwords.*
 TODO.md
 
-
+*.env
+localtest.py
 

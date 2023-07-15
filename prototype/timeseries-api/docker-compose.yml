@@ -1,9 +1,0 @@
-version: '3'
-services:
-  api:
-    build: .
-    command: python3 api.py
-    environment:
-      - DEBUG=TRUE
-    ports:
-      - 5000:5000 

@@ -1,7 +1,7 @@
 FROM python:3.8
 
 # set working directory, from where the app will be run
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # copy files from current directory to working directory
 COPY . .
@@ -9,6 +9,5 @@ COPY . .
 # install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# run command
-CMD [ "python", "./api.py" ]
-
+# some magic
+CMD ["gunicorn", "api:app", "-b", "0.0.0.0:8000"]

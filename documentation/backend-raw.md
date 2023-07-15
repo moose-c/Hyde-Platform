@@ -649,3 +649,9 @@ Also creates dedicated network!
 #### How can Docker aid in development?
 Edit application, see changed docker-compose.yml
 That concludes the tutorial, it was awesome: https://docker-curriculum.com/
+
+## Nginx, uWSGI, Flask Docker
+https://medium.com/django-deployment/which-wsgi-server-should-i-use-a70548da6a83
+https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uwsgi-and-nginx-on-ubuntu-22-04
+https://www.youtube.com/watch?v=dVEjSmKFUVI
+https://www.youtube.com/watch?v=42Q65H8ch7U
