@@ -1,0 +1,19 @@
+{
+  "name": "timeseries-website",
+  "version": "1.0.0",
+  "description": "Makes queries to the database, and displays these on a basic website.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "moos",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.6.2"
+  },
+  "dependencies": {
+    "chart.js": "^4.3.0",
+    "lodash.range": "^3.2.0"
+  }
+}

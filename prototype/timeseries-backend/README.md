@@ -13,9 +13,14 @@ From the command line change to this directory and do:
 **Now the database is populated, and API launched.**
 
 ### Test
-`curl http://localhost:8000/test` Should display "Setup is correct!"
-`curl http://localhost:8000/[indicator]/[isocode]/[start]/[stop]` gives data
-example: `curl http://localhost:8000/uopp/4/bce_1000/ce_700`
+`curl http://127.0.0.1:8000/test` Should display "Setup is correct!"
+`curl http://127.0.0.1:8000/[indicator]/[isocode]/[start]/[stop]` gives data
+example: `curl http://127.0.0.1:8000/uopp/4/bce_1000/ce_700`
+
+This means that it works localy, however, it should already also work remotely:
+`curl http://[ip]:8000/test`
+where ip can be found using: `hostname -I`
+currently: `curl http://192.168.68.128:8000/test`
 
 ## Tear down
 `docker compose down`

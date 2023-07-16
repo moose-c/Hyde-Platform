@@ -2,6 +2,7 @@ version: "3"
 services:
   timeseries-database:
     container_name: timeseries-database
+    user: postgres #anoying 'role root does not exist error mitigated'
     image: postgres 
     environment:
       DEBUG: 0
@@ -10,7 +11,6 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
-      timeout: 5s
       retries: 5
 
   timeseries-fill:

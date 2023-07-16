@@ -1,5 +1,6 @@
 __pycache__
 .venv/
+.parcel-cache/
 
 node_modules/
 dist/
@@ -11,6 +12,7 @@ data/
 *.nc
 passwords.*
 TODO.md
+package-lock.json
 
 *.env
 localtest.py

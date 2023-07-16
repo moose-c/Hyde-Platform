@@ -1,6 +1,5 @@
-/* Crazy that this does not work, I have no idea */
 #form_box {
-    font-size:xx-large;
+    font-size: xx-large;
     display:  none; 
     position: fixed;
     bottom: 0;

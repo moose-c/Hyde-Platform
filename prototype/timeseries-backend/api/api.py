@@ -1,12 +1,14 @@
 ## Setup Flask application
 from flask import Flask
 from flask_restful import Resource, Api
+from flask_cors import CORS
 
 import os
 password = os.environ['POSTGRES_PASSWORD']
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 # Connect to database
 
