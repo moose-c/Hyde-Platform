@@ -32,7 +32,7 @@ if __name__ == "__main__":
     cur = conn.cursor()
 
     # path to all txt files
-    folder = "/usr/share/data/txt"
+    folder = "/app/data/txt"
     files = os.listdir(folder) # list all within the folder
     try:
         for file in files:

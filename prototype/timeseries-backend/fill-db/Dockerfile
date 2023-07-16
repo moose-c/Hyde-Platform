@@ -1,7 +1,7 @@
 FROM python:3.8
 
 # set working directory, from where the app will be run
-WORKDIR /usr/src/temp
+WORKDIR /temp
 
 # copy files from current directory to working directory
 COPY ./txt_psql.py .

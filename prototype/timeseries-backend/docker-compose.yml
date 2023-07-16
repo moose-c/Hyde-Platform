@@ -1,11 +1,10 @@
 version: "3"
 services:
   timeseries-database:
-    user: postgres
     container_name: timeseries-database
     image: postgres 
     environment:
-      DEBUG: 1
+      DEBUG: 0
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_DB: timeseries
     healthcheck:
@@ -17,21 +16,20 @@ services:
   timeseries-fill:
     container_name: timeseries-fill
     build: ./fill-db
-    command: python3 txt_psql.py
     environment:
-      DEBUG: 1
+      DEBUG: 0
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     depends_on: 
       timeseries-database:
         condition: service_healthy
     volumes:
-      - ./fill-db/data/txt:/usr/share/data/txt
+      - ./fill-db/data/txt:/app/data/txt
 
   timeseries-api:
     container_name: timeseries-api
     build: ./api
     environment:
-      DEBUG: 1
+      DEBUG: 0
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     depends_on:
       timeseries-fill:

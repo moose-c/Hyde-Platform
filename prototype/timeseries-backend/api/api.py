@@ -2,11 +2,6 @@
 from flask import Flask
 from flask_restful import Resource, Api
 
-# from flask_cors import CORS
-# # this allows to access endpoint on same machine.
-# cors = CORS(app)
-# app.config['CORS_HEADERS'] = 'Content-Type'
-
 import os
 password = os.environ['POSTGRES_PASSWORD']
 
@@ -16,6 +11,7 @@ api = Api(app)
 # Connect to database
 
 import psycopg2
+# this is allowed since they are within the same docker network.
 conn = psycopg2.connect(host="timeseries-database",
                         database = "timeseries",
                         user="postgres",

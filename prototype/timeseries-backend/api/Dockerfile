@@ -9,5 +9,5 @@ COPY . .
 # install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# some magic
+# Run the flask API on a gunicorn WSGI server, this is for production
 CMD ["gunicorn", "api:app", "-b", "0.0.0.0:8000"]
