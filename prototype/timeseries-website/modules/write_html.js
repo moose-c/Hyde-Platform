@@ -1,4 +1,4 @@
-const range = require('lodash.range')
+import { years } from './create_data';
 
 export let iso_code;
 
@@ -21,26 +21,17 @@ export function createIsocodes() {
     }
 }
 
-export let years_lst = range(10000, 0, -1000).map(year => `bce_${year}`).concat(
-            range(0, 1700, 100).map(year => `ce_${year}`),
-            range(1700, 2000, 10).map(year => `ce_${year}`),
-            range(2000, 2018, 1).map(year => `ce_${year}`))
-
 export function populateYears() {
     const selectors = document.getElementsByClassName("select_year")
-    let split_year, opt
-    for (let i = 0; i < selectors.length; i++){
-        years_lst.forEach((year) => {
-            console.log(year)
-            opt = document.createElement("option")
-            opt.value=year
-            split_year = year.split('_')
-            if (split_year[0] == "bce") {
-                opt.innerHTML = `${split_year[1]} BCE`
-            } else {
-                opt.innerHTML = `${split_year[1]} CE`
-            }
-            selectors.item(i).appendChild(opt)
-        })
+    for (let selector of selectors) {
+        for (const key in years) {
+            const opt = document.createElement("option")
+            opt.value = key
+            opt.innerHTML = years[key]
+            selector.appendChild(opt)
+        }
+    document.getElementById('indicators').selectedIndex = 2
+    document.getElementById('start_year').selectedIndex = 50
+    document.getElementById('end_year').selectedIndex = 65
     }
 }

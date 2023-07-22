@@ -3,8 +3,7 @@
 Makes queries to the database, and displays these on a basic website.
 
 ## Setup 
-`chmod u+x setup.sh`
-`./setup.sh`
+Local production: `npm run dev`
 
 ## Understand
 Flask docker

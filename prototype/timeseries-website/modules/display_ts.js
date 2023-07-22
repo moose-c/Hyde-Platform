@@ -17,6 +17,5 @@ export function displayTimeseries(e, iso_code) {
     console.log(`End year: ${end}`)
 
     e.preventDefault() // very important for fetch method for some reason.
-
     fetchTimeseries(indicators, iso_code, start, end)
 }

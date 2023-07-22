@@ -20,7 +20,7 @@ example: `curl http://127.0.0.1:8000/uopp/4/bce_1000/ce_700`
 This means that it works localy, however, it should already also work remotely:
 `curl http://[ip]:8000/test`
 where ip can be found using: `hostname -I`
-currently: `curl http://192.168.68.128:8000/test`
+currently: `curl http://192.168.68.115:8000/test`
 
 ## Tear down
 `docker compose down`
@@ -47,3 +47,6 @@ The first docker container created contains a postgres database called timeserie
 
 ### Production
 Flask is not suitable for production, therefore use Gunicorn WSGI server. 
+
+### Change to static IP:
+https://www.freecodecamp.org/news/setting-a-static-ip-in-ubuntu-linux-ip-address-tutorial/
