@@ -1,7 +1,7 @@
 import { createMap } from "./modules/create_map";
 import { selected, iso_codes, allowSelection } from "./modules/allow_selection";
 import { populateYears } from "./modules/write_html"
-import { plotTimeseries } from "./modules/display_ts"
+import { displayTimeseries } from "./modules/display_ts"
 
 createMap()
 
@@ -26,5 +26,10 @@ plotButton.addEventListener('click', () => {
 })
 
 document.getElementById('timeseries-button').addEventListener('click', (e) =>
-    plotTimeseries(e, iso_codes)
+    displayTimeseries(e, iso_codes)
 )
+
+export function switchCanvas(nb) {
+    const chart_location = document.getElementById("chart")
+
+}

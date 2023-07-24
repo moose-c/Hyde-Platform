@@ -37,14 +37,10 @@ Basically, a package.json is created which contains all things necessary for the
 Vite is used to serve a webserver. This uses the index.html in our base repository to build the website. 
 
 ### Basic webdevelopment 
-Webdeveloping a to broad a subject to explain in any matter of detail. It can be learned well through various online resources, a good resource is [MDN]()
+Webdeveloping a to broad a subject to explain in any matter of detail. It can be learned well through various online resources, a good resource is [MDN](). For this application, index.html is the main file, through here all scripts and styles are called. All other files are within the 'src' folder. Styles are within the 'styles' folder and scripts are within the 'modules' folder. As an entry, index.html calls the index.js file. From within this file, plotting is achieved through called 'display_ts' -> 'fetch_ts' -> 'plot_ts'
 
-### Production
-Flask is not suitable for production, therefore use Gunicorn WSGI server. 
-
-### Change to static IP:
-https://www.freecodecamp.org/news/setting-a-static-ip-in-ubuntu-linux-ip-address-tutorial/
-
+### Openlayers
+Openlayers is a javascript library which can be used to display maps on a webserver. How this is done in this project can be seen in the 'create_map.js' module. 
 
 Openlayers selected:
 https://www.educba.com/openlayers-vs-leaflet/

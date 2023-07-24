@@ -10,8 +10,10 @@
 </head>
 
 <body>
+    <!-- This is the div where the map is displayed -->
     <div id="map"></div>
 
+    <!-- Elements on the right, ammount and which countries are selected, and form form plotting -->
     <div class="left-elements">
         <div id="status">
             <ul id="country-list">
@@ -58,17 +60,17 @@
 
     <div><button id="plotting">Plot Timeseries</button></div>
 
-    <div class="canvas-container">
-        <button class="arrow-left" onclick="switchCanvas(-1)">&#8249;</button>
-        <div class="canvas-wrapper">
-            <div id="chart-box"> <canvas id="chart"></canvas></div>
-        </div>
-        <button class="arrow-right" onclick="switchCanvas(1)">&#8250;</button>
+    <!-- Location where the graphs are displayed, with clickable buttons to switch to next-->
+    <div id="canvas-container">
+        <button class="arrow" id="arrow-left" onclick="switchCanvas(-1)">&#8249;</button>
+            <div id="chart-box"><canvas id="chart"></canvas></div>
+        <button class="arrow" id="arrow-right" onclick="switchCanvas(1)">&#8250;</button>
     </div>
 
-    <div class="right-elements">
+    <div id="invisible-chart-holder" style="display: none"></div>
 
-    </div>
+    <!-- Here all functionality should come to overlay the pixel rasters -->
+    <div class="right-elements"></div>
 
 </body>
 

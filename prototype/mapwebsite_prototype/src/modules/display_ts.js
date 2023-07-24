@@ -1,8 +1,6 @@
 import { fetchTimeseries } from "./fetch_ts"
 
-export function plotTimeseries(e, iso_codes) {
-    const chart_location = document.getElementById('chart')
-    console.log(chart_location)
+export function displayTimeseries(e, iso_codes) {
 
     // obtain variables to javascript:
     const indicators_selector = document.getElementById('indicators')
@@ -17,7 +15,17 @@ export function plotTimeseries(e, iso_codes) {
 
     e.preventDefault() // very important for fetch method for some reason.
     
-    // now just grab first isocode in list
-    const iso_code = iso_codes[0]
-    fetchTimeseries(indicators, iso_code, start, end)
+    var chart_index = 0
+    for (var iso_code of iso_codes) {
+        for (var indicator of indicators) {
+            const chart = document.createElement('canvas')
+            chart.id = `chart${chart_index}`
+            chart.className =  "chart"
+            chart.width = 300
+            chart.height = 200
+            document.getElementById("invisible-chart-holder").appendChild(chart) 
+            fetchTimeseries(chart_index, indicator, iso_code, start, end)
+            chart_index += 1
+        }
+    }
 }
