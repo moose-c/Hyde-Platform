@@ -20,14 +20,14 @@ conn = psycopg2.connect(host="timeseries-database",
                         password=password)
 cur = conn.cursor()
 
-# obtain names of the timesteps
+# obtain names of the columns
 cur.execute("SELECT * FROM uopp WHERE false")
 column_names = [desc[0] for desc in cur.description]
 
 # query and return timeseries of interest
 class Timeseries(Resource):
   def get(self, indicator, isocode, start, end):
-    # select columns in correct format, inicluding the endpoint
+    # select columns in correct format, including the endpoint
     columns = ", ".join(column_names[column_names.index(start):column_names.index(end)+1])
     cur.execute(f'SELECT {columns} FROM {indicator} WHERE iso_code={isocode}')
     ts = cur.fetchall()

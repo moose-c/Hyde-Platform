@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#status {
+    position: fixed;
+    bottom: 10px; /* Adjust this value to set the desired distance from the bottom */
+    left: 10px; /* Adjust this value to set the desired distance from the left */
+    background-color: #ffffff; /* Change this to set the text color */
+    font-size: 16px; /* Change this to set the text font size */
+    /* You can add other styling properties for the text div here */
+}
+
+#plotting {
+    position: fixed;
+    bottom: 10px;
+    left: 220px;
+    background-color: #ffffff; /* Change this to set the text color */
+    font-size: 16px;
+}
+
+#country-list {
+    position: absolute;
+    bottom: 30px; /* Adjust this value to set the desired distance from the bottom */
+    left: 20px; /* Adjust this value to set the desired distance from the left */
+    background-color: #ffffff; /* Change this to set the background color of the ordered list */
+    padding: 0px;
+    border: 1px solid #ccc; /* Add a border to the ordered list */
+}
+
+#timeseries-form-box {
+    display: none;
+    position: absolute;
+    bottom: 230px;
+    left: 20px;
+    font-size: 16px;
+}
+
+/* Styles for the canvas switcher */
+.canvas-container {
+    position: absolute;
+    display: flex;
+    bottom: 10px;
+    left: 400px;
+    width: 400px;
+    height: 200px;
+}
+
+.canvas-wrapper {
+    width: 100px;
+    height: 200px;
+    transition: transform 0.3s ease;
+    opacity: 0;
+}

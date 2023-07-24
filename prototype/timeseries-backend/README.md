@@ -4,8 +4,7 @@ Part of the backend, returning timeseries per country
 
 ## Setup 
 ### Point to data for the database
-change line 56 in txt_psql.py to where the timeseries files are stored
-- [] Perhaps this can be automated by accessing the YODA API? could possibly even be request from within python
+Populate ./fill-db/data/txt with the HYDE .txt files, obtained through the YODA platform.
 
 ### Running setup bash script
 From the command line change to this directory and do:
@@ -27,26 +26,32 @@ currently: `curl http://192.168.68.115:8000/test`
 If no permission: `sudo aa-remove-unknown`
 
 ## Understanding
-There are 4 components that need to be learned in order to understand what is being done here:
-1) The setup file, `setup.sh` is a *bash script*
-2) This utilizes *docker* to create containers for each component
-3) The first container contains a *postgresql database* for our timeseries
-4) The second container runs a python file *populating the postgres database*
-Here, a quick overview of these components follows and an explanation how this was learned, in order for the reader to be able to understand and replicate this if desirable.
-
-### Bash Script
-A bash script is a script containing commands that can be executed immediately within the terminal. Just your regular `ls`, `cd`, `mkdir` etc. commands behave precicely as they would as if you were within the command line. Furthermore, the location from where these commands are executed is the location where the script resides. The writer learned the basics of this [here](https://www.freecodecamp.org/news/bash-scripting-tutorial-linux-shell-script-and-command-line-for-beginners/).
-With a basic understanding of bash scrips, one can understand `setup.sh`, points of interests are the need to start a bash script with the line `#!/bin/bash`, and that commands are allowing to be split using \.
+There are 3 components that need to be learned in order to understand what is being done here:
+1) This utilizes *docker* to create containers for each component
+2) The first container contains a *postgresql database* for our timeseries
+3) The second container runs a python file *populating the postgres database*
+4) The third container runs a FLASK Api *making the data accessible*
+Here, a quick overview of these components follows and an explanation how this was learned, in order for the reader to be able to understand and replicate this if desirable. Also, the code contains in depth annotations to provide technical understanding
 
 ### Docker
 Docker is used to create *containers* for each piece of software. This creates a dedicated environment for each component, only containing the necessary dependencies. An excelent, understandable tutorial of this topic can be found [here](https://docker-curriculum.com/).
-Once the reader understands the workings of Docker, the workings of the docker commands within setup.sh should be clear.
+The `docker compose up` command utilizes the docker-compose.yml to create the docker environment.
+The docker-compose.yml file creates 3 different containers from 3 different images in order:
+1) A postgres container is created, in which the data for the timeseries will be contained
+2) A python container is created, which connects to the postgres container and populates the database
+3) A Flask API is created, which can be called to retrieve data from the database
+The first container uses an already defined postgres image, the other 2 use image manually defined within the mentioned Dockerfile's. 
 
-### Postgres database
-The first docker container created contains a postgres database called timeseries. Postgresql (postgres) is a relational database management system (rdbms), the reader can learn more about it using various online tutorials, the writer learned it through [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04)& [here](https://docs.qgis.org/3.28/en/docs/training_manual/). First
+### Container 1: Postgres database
+The first docker container created contains a postgres database called timeseries. Postgresql (postgres) is a relational database management system (rdbms), the reader can learn more about it using various online tutorials, the writer learned it through [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04)& [here](https://docs.qgis.org/3.28/en/docs/training_manual/). This database will contain data for each country, each indicator, from 12000 BC until now (2018). All setup is done within the docker-compose.yml, no further manual access needs to happen.
 
-### Production
-Flask is not suitable for production, therefore use Gunicorn WSGI server. 
+### Container 2: Fill Database
+How to connect and execute postgres commands using python can be learned [here](https://pynative.com/python-postgresql-tutorial/)
+All code for this section is contained within the fill-db folder.
+As can be seen within the Dockerfile, a script called *txt_psql.py* is called.
+This script connects to the timeseries database, and fills them with the data from the .txt files in the desired format
 
-### Change to static IP:
-https://www.freecodecamp.org/news/setting-a-static-ip-in-ubuntu-linux-ip-address-tutorial/
+### Container 3: Database Flask API
+Basics of Flask API development can be learned [here](https://pythonbasics.org/flask-rest-api/)
+All code for this section is contained within the api folder.
+The script api.py in called within the Dockerfile, this creates the API. 

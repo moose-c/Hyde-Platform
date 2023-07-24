@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.8-alpine
 
 # set working directory, from where the app will be run
 WORKDIR /temp
