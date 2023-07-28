@@ -2,6 +2,9 @@ import { createMap } from "./modules/create_map";
 import { selected, iso_codes, allowSelection } from "./modules/allow_selection";
 import { populateYears } from "./modules/write_html"
 import { displayTimeseries } from "./modules/display_ts"
+import { switchCanvas } from "./modules/switchCanvas"
+
+
 
 createMap()
 
@@ -29,7 +32,13 @@ document.getElementById('timeseries-button').addEventListener('click', (e) =>
     displayTimeseries(e, iso_codes)
 )
 
-export function switchCanvas(nb) {
-    const chart_location = document.getElementById("chart")
-
+for (var element of document.getElementsByClassName("arrow")) {
+    element.addEventListener('click', (e) => {
+        if (e.originalTarget.id == "arrow-right"){
+            switchCanvas(1)
+        } else {
+            switchCanvas(-1)
+        }
+    })
 }
+

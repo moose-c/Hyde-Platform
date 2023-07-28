@@ -62,12 +62,16 @@
 
     <!-- Location where the graphs are displayed, with clickable buttons to switch to next-->
     <div id="canvas-container">
-        <button class="arrow" id="arrow-left" onclick="switchCanvas(-1)">&#8249;</button>
-            <div id="chart-box"><canvas id="chart"></canvas></div>
-        <button class="arrow" id="arrow-right" onclick="switchCanvas(1)">&#8250;</button>
+        <button class="arrow" id="arrow-left">&#8249;</button>
+            <div id="chart-container">
+                <div id="chart-title">Chart 0</div> 
+                <div id="chart-box"><canvas id="chart"></canvas></div>
+            </div>
+        <button class="arrow" id="arrow-right">&#8250;</button>
     </div>
 
-    <div id="invisible-chart-holder" style="display: none"></div>
+    <div id="nb-charts" style="display: none;"></div>
+    <div id="invisible-chart-box" style="display: none"></div>
 
     <!-- Here all functionality should come to overlay the pixel rasters -->
     <div class="right-elements"></div>

@@ -49,19 +49,27 @@ body {
 #canvas-container {
     position: absolute;
     display: none;
-    justify-content: center;
-    gap: 0px;
+    gap: 10px;
     bottom: 10px;
     left: 600px;
-    width: 450px;
-    height: 200px;
+    width: 600px;
+    height: 330px;
+}
+
+#chart-container {
+    display: flex;
+    flex-direction: column;
 }
 
 #chart-box {    
-    width: 380px;
-    /* margin: auto; */
+    width: 550px;
+    height: 280px;
+    margin: auto;
+    border: 1px solid black;
 }
 
-.chart {
-    width: 300px;
+#chart-title {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
