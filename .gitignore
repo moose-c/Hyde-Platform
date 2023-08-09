@@ -4,17 +4,12 @@ __pycache__
 
 node_modules/
 dist/
-leren/
-redundand_code/
+
 
 data/
 
 *.nc
 passwords.*
-TODO.md
 package-lock.json
-
-*.env
-localtest.py
 
 *.jar
