@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "author": "Moos Castelij",
+  "author": "Moos Castelijn",
   "license": "ISC",
   "dependencies": {
     "ol": "^7.4.0",
