@@ -9,13 +9,13 @@ This document will include:
 
 # Overview
 What is actually wanted? This is a very important question to have answered before any serious development can start. So far, the final product has been described as having the following components:
-Transfer to a **website** hosted on a **server**, on this website a **world map** is displayed. This worldmap should have the ability to **display data**, for which a **database** should be developed, in 2 ways: 
+Create a **website** hosted on a **server**, on this website a **world map** is displayed. This worldmap should have the ability to **display data**, in 2 ways: 
 After clicking on one or multiple **countries**, something should pop up or be clickable to obtain data on certain **indicators** over a selected **time period**, in the form of **graphs** and with the ability to **extract the data** in multiple forms.
-Secondly, information of an indicator of a certain year should can be **overlayed** on the globe as a raster, also with the possibility to **extract** this data.
+Secondly, information of an indicator of a certain year can be **overlayed** on the globe as a raster, also with the possibility to **extract** this data.
 
 # Workflow
 The workflow within this project will be the following:
-Since the final product will have a huge database and most components still need to be learned, for each component first a small prototype will be developed. For this reason, the repository will have 2 folders: prototype & final. When working locally, I will develop within the 'prototype' folder, when developing on the server, I will develop within the 'final' folder.
+Since the final product will have need a database and most components still need to be learned, for each component first a small prototype will be developed. For this reason, the repository will have 2 folders: prototype & final. When working locally, I will develop within the 'prototype' folder, when developing on the server, I will develop within the 'final' folder.
 
 # Orientation
 Now that we have clear what is wanted, the tools for this job should be gathered.
@@ -32,6 +32,7 @@ Promising OpenLayers example, allowing to [click on certain areas](https://openl
 ## Geoserver
 Open-source software server written in Java, allows users to chare and edit geospatial data. Takes data from a database and serves to OpenLayers, as stated [here](https://gis.stackexchange.com/questions/52818/how-to-connect-openlayers-to-postgis-data): “Unfortunately you cannot connect a web page directly to a database because of security concerns, normally you need some middleware to join the two together. 
 So for your example and if you want to stick with Open Source software you could easily use GeoServer as your geographic server to serve your data from your PostGIS database to your OpenLayers HTML web page.” 
+(Alternatively, ncWMS)
 
 ## Postgresql & PostGIS
 The data from the HYDE model should be stored within a database that makes retrievel and display on the website easy. Since at least the rasters is spatial information a database which can easily incorporate spatial data would be usefull. A well known and widely used database system is the Postgresql database system, this also has the PostGIS extenction specifically made to work with spatial data

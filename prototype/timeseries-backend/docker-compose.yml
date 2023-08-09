@@ -1,0 +1,59 @@
+# Use as of yet latest version
+version: "3.8"
+
+# contains images and container configuration, much like `docker run`
+services:
+
+  # name of service 
+  timeseries-database:
+    container_name: timeseries-database
+    
+    # manditory to mitigate 'role root does not exist' error
+    user: postgres 
+
+    # specify image to pull from online, use small postgres dist
+    image: postgres:15-alpine
+
+    # specify environmental variables within container
+    environment:
+      DEBUG: 0
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: timeseries
+
+    # check whether setup was succesful, checked by next container
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      retries: 5
+
+  timeseries-fill:
+    container_name: timeseries-fill
+
+    # Build image from the ./fill-db/Dockerfile
+    build: ./fill-db
+    environment:
+      DEBUG: 0
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+    # Starts after succesful healthcheck of timeseries-database container
+    depends_on: 
+      timeseries-database:
+        condition: service_healthy
+
+    # copy data into container
+    volumes:
+      - ./fill-db/data/txt:/app/data/txt
+
+  timeseries-api:
+    container_name: timeseries-api
+    build: ./api
+    environment:
+      DEBUG: 0
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    depends_on:
+      timeseries-fill:
+        condition: service_completed_successfully
+
+    # ports through which the API can be reached. 
+    ports: 
+      - 8000:8000

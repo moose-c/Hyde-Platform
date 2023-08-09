@@ -421,7 +421,7 @@ Tables both within database and within django framework, have be manually kept i
 	last_name = models.CharField(maxlength=40)
 	email = models.EmailField()
 	headshot = models.ImageField(upload_to='/tmp')`
-	
+	How to do [queries](https://www.digitalocean.com/community/tutorials/introduction-to-queries-postgresql) can be found in the previous link. How the entire learning process went, see the raw file. 
 `class Book(models.Model):
 	title = models.CharField(maxlength=100)
 	authors = models.ManyToManyField(Author)
@@ -550,3 +550,108 @@ tot_irri
 tot_rainfed
 
 
+
+## Creating postgres docker environment
+https://docker-curriculum.com/
+Deploy applicatons within a sandbox (Container). Benefit: package an applicaton with all of its dependencies into a standardized unit.
+
+Container: 
+- Industry standard is to use VMs to run software applications, these run inside guest Operating System. This runs on virtual hardware powered by server's host OS.
+ => full isolation, but large computational overhead
+=> Containers: leverage low-level mechanics of host OS, mostly isolated at fraction of computing power.
+
+### Easy application
+Why: 
+Logical packeging mechanism, abstracted applications from build environment. Easily and consistent application.
+
+Installing:
+https://docs.docker.com/engine/install/ubuntu/#installation-methods
+
+docker pull ...
+docker images -> display available images
+docker run [image] [command], executes commands from image
+`docker ps`, display running images
+`docker ps -a`, display more usefull things
+`docker run -it [image] sh -> interactive shell
+`docker container prune` deletes all exited containers.
+`docker rmi [image]`, removes image
+
+Images: Blueprints of application, basis of containers
+Containers: running actual application
+Docker Daemon: Background service running onn the host that manages building, running and distributing containers
+Docker Client: command line tool, that allows the client (us) to talk to the daemon.
+
+### Webapplication
+
+`docker run --rm -it prakhar1989/static-site`
+`docker run -d -P --name static-site prakhar1989/static-site`
+`docker port static-site`
+docker run -p 8888:80 static-site
+(port 80 is default server listener, access now on port 8888 on host)
+
+### Creating own image
+
+Base images: no parent image, usable on their own
+Child images, build on top of a base imiage.
+
+Official images: maintained by Docker people
+User images: by users, formatted as user/image-name
+
+See docker-proberen/docker-curriculum/flask-app/Dockerfile for an example dockerfile. 
+build image with:
+`docker build -t mooscastelijn/flask-example .`
+now run with: `sudo docker run --rm -p 8888:5000 mooscastelijn/flask-example
+
+### Publishing image and creating website
+(Publicly hosting image is not imperative)
+`sudo docker login` logs into Dockerhub, where you can publish the 
+mage
+`sudo docker push [image]`
+Now everyone everywhere can run this container using the above command!
+#### AWS Elastic Beanstalk hosting example
+required a
+
+### Multicontainer environments:
+Container for each of the seperate services.
+Services into different containers, allows using the most approprate instance type based on specific resource needs.
+Split each service -> split into multiple containers depending on where the bottelneck is.
+For many services, official images:
+`docker search [required service]`
+`docker pull [name required service]`
+`docker run -d --name es -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.3.2`
+`docker container ls`
+request by: `curl 0.0.0.0:9200`
+Now create general Dockerfile from ubuntu, since multiple elements (python and node) needed, see other example Dockerfile, build as before.
+then running: `sudo docker run -p 2019:5000 --rm mooscastelijn/foodtrucks-web` **Fails**, since not connected to ES image.
+Solving:
+Don't connect from python to ES container url, from host accessible this way, but not from another container. -> **Docker network**
+view networks: `docker network ls`
+Default is Bridge network, inspect:
+`sudo docker network inspect bridge`
+Under containers see if it the desired container is running and has ip adres, without /
+Better:
+**create designated networks**
+`sudo docker network create [network-name]` -> new bridge network (containers within the same bridge network can communicate)
+docker run -it --rm **--net [network-name]** [image]
+Now, simply refering to `host=es` as within python file is sufficient.
+All this setup usually automated within bash script (.sh)
+
+#### other docker tools: Docker Compose
+- Docker Machine: Create Docker hosts anywhere
+- **Docker Compose: Define and run multicontainer docker applications**, also great for testing
+- etc
+Configuration within docker-compose.yml, see example
+run with `docker-compose up` from directory of docker-compose.yml
+or `docker-compose up -d` to run detached
+deactive: `docker-compose down -v`
+Also creates dedicated network!
+
+#### How can Docker aid in development?
+Edit application, see changed docker-compose.yml
+That concludes the tutorial, it was awesome: https://docker-curriculum.com/
+
+## Nginx, uWSGI, Flask Docker
+https://medium.com/django-deployment/which-wsgi-server-should-i-use-a70548da6a83
+https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uwsgi-and-nginx-on-ubuntu-22-04
+https://www.youtube.com/watch?v=dVEjSmKFUVI
+https://www.youtube.com/watch?v=42Q65H8ch7U
