@@ -1,4 +1,4 @@
-import { years } from './create_data';
+import { years, ind_vals, ind_names } from './create_data';
 
 export function populateYears() {
     const selectors = document.getElementsByClassName("select_year")
@@ -14,4 +14,22 @@ export function populateYears() {
     document.getElementById('start_year').selectedIndex = 50
     document.getElementById('end_year').selectedIndex = 65
     }
+}
+
+export function populateIndicators() {
+    const demIndicators = document.getElementById('dem-indicators')
+    const luIndicators = document.getElementById('lu-indicators')
+    const agrIndicators = document.getElementById('agr-indicators')
+    ind_vals.forEach((val, index) => {
+        const newOption =  document.createElement('option')
+        newOption.value = val
+        newOption.innerText = ind_names[index]
+        if (index < 4) {
+            demIndicators.appendChild(newOption)
+        } else if (index < 10) {
+            luIndicators.appendChild(newOption)
+        } else {
+            agrIndicators.appendChild(newOption)
+        }
+    })
 }

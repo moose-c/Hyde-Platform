@@ -10,6 +10,14 @@
 <body>
     <div id="map"></div>
 
+    <div id="legend-location"><img id="legend"></div>
+
+    <div id="time-selection">
+        <label for="year-range">Years: </label>
+        <input type="range" id="year-range" name="year-range" min="0" max="74" step="1" value="10">
+        <p id="year-display">0 CE</p>
+    </div>
+
     <div id="top-right">
         <input type="radio" name="layer" id="irrigated_rice" value="2/irrigated_rice">
         <label for="irrigated_rice">Irrigated Rice</label><br>

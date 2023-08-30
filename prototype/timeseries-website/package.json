@@ -11,6 +11,8 @@
   "author": "moos",
   "license": "ISC",
   "dependencies": {
+    "vite": "^4.4.8",
+    "ol": "^7.4.0",
     "chart.js": "^4.3.0",
     "i18n-iso-countries": "7.6.0",
     "lodash.range": "^3.2.0"

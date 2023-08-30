@@ -13,7 +13,21 @@ body {
 
 #top-right {
     position: fixed;
-    top: 30px;
+    top: 5%;
     left: 75%;
     display: flex;
+}
+
+#legend-location {
+    position: fixed;
+    top: 20%;
+    left: 90%;
+    width: 100px;
+    height: 100px;
+}
+
+#time-selection {
+    position: fixed;
+    bottom: 5%;
+    left: 40%;
 }

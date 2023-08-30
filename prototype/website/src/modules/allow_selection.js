@@ -20,7 +20,7 @@ export function allowSelection(){
         }),
     });
 
-    const status = document.getElementById('status');
+    const status = document.getElementById('amt-selected');
     const countryLst = document.getElementById('country-list')
     const formBox = document.getElementById('timeseries-form-box') 
 

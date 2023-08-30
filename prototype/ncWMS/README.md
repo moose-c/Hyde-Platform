@@ -72,6 +72,10 @@ http://localhost:8080/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&
 
 http://localhost:8080/wms?REQUEST=GetMetadata&VERSION=1.3.0&CRS=CRS:84&LAYERS=1/irrigated_rice&ITEM=minmax&BBOX=-179.99999489666106,-90.00000252664061,179.99985756755953,89.9999262326953
 
+display legend:
+http://localhost:8080/ncWMS2/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&LAYERS=2/irrigated_rice&COLORBARONLY=FALSE&STYLES=default-scalar/seq-YlOrRd
+
+
 Above works! Great.
 
 # Defining specific style

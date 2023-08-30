@@ -24,13 +24,13 @@ export function plotMap(){
     return(map)
 }
 
-export async function changeOverlay(map, current_layer, layer) {
+export async function changeOverlay(map, current_layer, layer, year) {
     current_layer = await current_layer // to finally resolve promise..
     if (current_layer) {
         map.removeLayer(current_layer[0])
         map.removeLayer(current_layer[1])
     }
-    const time = '2020-05-01'
+    const time = `${year}-05-01`
     const style = 'seq-YlOrRd' // Option: allow user to set manually?
 
     var minmax;
@@ -70,6 +70,12 @@ export async function changeOverlay(map, current_layer, layer) {
         }),
         opacity: 0.8
     })
+
+    const legend_request = await fetch(`http://localhost:8080/ncWMS2/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&LAYERS=${layer}&COLORBARONLY=FALSE&STYLES=default-scalar/${style}&HEIGHT=200&WIDTH=50&COLORSCALERANGE=${minmax.min},${minmax.max}`)
+    const legend_blob = await legend_request.blob()
+    const legend = document.getElementById('legend')
+    legend.src = URL.createObjectURL(legend_blob)
+
     map.addLayer(fill)
     map.addLayer(contour)
     current_layer = [fill, contour]

@@ -1,57 +1,51 @@
-    body {
-        margin: 0;
-        padding: 0;
-    }
+body {
+    margin: 0;
+    padding: 0;
+   }
 
-    #map {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-#status {
+#map {
     position: fixed;
-    bottom: 10px; /* Adjust this value to set the desired distance from the bottom */
-    left: 10px; /* Adjust this value to set the desired distance from the left */
-    background-color: #ffffff; /* Change this to set the text color */
-    font-size: 16px; /* Change this to set the text font size */
-    /* You can add other styling properties for the text div here */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-#plotting {
+#left-elements {
     position: fixed;
-    bottom: 10px;
-    left: 220px;
-    background-color: #ffffff; /* Change this to set the text color */
+    display: grid;
+    grid-template-columns: 20% 20% 20%;
+    left: 1%;
+    bottom: 2%;
+    gap: 10px;
     font-size: 16px;
+}   
+ 
+#ammount-selected {
+    background-color: #ffffff;     
+}
+
+#plot-button {
+    background-color: #ffffff;
 }
 
 #country-list {
-    position: absolute;
-    bottom: 30px; /* Adjust this value to set the desired distance from the bottom */
-    left: 20px; /* Adjust this value to set the desired distance from the left */
-    background-color: #ffffff; /* Change this to set the background color of the ordered list */
+    background-color: #ffffff; 
     padding: 0px;
-    border: 1px solid #ccc; /* Add a border to the ordered list */
+    border: 1px solid #ccc;
 }
 
 #timeseries-form-box {
     display: none;
-    position: absolute;
-    bottom: 230px;
-    left: 20px;
-    font-size: 16px;
-}
+} 
 
 /* Styles for the canvas switcher container */
-#canvas-container {
+#middle-elements {
     position: absolute;
     display: none;
     gap: 10px;
-    bottom: 10px;
-    left: 600px;
+    bottom: 2%;
+    left: 30%;
     width: 600px;
     height: 330px;
 }

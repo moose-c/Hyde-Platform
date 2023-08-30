@@ -1,14 +1,13 @@
 # Hyde Platform
-This repository contains the code that was used to create the Hyde Platform, used to display the data from the HYDE (History Database of the Global Environment)
+This repository contains the code that was used to create the Hyde Platform, a platform which displays the data from the HYDE model (History Database of the Global Environment).  
+This markdown explains the structure of the final product and how to run this application. For documentation on the development process, read [Development-process.md](Development-Process.md). For a more extensive explanation of each component, read the documenation within that component.
 
 ## Structure
 In the **prototype** folder, different components of the project can be found. The following are currently implemented:
-1) Apache: contains unfinished trials for an appache application. Should be ignored by the reader
-2) **timeseries-backend**: contain construction and filling of postgres database with information related to the timeseries, and an API capable of sharing this data. Contains a readme.md which should be read carefully, since this is an importent part of the project.
-3) timeseries-website: contains a rudementary website for displaying data from the timeseries-backend. Can also be ignored
-4) **website**: contains a functioning website, displaying a map and capable of displaying timeseries using the API from timeseries-backend. Also contains a readme.md which should be read carefully.
-
-(In the **documentation** folder information on all steps of the process can be found. The -raw markdown file contain a diary style, more utilitation rough notes on the process, whereas the other files contain a more reader friendly walkthrough of the process. )
+1) **ncWMS**: Contain all elements neccessary for publishing the netcdf files from the HYDE project
+2) **timeseries-backend**: Contain construction and filling of postgres database with information related to the timeseries, and an API capable of sharing this data. 
+3) **timeseries-website**: Contains a rudementary website for displaying data from the timeseries-backend. Not used in later stages of tthe project
+4) **website**: Contains a website displaying a map and capable of displaying timeseries using the API from timeseries-backend. 
 
 ## Setup
 
@@ -30,6 +29,3 @@ and add to the bottom of the resulting file the following line:
 `POSTGRES_PASSWORD='[postgres password]'`
 and finally reboot the system to make the password available:
 from windows powershell: `wsl -- shutdown`
-
-
-### locally:
