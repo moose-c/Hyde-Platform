@@ -6,10 +6,11 @@ This markdown explains the structure of the final product and how to run this ap
 In the **prototype** folder, different components of the project can be found. The following are currently implemented:
 1) **ncWMS**: Contain all elements neccessary for publishing the netcdf files from the HYDE project
 2) **timeseries-backend**: Contain construction and filling of postgres database with information related to the timeseries, and an API capable of sharing this data. 
-3) **timeseries-website**: Contains a rudementary website for displaying data from the timeseries-backend. Not used in later stages of tthe project
-4) **website**: Contains a website displaying a map and capable of displaying timeseries using the API from timeseries-backend. 
+3) **timeseries-website**: Contains a website displaying a map and capable of displaying timeseries using the API from timeseries-backend. 
 
-## Setup
+## Setup locally
+**Note that this is not yet complete**
+
 
 ### Linux
 First, set desired password from command line as **environmental variable** using:
