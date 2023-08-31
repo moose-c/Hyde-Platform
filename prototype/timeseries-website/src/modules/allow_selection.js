@@ -20,12 +20,9 @@ export function allowSelection(){
         }),
     });
 
-    const status = document.getElementById('amt-selected');
+    const amtSelected = document.getElementById('amt-selected');
     const countryLst = document.getElementById('country-list')
     const formBox = document.getElementById('timeseries-form-box') 
-
-    const selection_number = document.createTextNode(selected.length + ' selected features')
-    status.appendChild(selection_number)
 
     map.on('singleclick', function (e) {
         map.forEachFeatureAtPixel(e.pixel, function (f) {
@@ -63,6 +60,6 @@ export function allowSelection(){
             }
             console.log(iso_codes)
         });
-        status.childNodes[3].nodeValue = selected.length + ' selected features';
+        amtSelected.innerText = selected.length + ' countries selected'
     })
 }

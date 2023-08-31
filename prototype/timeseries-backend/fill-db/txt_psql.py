@@ -21,11 +21,11 @@ def create_table(name, header):
 
         # If year contains a minus, it is BCE
         if col[0] == '-':
-            table_command += f", BCE_{col[1:]} float" # BCE_year1
+            table_command += f", BCE_{col[1:]} float" # BCE_year
 
         # If not, it is CE
         else:
-            table_command += f", CE_{col} float" # CE_year1
+            table_command += f", CE_{col} float" # CE_year
     table_command += ')'
 
     # Execute Create table command within timeseries database
@@ -42,19 +42,19 @@ conn = psycopg2.connect(host="timeseries-database",
 cur = conn.cursor()
 
 # path to all txt files
-folder = "/app/data/txt"
+folder = "/app/data/txt/"
 files = os.listdir(folder) # list all within the folder
 
 # If already populated, catch error and quit. 
 try:
-    for file in files:
+    for file in files: # for each individual text file, do the following
         # Only do it for countries not for 'r'egions.
-        if file.split('.')[0][-1] != 'r':
+        if file.split('.')[0][-1] != 'r': # last letter is not r, it is c for country, continue
 
-            # Change the last line to iso_code = 1000, otherwise it does not fit 
+            # Change the last line (Total) to iso_code = 10000, otherwise it does not fit into the database
             f = open(os.path.join(folder, file), 'r')
             lines = f.readlines()
-            lines[-1] = lines[-1].replace('Total', '1000')
+            lines[-1] = lines[-1].replace('Total', '10000')
             with open(os.path.join(folder, file), 'w') as f:
                 f.writelines(lines)
 
@@ -65,7 +65,7 @@ try:
                 cur.copy_from(f, name, sep=' ') # insert data into table
     conn.commit()
     conn.close()
-except psycopg2.errors.DuplicateTable:
+except psycopg2.errors.DuplicateTable: # If database has already been created previously, don't give an error just don't execute the code.
     pass
 
 

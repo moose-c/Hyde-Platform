@@ -16,9 +16,9 @@ services:
 
     # specify environmental variables within container
     environment:
-      DEBUG: 0
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      POSTGRES_DB: timeseries
+      DEBUG: 0 # don't work in debug env
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD # system variable set for postgres password
+      POSTGRES_DB: timeseries # name the database
 
     # check whether setup was succesful, checked by next container
     healthcheck:
@@ -46,14 +46,14 @@ services:
 
   timeseries-api:
     container_name: timeseries-api
-    build: ./api
+    build: ./api # build image again from Dockerfile within api folder
     environment:
       DEBUG: 0
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-    depends_on:
+    depends_on: # start after database is filled from previous container
       timeseries-fill:
         condition: service_completed_successfully
 
-    # ports through which the API can be reached. 
+    # ports through which the API can be reached. [External]:[Docker]
     ports: 
       - 8000:8000

@@ -12,54 +12,36 @@
 <body>
     <div id="map"></div>   <!-- Div where map is displayed using Openlayers --> 
 
-    <div id="not-map">  
-        <div id="left-elements">   
-            <div id="amt-selected"> 
-                <ul id="country-list"></ul>
+    <div id="not-map">    <!-- Div where all other elements will be displayed -->
+        <div id="left-elements">     <!-- Utilities for selecting countries and displaying timeseries -->
+            <div id="selection">    <!-- Shows ammount and which countries are selected -->
+                <p id="amt-selected">0 countries selected</p>   <!-- Is dynamically updated within allow-selection -->
+                <ul id="country-list"></ul>   <!-- Same as above -->
             </div>
 
-            <button id="plot-button">Plot Timeseries</button>
+            <button id="plot-button">Plot Timeseries</button> 
 
             <div id="timeseries-form-box">
                 <form id="timeseries-form">
-                    <select id="indicators" name="indicators" multiple required>
+                    <select id="indicators" name="indicators" multiple required>   <!-- Dynamically filled in by write_html.js -->
                         <optgroup id="dem-indicators" label="Demographics">
-                            <!-- <option value="popc">Population Count</option>
-                            <option value="popd">Population Density</option>
-                            <option value="urbc">Urban Population</option>
-                            <option value="rurc">Rural Population</option> -->
                         </optgroup>
                         <optgroup id="lu-indicators" label="Land Use">
-                            <!-- <option value="uopp">Build Area</option>
-                            <option value="cropland">Cropland</option>
-                            <option value="grazing">Grazing</option>
-                            <option value="pasture">Pasture</option>
-                            <option value="rangeland">Rangeland</option>
-                            <option value="conv_rangeland">Conventional Rangeland</option> -->
                         </optgroup>
                         <optgroup id="agr-indicators" label="Agricultural">
-                            <!-- <option value="ir_rice">Irrigated Rice</option>
-                            <option value="rf_rice">Rainfed Rice</option>
-                            <option value="tot_rice">Total Rice</option>
-                            <option value="ir_norice">Irrigated Other</option>
-                            <option value="rf_norice">Rainfed Other</option>
-                            <option value="tot_ir">Total Irrigated</option>
-                            <option value="tot_rf">Total Raifed</option> -->
                         </optgroup>
                     </select>
                     <p>Hold down the Ctrl (windows) or <br> Command (Mac) button to select multiple indicators.</p>
-                    <!-- <input list="start_year"> -->
-                    <select id="start_year" name="start_year" class="select_year" required></select>
-                    <select id="end_year" name="end_year" class="select_year" required></select>
+                    <select id="start_year" name="start_year" class="select_year" required></select>   <!-- Dynamically filled in by write_html.js -->
+                    <select id="end_year" name="end_year" class="select_year" required></select>   <!-- Same as above -->
 
-                    <button id="timeseries-button" type="submit" class="btn">Request Figures</button>
+                    <button id="timeseries-button" type="submit" class="btn">Request Figures</button>   <!-- Make API call based on form datat -->
                 </form>
             </div>
         </div>
 
-        <!-- Location where the graphs are displayed, with clickable buttons to switch to next-->
-        <div id="middle-elements">   <!-- All elements placed in the middle -->
-            <button class="arrow" id="arrow-left">&#8249;</button>
+        <div id="middle-elements">   <!-- All elements placed in the middle = graph -->
+            <button class="arrow" id="arrow-left">&#8249;</button>   <!-- Buttons allow switching between graphs -->
                 <div id="chart-container">
                     <div id="chart-title">Chart 0</div> 
                     <div id="chart-box"><canvas id="chart"></canvas></div>
@@ -67,8 +49,8 @@
             <button class="arrow" id="arrow-right">&#8250;</button>
         </div>
 
-        <div id="nb-charts" style="display: none;"></div>
-        <div id="invisible-chart-box" style="display: none"></div>
+        <div id="nb-charts" style="display: none;"></div>   <!-- Invisible place where the total ammout of graphs are temporary stored -->
+        <div id="invisible-chart-box" style="display: none"></div>   <!-- Invisible place where not displayed graphs are stored -->
 
         <!-- Here all functionality should come to overlay the pixel rasters -->
         <div class="right-elements"></div>   <!-- All elements placed on the right -->

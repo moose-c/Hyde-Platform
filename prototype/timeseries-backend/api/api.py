@@ -8,7 +8,7 @@ password = os.environ['POSTGRES_PASSWORD']
 
 app = Flask(__name__)
 api = Api(app)
-CORS(app)
+CORS(app) # mitage CORS error
 
 # Connect to database
 
@@ -20,15 +20,18 @@ conn = psycopg2.connect(host="timeseries-database",
                         password=password)
 cur = conn.cursor()
 
-# obtain names of the columns
+# obtain names of the columns, which are the years
 cur.execute("SELECT * FROM uopp WHERE false")
 column_names = [desc[0] for desc in cur.description]
 
 # query and return timeseries of interest
 class Timeseries(Resource):
   def get(self, indicator, isocode, start, end):
-    # select columns in correct format, including the endpoint
+    # select columns = years in the correct format, including the endpoint. 
+    # start end year within the url are the same format as the year columns within the database, this makes the following possible
     columns = ", ".join(column_names[column_names.index(start):column_names.index(end)+1])
+    
+    # select desired columns
     cur.execute(f'SELECT {columns} FROM {indicator} WHERE iso_code={isocode}')
     ts = cur.fetchall()
     return ts
@@ -41,3 +44,4 @@ class Test(Resource):
 api.add_resource(Test, '/test')
 api.add_resource(Timeseries, '/<indicator>/<isocode>/<start>/<end>')
 
+# Serving this database is handles by Gunicorn.
