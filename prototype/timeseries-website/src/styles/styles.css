@@ -1,69 +1,97 @@
+/* General */
 body {
     margin: 0;
     padding: 0;
-   }
+    font-size: 12px;
+}
+
+p {
+    margin: 0;
+    margin-left: 5px;
+    font-size: 10px;
+}
+
+/* Positioning of core elements */
+
+.positioning {
+    position: fixed;
+}
 
 #map {
-    position: fixed;
-    top: 0;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
 }
 
-#left-elements {
-    position: fixed;
-    display: grid;
-    grid-template-columns: 20% 20% 20%;
-    left: 1%;
-    bottom: 2%;
+/* Elements on the left side of the screen */
+
+#selection {
+    left: 0;
+    bottom: 0;
+    width: 8%;
+    height: 0;
+    display: flex;
+    align-items: flex-end;
     gap: 10px;
-    font-size: 16px;
 }   
- 
-#ammount-selected {
-    background-color: #ffffff;     
-}
 
 #plot-button {
     background-color: #ffffff;
+    font-size: 9px;
+    font-weight: bold;
 }
 
 #country-list {
     background-color: #ffffff; 
     padding: 0px;
+    margin: 5px;
     border: 1px solid #ccc;
 }
 
 #timeseries-form-box {
     display: none;
+    height: 260px;
+    left: 10%;
+    width: 200px;
+    bottom: 0;
+    height: 210px;
 } 
 
-/* Styles for the canvas switcher container */
+/* Middle elements, i.e. Canvas container */
+
 #middle-elements {
     position: absolute;
-    display: none;
-    gap: 10px;
-    bottom: 2%;
     left: 30%;
-    width: 600px;
-    height: 330px;
+    width: 40%;
+    height: 40%;
+    /* width: 50%;   Could be dependend on the right elements */
+    bottom: 0;
+    display: flex;
+    gap: 10px;
 }
 
 #chart-container {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    height: 100%
 }
 
 #chart-box {    
-    width: 550px;
-    height: 280px;
-    margin: auto;
     border: 1px solid black;
+    width: auto;
+    height: auto;
 }
 
 #chart-title {
     text-align: center;
     font-size: 18px;
     margin-bottom: 10px;
+}
+
+/* Styles for right elements */
+
+#attribution {
+    position: fixed;
+    bottom: 0%;
+    right: 0%;
 }

@@ -21,12 +21,15 @@ and add to the bottom of the resulting file the following line:
 and finally reboot the system to make the password available.
 
 ### Windows
-Set environmental variable `POSTGRES_PASSWORD='[postgres password]'`
+Set environmental variable 
+`POSTGRES_PASSWORD='[postgres password]'`
+`ESRI_KEY="[esri key]"`
+
 
 ### WSL
 `sudo apt install gedit`
 `sudo gedit /etc/profile.d/env_variables.sh`
 and add to the bottom of the resulting file the following line:
-`POSTGRES_PASSWORD='[postgres password]'`
+`export POSTGRES_PASSWORD="[postgres password]"`
 and finally reboot the system to make the password available:
 from windows powershell: `wsl -- shutdown`

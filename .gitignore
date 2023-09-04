@@ -16,3 +16,4 @@ passwords.*
 package-lock.json
 *.jar
 TODO.md
+.env

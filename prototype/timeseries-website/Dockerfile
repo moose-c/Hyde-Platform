@@ -7,7 +7,7 @@ WORKDIR /app/website
 COPY . .
 
 # install dependencies
-RUN npm install
+RUN npm i
 
 # launch development server
 # expose host such that accesible from outside docker environment

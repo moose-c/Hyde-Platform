@@ -40,6 +40,8 @@ class Timeseries(Resource):
 class Test(Resource):
   def get(self):
     return "Setup is correct!"
+  
+
 
 api.add_resource(Test, '/test')
 api.add_resource(Timeseries, '/<indicator>/<isocode>/<start>/<end>')

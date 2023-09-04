@@ -1,9 +1,9 @@
 version: "3"
 services:
   map-website:
-    build: .
+    build: . # build from Dockerfile
     container_name: map-website
     environment:
       DEGUB: 1
     ports:
-      - 5173:5173
+      - 5173:5173 # Expose port 5173

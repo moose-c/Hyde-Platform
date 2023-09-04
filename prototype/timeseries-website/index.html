@@ -4,57 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeseries Website</title> 
-    <script src="src/index.js" type="module"></script>   <!-- Needs to be imported as a module -->
-    <link rel="stylesheet" href="src/styles/styles.css">   <!-- Import stylesheet -->
+    <title>Timeseries Website</title>
+    <script src="src/index.js" type="module"></script> <!-- Needs to be imported as a module -->
+    <link rel="stylesheet" href="src/styles/styles.css"> <!-- Import stylesheet -->
+    <!-- To use toggle buttons -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
 
 <body>
-    <div id="map"></div>   <!-- Div where map is displayed using Openlayers --> 
 
-    <div id="not-map">    <!-- Div where all other elements will be displayed -->
-        <div id="left-elements">     <!-- Utilities for selecting countries and displaying timeseries -->
-            <div id="selection">    <!-- Shows ammount and which countries are selected -->
-                <p id="amt-selected">0 countries selected</p>   <!-- Is dynamically updated within allow-selection -->
-                <ul id="country-list"></ul>   <!-- Same as above -->
-            </div>
+    <div class="positioning" id="map"></div> <!-- Div where map is displayed using Openlayers -->
 
-            <button id="plot-button">Plot Timeseries</button> 
-
-            <div id="timeseries-form-box">
-                <form id="timeseries-form">
-                    <select id="indicators" name="indicators" multiple required>   <!-- Dynamically filled in by write_html.js -->
-                        <optgroup id="dem-indicators" label="Demographics">
-                        </optgroup>
-                        <optgroup id="lu-indicators" label="Land Use">
-                        </optgroup>
-                        <optgroup id="agr-indicators" label="Agricultural">
-                        </optgroup>
-                    </select>
-                    <p>Hold down the Ctrl (windows) or <br> Command (Mac) button to select multiple indicators.</p>
-                    <select id="start_year" name="start_year" class="select_year" required></select>   <!-- Dynamically filled in by write_html.js -->
-                    <select id="end_year" name="end_year" class="select_year" required></select>   <!-- Same as above -->
-
-                    <button id="timeseries-button" type="submit" class="btn">Request Figures</button>   <!-- Make API call based on form datat -->
-                </form>
-            </div>
+    <div class="positioning" id="selection"> <!-- Shows ammount and which countries are selected -->
+        <div>
+            <p id="amt-selected">0 countries selected</p> <!-- Is dynamically updated within allow-selection -->
+            <ul id="country-list"></ul> <!-- Same as above -->
+            <button id="plot-button">Plot Timeseries</button>
         </div>
-
-        <div id="middle-elements">   <!-- All elements placed in the middle = graph -->
-            <button class="arrow" id="arrow-left">&#8249;</button>   <!-- Buttons allow switching between graphs -->
-                <div id="chart-container">
-                    <div id="chart-title">Chart 0</div> 
-                    <div id="chart-box"><canvas id="chart"></canvas></div>
-                </div>
-            <button class="arrow" id="arrow-right">&#8250;</button>
-        </div>
-
-        <div id="nb-charts" style="display: none;"></div>   <!-- Invisible place where the total ammout of graphs are temporary stored -->
-        <div id="invisible-chart-box" style="display: none"></div>   <!-- Invisible place where not displayed graphs are stored -->
-
-        <!-- Here all functionality should come to overlay the pixel rasters -->
-        <div class="right-elements"></div>   <!-- All elements placed on the right -->
     </div>
+
+    <div class="positioning" id="timeseries-form-box">
+        <form id="timeseries-form">
+            <select id="indicators" name="indicators" multiple required> <!-- Dynamically filled in by write_html.js -->
+                <optgroup id="dem-indicators" label="Demographics"></optgroup>
+                <optgroup id="lu-indicators" label="Land Use"></optgroup>
+                <optgroup id="agr-indicators" label="Agricultural"></optgroup>
+            </select>
+            <p>Hold down the Ctrl (windows) or <br> Command (Mac) button to select multiple indicators.</p>
+            <select id="start_year" name="start_year" class="select_year" required></select>
+            <!-- Dynamically filled in by write_html.js -->
+            <select id="end_year" name="end_year" class="select_year" required></select> <!-- Same as above -->
+            <button id="timeseries-button" type="submit" class="btn">Request Figures</button>
+            <!-- Make API call based on form datat -->
+        </form>
+        <div id="plotting options">
+            <label>
+                <input type="checkbox" data-on="Relative" data-off="Absolute">
+                Change scale type
+            </label>
+            <br>
+            <label>
+                <input type="checkbox" data-on="Combined" data-off="Seperate">
+                Seperate or single figure
+            </label>
+        </div>
+    </div>
+    </div>
+
+    <div class="positioning" id="middle-elements"> <!-- All elements placed in the middle = graph -->
+        <button class="arrow" id="arrow-left">&#8249;</button> <!-- Buttons allow switching between graphs -->
+        <div id="chart-container">
+            <div id="chart-title">Chart 0</div>
+            <div id="chart-box"><canvas id="chart"></canvas></div>
+        </div>
+        <button class="arrow" id="arrow-right">&#8250;</button>
+    </div>
+
+    <!-- Here all functionality should come to overlay the pixel rasters -->
+    <div class="positioning" id="right-elements"> <!-- All elements placed on the right -->
+        <div id="attribution">
+            <p>Powered by <a href="https://www.esri.com/en-us/home">Esri</a></p>
+        </div>
+    </div>
+    </div>
+
+
+    <div id="nb-charts" style="display: none;"></div>
+    <!-- Invisible place where the total ammout of graphs are temporary stored -->
+    <div id="invisible-chart-box" style="display: none"></div>
+    <!-- Invisible place where not displayed graphs are stored -->
 
 </body>
 

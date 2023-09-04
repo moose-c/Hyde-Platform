@@ -1,15 +1,13 @@
 # Standalone Website application
-## Relation of part to the whole
-Website hosting a map, and with functionality to show timeseries
+## Description
+Website hosting a map with functionality to show the timeseries. 
 
 ## Setup 
-First setup timeseries-backend, locally or on a server, as described within that repository.
-### Execute Dockercompose.yml
-run `docker compose up`
-go to url displayed after **Network**
-### Test
+First setup timeseries-backend, locally or externally, as described within that repository.
+Then run `docker compose up`
+go to url displayed after **Local**
 
-## Tear down
+### Tear down
 `docker compose down`
 If no permission: `sudo aa-remove-unknown`
 
@@ -24,7 +22,7 @@ There are 4 components that need to be learned in order to understand what is be
 2) Node applications
 3) Basic web development
 4) Openlayers map website
-Here, a quick overview of these components follows and an explanation how this was learned, in order for the reader to be able to understand and replicate this if desirable.
+Here, a quick overview of these components follow and an explanation how this was learned, in order for the reader to be able to understand and replicate this if desirable.
 
 ### Docker
 The timeseries-backend application also utilizes docker, and in a more complex way then here. See that repository for an explanation, within these dockerfiles only new elements, not explained there, are highlighted. A '.dockerignore' file works similarly as a '.gitignore' in that it contains files/folders that are invisible to docker.
@@ -37,7 +35,7 @@ Basically, a package.json is created which contains all things necessary for the
 Vite is used to serve a webserver. This uses the index.html in our base repository to build the website. 
 
 ### Basic webdevelopment 
-Webdeveloping a to broad a subject to explain in any matter of detail. It can be learned well through various online resources, a good resource is [MDN](). For this application, index.html is the main file, through here all scripts and styles are called. All other files are within the 'src' folder. Styles are within the 'styles' folder and scripts are within the 'modules' folder. As an entry, index.html calls the index.js file. From within this file, plotting is achieved through called 'display_ts' -> 'fetch_ts' -> 'plot_ts'
+Webdeveloping a to broad a subject to explain in any matter of detail. It can be learned well through various online resources, a good resource is [MDN](https://developer.mozilla.org/en-US/). For this application, index.html is the main file, through here all scripts and styles are called. All other files are within the 'src' folder. Styles are within the 'styles' folder and scripts are within the 'modules' folder. As an entry, index.html calls the index.js file. From within this file, multiple scripts are first called to aid in the creation of the base website namely write_html.js fils the indicators and years within the form, create_map.js and allow_selection.js. After this, other scripts are called to allow the plotting functionality, first display_ts.js is called, then fetch_th.js which fetches the data from the database using the API, and finally plot_ts.js handles the display of the timeseries.
 
 ### Openlayers
 Openlayers is a javascript library which can be used to display maps on a webserver. How this is done in this project can be seen in the 'create_map.js' module. 
@@ -48,6 +46,9 @@ https://www.educba.com/openlayers-vs-leaflet/
 Use Alt+Shift+Drag to rotate the map.
 
 Potential expand button:
-Trigram for Heaven
+<button class="nav-toggle" aria-expanded="false">
+  <span aria-hidden="true">☰</span> Menu
+</button>
 
-Digram for Greater Yang
+
+For Esri basemap: https://developers.arcgis.com/openlayers/maps/display-a-map/

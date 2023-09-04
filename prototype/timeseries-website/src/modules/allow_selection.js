@@ -36,9 +36,6 @@ export function allowSelection(){
                 const newCountry = document.createElement('li')
                 newCountry.appendChild(countryName)
                 countryLst.appendChild(newCountry)
-                
-                const newHeight = formBox.clientHeight + newCountry.clientHeight;
-                formBox.style.height = newHeight + 'px'
 
             } else {
                 selected.splice(selIndex, 1);
@@ -50,8 +47,6 @@ export function allowSelection(){
 
                 for (let i = 0; i < listItems.length; i++) {
                     if (listItems[i].textContent === countryName.textContent) {
-                        const newHeight = formBox.clientHeight - listItems[i].clientHeight;
-                        formBox.style.height = newHeight + 'px'
                         countryLst.removeChild(listItems[i]);
                         break;
                     }
