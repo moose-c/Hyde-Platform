@@ -1,9 +1,6 @@
 import { plotMap, changeOverlay } from './modules/plot_map';
 import { yearnum_lst, yearval_lst, years } from './modules/create_data'
 
-console.log(years)
-console.log(Object.keys(years).length)
-
 var map = plotMap()
 var current_layer = 0
 var year = 0

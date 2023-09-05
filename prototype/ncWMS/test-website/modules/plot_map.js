@@ -38,7 +38,6 @@ export async function changeOverlay(map, current_layer, layer, year) {
         TIME=${time}&
         LAYERS=${layer}`)
     minmax = await response.json()
-    console.log(minmax)
 
     if (minmax.min < 0) {
         console.log('map has no values I think, do something else?')

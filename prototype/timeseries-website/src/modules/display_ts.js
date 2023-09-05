@@ -1,24 +1,25 @@
-import { fetchTimeserie, plotTimeserie } from "./plot_ts"
+import { fetchTimeseries} from "./plot_ts"
 
-export function displayTimeseries(e, iso_codes) {
+export async function displayTimeseries(e, isoCodes) {
     // clean potental previous graphs
     document.getElementById('chart-title').textContent = 'Chart 0'
-
+    document.getElementById('plot-container').style.display = 'none'
     const chartBox = document.getElementById('chart-box')
-    chartBox.removeChild(chartBox.firstChild)
+    chartBox.removeChild(chartBox.firstChild)   /* Remove the one chart that is displayed in chart box */
     const blankCanvas = document.createElement('canvas')
     blankCanvas.id = 'chart'
     chartBox.appendChild(blankCanvas)
 
-    const invisibleChartBox = document.getElementById('invisible-chart-box')
-    while (invisibleChartBox.firstChild) {
+    const invisibleChartBox = document.getElementById('invisible-chart-box') 
+    while (invisibleChartBox.firstChild) {   /* Remove all stored graphs */
         invisibleChartBox.removeChild(invisibleChartBox.firstChild);
       }
 
+
     // obtain variables to javascript:
     const indicators_selector = document.getElementById('indicators')
-    const start = document.getElementById('start_year').value
-    const end = document.getElementById('end_year').value
+    const start = document.getElementById('start-year').value
+    const end = document.getElementById('end-year').value
     const indicators = []
     for (var option of indicators_selector.options) {
         if (option.selected) {
@@ -28,12 +29,11 @@ export function displayTimeseries(e, iso_codes) {
 
     e.preventDefault() // very important for fetch method for some reason.
     
-    var chart_index = 0
-    document.getElementById("nb-charts").textContent = iso_codes.length*indicators.length
-    for (var iso_code of iso_codes) {
-        for (var indicator of indicators) {
-            fetchTimeserie(chart_index, indicator, iso_code, start, end)
-            chart_index += 1
-        }
+    // For every isocode, for each selected indicator, create the graph
+    var chartIndex = 0
+    var countryIndex = 0
+    document.getElementById("nb-charts").textContent = isoCodes.length*indicators.length
+    for (var isoCode of isoCodes) {
+        await fetchTimeseries(chartIndex, countryIndex, indicators, isoCode, start, end)
     }
 }

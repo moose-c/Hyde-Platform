@@ -20,6 +20,12 @@ example: `curl http://127.0.0.1:8000/uopp/4/bce_1000/ce_700`. If this returns an
 3) To test remote connection, do the following from external linux system `curl http://[ip]:8000/test`
 where ip can be found using: `hostname -I`
 
+To enter database when something is wrong:
+`docker exec -it [container id] bash`
+`psql -U postgres`
+`\c timeseries`
+`SELECT [year1, year2, year3] FROM [table name] WHERE iso_code = [isocode]`
+
 ## Tear down
 `docker compose down`
 If no permission: `sudo aa-remove-unknown`

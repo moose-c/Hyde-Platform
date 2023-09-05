@@ -156,7 +156,7 @@ rangeland_r.txt  	(total rangeland for each region over time, in km2)
 
 Conatains zipped files with the following formats and content:
 yearBC_pop.zip (population) and yearBC_lu.zip (landuse) for the BCE period ; yearAD_pop.zip (population) and yearAD_lu.zip (landuse) for the CE period.
-Time intervals are 1000 yr for the BCE period, then 100 yr till 1700, 10 yr till 2000, and from 2000 - 2023 1 year timesteps.
+Time intervals are 1000 yr for the BCE period, then 100 yr till 1700, 10 yr till 1950, and from 1950 - 2023 1 year timesteps.
 
 - Each xxxx_pop.zip contains: 
 popc_<yr>.asc (population counts, in inhabitants/gridcell)
