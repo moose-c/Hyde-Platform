@@ -81,3 +81,8 @@ Above works! Great.
 # Defining specific style
 styles can be manualy defined within $HOME/.ncWMS/.styles
 Examples are here: https://github.com/Reading-eScience-Centre/edal-java/blob/master/graphics/src/main/resources/styles/default-scalar.xml
+
+Potential expand button:
+<button class="nav-toggle" aria-expanded="false">
+  <span aria-hidden="true">☰</span> Menu
+</button>

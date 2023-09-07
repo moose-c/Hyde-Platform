@@ -10,6 +10,7 @@ export async function displayTimeseries(e, isoCodes) {
     blankCanvas.id = 'chart'
     chartBox.appendChild(blankCanvas)
 
+    document.getElementById('chart-number').textContent = 0
     const invisibleChartBox = document.getElementById('invisible-chart-box') 
     while (invisibleChartBox.firstChild) {   /* Remove all stored graphs */
         invisibleChartBox.removeChild(invisibleChartBox.firstChild);
@@ -30,10 +31,16 @@ export async function displayTimeseries(e, isoCodes) {
     e.preventDefault() // very important for fetch method for some reason.
     
     // For every isocode, for each selected indicator, create the graph
-    var chartIndex = 0
     var countryIndex = 0
-    document.getElementById("nb-charts").textContent = isoCodes.length*indicators.length
+    var nbCharts
+    if ($('#combine').is(':checked')) {
+        nbCharts = isoCodes.length 
+    } else {
+        nbCharts = isoCodes.length*indicators.length
+    }
+    document.getElementById("nb-charts").textContent = nbCharts
     for (var isoCode of isoCodes) {
-        await fetchTimeseries(chartIndex, countryIndex, indicators, isoCode, start, end)
+        await fetchTimeseries(countryIndex, indicators, isoCode, start, end)
+        countryIndex += 1
     }
 }

@@ -125,8 +125,10 @@ urb_c.txt	 	(total urban population per country over time, in 1000)
 urb_r.txt	 	(total urban population per region over time, in 1000)
 rur_c.txt	 	(total rural population per country over time, in 1000)
 rur_r.txt	 	(total rural population per region over time, in 1000)
-uopp_c.txt 	 	(total built-up area per country over time, in km2 per grid cell)
-uopp_r.txt	 	(total built-up area per region over time, in km2 per grid cell)
+
+
+uopp_c.txt 	 	(total built-up area per country over time, in km2)
+uopp_r.txt	 	(total built-up area per region over time, in km2)
 croplandc.txt	 	(total cropland area for each seperate country over time, in km2)
 croplandr.txt	 	(total cropland area for each region over time, in km2)
 rf_rice_r.txt	   	(total rainfed rice for each region over time, in km2)
