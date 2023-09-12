@@ -75,6 +75,11 @@ http://localhost:8080/wms?REQUEST=GetMetadata&VERSION=1.3.0&CRS=CRS:84&LAYERS=1/
 display legend:
 http://localhost:8080/ncWMS2/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&LAYERS=2/irrigated_rice&COLORBARONLY=FALSE&STYLES=default-scalar/seq-YlOrRd
 
+http://localhost:8080/ncWMS2/wms?REQUEST=GetFeatureInfo&VERSION=1.3.0&CRS=CRS:84&TIME=0-05-01&QUERY_LAYERS=1/irrigated_not_rice&INFO_FORMAT=text/plain&I=1&J=1&BBOX=-180,-90,179.9,89.9&WIDTH=400&HEIGHT=600&LAYERS=1/irrigated_not_rice
+
+http://localhost:8080/ncWMS2/wms?REQUEST=GetFeatureInfo&VERSION=1.3.0&CRS=CRS:84&TIME=0-05-01&QUERY_LAYERS=1/irrigated_not_rice&INFO_FORMAT=text/plain&I=1&J=1&BBOX=-180,-90,179.9,89.9&WIDTH=400&HEIGHT=600&LAYERS=1/irrigated_not_rice&FEATURE=irrigated_not_rice
+
+http://localhost:8080/ncWMS2/wms?REQUEST=GetFeatureInfo&VERSION=1.3.0&CRS=CRS:84&QUERY_LAYERS=2/irrigated_rice&TIME=0-05-01&LAYERS=2/irrigated_rice&INFO_FORMAT=text/plain&I=1&J=1&BBOX=908.999,141.999,909.001,142.001&WIDTH=400&HEIGHT=600
 
 Above works! Great.
 

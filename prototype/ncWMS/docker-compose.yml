@@ -1,0 +1,46 @@
+version: "3.8"
+services:
+
+  tomcat-ncwms:
+    container_name: tomcat-ncwms
+
+    image: guygriffiths/ncwms
+
+    volumes:
+      # - ./tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml Before this, log in with ncwms, ncwms, 
+      # even though this is not what is even then within the tomcat-users.xml. When changing the values within tomcat-users.xml,
+      # this old login is no longer available, but also the new login is also not available
+      - /home/moos/Hyde-Platform/prototype/ncWMS/config.xml:/usr/local/tomcat/.ncWMS2/config.xml
+      - /home/moos/Hyde-Platform/prototype/ncWMS/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+
+    env_file:
+      - /home/moos/Hyde-Platform/.env
+
+    ports: 
+      - 80:8080
+
+    # now interactable with: docker compose exec tomcat-ncwms bash
+    stdin_open: true 
+    tty: true
+
+    healthcheck:
+      test: ["CMD", "curl", "-s", "-f", "-i", "http://localhost:8080/"]
+
+
+  # ncwms-fill:
+  #   container_name: ncwms-fill
+
+  #   # Build image from the ./fill-db/Dockerfile
+  #   image: python:3.8
+  #   env_file: ../../.env
+
+  #   # Starts after succesful healthcheck of timeseries-database container
+  #   depends_on: 
+  #     tomcat-ncwms:
+  #       condition: service_healthy
+
+  #   # copy data into container
+  #   volumes:
+  #     - ./netCDF:/netCDF
+
+  #   command: python3 utils_ncwms.py 

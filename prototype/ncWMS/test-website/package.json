@@ -4,15 +4,16 @@
   "description": "Website for testing serving of netcdf's",
   "main": "index.js",
   "scripts": {
-    "dev": "vite", 
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "author": "Moos Castelijn",
   "license": "ISC",
   "dependencies": {
+    "jquery": "^3.7.1",
+    "lodash.range": "^3.2.0",
     "ol": "^7.4.0",
-    "vite": "^4.4.8",
-    "lodash.range": "^3.2.0"
+    "vite": "^4.4.8"
   }
 }

@@ -5,15 +5,9 @@ import os
 password = os.environ["ncWMS_PASSWORD"]
 auth = HTTPDigestAuth('admin', password)
 
-# Typer CLI application, run with python3 [filename.py] [function name] -> python3 utils_ncwms.py clean
-import typer
-
-app = typer.Typer()
-
-@app.command()
 def populate():
     # get location of .nc files, [working directory]/netCDF
-    data_location = os.path.join(os.getcwd(), 'netCDF')
+    data_location = './netCDF'
     netcdf_names = os.listdir(data_location)
 
     id_number = 1
@@ -45,7 +39,6 @@ def populate():
                                 )
         id_number+=1
 
-@app.command()
 def clean():
     for i in range(100):
         requests.post('http://localhost:8080/ncWMS2/admin/removeDataset',
@@ -55,4 +48,4 @@ def clean():
     
 
 if __name__ == '__main__':
-    app()
+    populate()
