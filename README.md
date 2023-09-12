@@ -33,3 +33,8 @@ and add to the bottom of the resulting file the following line:
 `export POSTGRES_PASSWORD="[postgres password]"`
 and finally reboot the system to make the password available:
 from windows powershell: `wsl -- shutdown`
+
+hydeprod.geo.uu.nl
+caste001
+
+scp -r ./timeseries-backend/ caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Project-Backend

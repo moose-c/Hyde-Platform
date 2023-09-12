@@ -27,17 +27,20 @@ sudo curl https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.93/bin/apache-tomcat-8.5
 sudo wget https://github.com/Reading-eScience-Centre/ncwms/releases/download/ncwms-2.5.2/ncWMS2.war -O $CATALINA_HOME/webapps/ncWMS2.war
 create user:
 `sudo gedit $CATALINA_HOME/conf/tomcat-users.xml` -> `<user username="admin" password="password" roles="ncWMS-admin, manager-gui,admin-gui"/>`
-sudo $CATALINA_HOME/bin/catalina.sh start 
+sudo $CATALINA_HOME/bin/catalina.sh start
 (stop:
 sudo $CATALINA_HOME/bin/catalina.sh stop
 )
 populate ncWMS:
 curl 
-- From terminal, do: python3 utils_ncwms.py populate
+- From terminal, fill-db, do: python3 utils_ncwms.py
 
 
-curl -H "Accept: text/plain" --digest -u ncwmsadmin:PASSWORD -X GET http://localhost:8080/ncWMS2/admin/datasetStatus?dataset=hmgrid
+curl -H "Accept: text/plain" --digest -u ncwms:ncwms -X GET http://localhost:8080/ncWMS2/admin/datasetStatus?dataset=hmgrid
 
+curl -H "Accept: text/plain" --digest -u ncwms:58d999ed2300804104aabac67179b947bfbfb0c5c2e4db23d7528384e598db0d$1$95cb3814971d24784663bb9a7c4d1d0c71ab7d43213856f6ba44da3b018f093a7b0903f76f160edf6efb99f5ada56f0291a476c50fe5800f26f03160c46357c5 -X GET http://localhost:8080/ncWMS/admin/datasetStatus?dataset=hmgrid
+
+823f3f8e9a2727375993229e4a71593618441c07
 https://tomcat.apache.org/tomcat-10.1-doc/RUNNING.txt   
 
 docker run -p 80:8080 -p 443:8443 -v /home/moos/.ncWMS2:/usr/local/tomcat/.ncWMS2 guygriffiths/ncwms
