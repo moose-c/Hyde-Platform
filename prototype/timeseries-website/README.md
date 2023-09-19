@@ -36,7 +36,7 @@ Under `dependencies`, the names of the packages that are required by the applica
 #### Vite
 Vite is used to serve a webserver. This uses the index.html in our base repository to build the website. 
 
-### Basic webdevelopment 
+### Basic web development 
 Webdeveloping to broad a subject to explain in any matter of detail. It can be learned well through various online resources, a good resource is [MDN](https://developer.mozilla.org/en-US/). For this application, index.html is the main file, through here all scripts and styles are called. All other files are within the 'src' folder. Styles are within the 'styles' folder and scripts are within the 'modules' folder. As an entry, index.html calls the index.js file. From within the index.js file, multiple scripts are first called to aid in the creation of the base website. Namely write_html.js fills the indicators and years within the form, create_map.js and allow_selection.js create the map and allow for selection of different countries, respectively. After this, other scripts are called to allow the plotting functionality: first display_ts.js is called, then fetchTimeseries which fetches the data from the database using the API, and finally plotTimeseries handles the display of the timeseries, which uses createChart to create actual chart.js.
 
 ### Openlayers

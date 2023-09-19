@@ -18,6 +18,3 @@ package-lock.json
 TODO.md
 .env
 debug.py
-tomcat-users.xml
-new-tomcat-users.xml
-
