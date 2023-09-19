@@ -7,15 +7,10 @@ services:
     image: guygriffiths/ncwms
 
     volumes:
-      # - ./tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml Before this, log in with ncwms, ncwms, 
-      # even though this is not what is even then within the tomcat-users.xml. When changing the values within tomcat-users.xml,
-      # this old login is no longer available, but also the new login is also not available.
-      # For now use ncwms ncwms
+      # !!!!!! Important !!!!! password encrypted with SHA-1!!!!! NOT SHA-512. 
       - /home/moos/Hyde-Platform/prototype/ncWMS/config.xml:/usr/local/tomcat/.ncWMS2/config.xml
       - /home/moos/Hyde-Platform/prototype/ncWMS/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-
-    env_file:
-      - /home/moos/Hyde-Platform/.env
+      - ./fill-db/netCDF:/data/netCDF
 
     ports: 
       - 8080:8080
@@ -38,7 +33,11 @@ services:
 
     # Build image from the ./fill-db/Dockerfile
     build: ./fill-db
-    env_file: ../../.env
+    env_file:
+      - /home/moos/Hyde-Platform/.env
+
+    stdin_open: true 
+    tty: true
 
     # Starts after succesful healthcheck of timeseries-database container
     depends_on: 
@@ -47,4 +46,4 @@ services:
 
     # copy data into container
     volumes:
-      - ./fill-db/netCDF:/temp/netCDF
+      - ./fill-db/netCDF:/data/netCDF

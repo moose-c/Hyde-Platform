@@ -7,8 +7,6 @@ For instruction on ncWMS, [this documentation](https://reading-escience-centre.g
 
 ## Setup Locally
 Install standalone [ncWMS](https://github.com/Reading-eScience-Centre/ncwms/releases/tag/ncwms-2.5.2)
-Install dependencies:
-    - pip install typer
 Obtain netCDF:
     - Download from YODA platform, place in 'netCDF' folder within this location
     - python3 utils_ncwms.py populate
@@ -36,15 +34,18 @@ curl
 - From terminal, fill-db, do: python3 utils_ncwms.py
 
 
-curl -H "Accept: text/plain" --digest -u ncwms:ncwms -X GET http://localhost:8080/ncWMS2/admin/datasetStatus?dataset=hmgrid
+curl -H "Accept: text/plain" -u ncwms1:{password} -X GET http://localhost:8080/ncWMS/admin/datasetStatus?dataset=hmgrid
 
-curl -H "Accept: text/plain" --digest -u ncwms:58d999ed2300804104aabac67179b947bfbfb0c5c2e4db23d7528384e598db0d$1$95cb3814971d24784663bb9a7c4d1d0c71ab7d43213856f6ba44da3b018f093a7b0903f76f160edf6efb99f5ada56f0291a476c50fe5800f26f03160c46357c5 -X GET http://localhost:8080/ncWMS/admin/datasetStatus?dataset=hmgrid
+docker run -it --network=ncwms_default python bash
 
-823f3f8e9a2727375993229e4a71593618441c07
-https://tomcat.apache.org/tomcat-10.1-doc/RUNNING.txt   
+Following curl works:
+curl -H "Accept: text/plain" -u ncwms1:{password} -X GET tomcat-ncwms:8080/ncWMS/admin/datasetStatus?dataset=hmgrid
 
-docker run -p 80:8080 -p 443:8443 -v /home/moos/.ncWMS2:/usr/local/tomcat/.ncWMS2 guygriffiths/ncwms
 
+Enter docker:
+docker compose exec tomcat-ncwms bash
+
+docker compose exec ncwms-fill bash
 
 ### Test
 
