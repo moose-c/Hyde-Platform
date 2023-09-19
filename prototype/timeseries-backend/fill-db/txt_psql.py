@@ -42,7 +42,7 @@ conn = psycopg2.connect(host="timeseries-database",
 cur = conn.cursor()
 
 # path to all txt files
-folder = "/app/data/txt/"
+folder = "/data/txt/"
 files = os.listdir(folder) # list all within the folder
 
 # If already populated, catch error and quit. 
