@@ -1,14 +1,11 @@
 import Selection from './Selection'
 import TimeseriesForm from './TimeseriesForm'
 
-export default function LeftElements() {
-    const style = {
-        position: 'fixed',
-    }
+export default function LeftElements({ selection }) {
     return (
         <>
             <div>
-                <Selection />
+                <Selection selection={selection} />
                 <button onClick={displayFom}>
                     Display Timeseries Plotting Form
                 </button>

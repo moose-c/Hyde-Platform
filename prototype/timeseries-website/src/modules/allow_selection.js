@@ -11,7 +11,7 @@ export const isoCodes = []
 
 export function allowSelection(){
     const highlightStyle = new Style({
-        fill: new Fill({
+     fill: new Fill({
             color: '#EEEEE',
         }),
         stroke: new Stroke({

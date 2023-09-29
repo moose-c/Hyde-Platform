@@ -1,7 +1,7 @@
 import './App.css';
 
 // react
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // components
 import Map from './components/Map'
@@ -11,9 +11,13 @@ export default function App() {
   const [selection, setSelection] = useState([])
   const [overlay, setOverlay] = useState([])
 
+  function handleSelection(newSelection) {
+    setSelection(newSelection)
+  }
+
   return (
     <div className='App'>
-      <Map selection={selection} overlay={overlay} onSelection={setSelection} />
+      <Map selection={selection} overlay={overlay} handleSelection={handleSelection} />
       <Page selection={selection} overlay={overlay} onOverlay={setOverlay} />
     </div>
   )
