@@ -1,18 +1,15 @@
 {
-  "name": "combined-website",
-  "version": "0.1.0",
+  "name": "react-func-openlayers",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "i18n-iso-countries": "^7.7.0",
-    "ol": "^8.1.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "ol": "^7.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-grid-layout": "^1.4.1",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.0"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,10 +18,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [

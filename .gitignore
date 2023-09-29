@@ -9,6 +9,7 @@ leren/
 documentation/
 data/
 old/
+test-react/
 
 
 *.nc
@@ -18,3 +19,5 @@ package-lock.json
 TODO.md
 .env
 debug.py
+
+

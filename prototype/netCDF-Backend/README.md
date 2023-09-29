@@ -10,7 +10,8 @@ execute from command line: `docker compose up -d`
 ### Test
 
 **From machine:**
-curl -H "Accept: text/plain" -u ncwms:{password} -X GET http://localhost:8080/ncWMS/admin/datasetStatus?dataset=hmgrid
+Server setup correctly: curl -H "Accept: text/plain" -u ncwms:{password} -X GET http://localhost:8080/ncWMS/admin/datasetStatus?dataset=hmgrid
+Data settup correctly: curl -H "Accept: text/plain" -u ncwms:{password} -X GET http://localhost:8080/ncWMS/admin/datasetStatus?dataset=
 
 **Enter tomcat container:** docker compose exec tomcat-ncwms bash
  

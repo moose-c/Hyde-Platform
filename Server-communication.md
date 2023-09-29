@@ -1,6 +1,6 @@
 ## Installing docker
 https://computingforgeeks.com/how-to-install-docker-on-fedora/
-dnf -y install dnf-plugins-core
+sudo dnf -y install dnf-plugins-core
 
 Fedora 38:
 sudo tee /etc/yum.repos.d/docker-ce.repo<<EOF
@@ -24,6 +24,7 @@ EOF
 
 sudo dnf makecache -y
 sudo dnf install docker-ce docker-ce-cli containerd.io -y
+-> **Removed podman docker**
 sudo systemctl enable --now docker
 
 systemctl status docker
@@ -40,6 +41,12 @@ docker run -it --rm alpine /bin/sh
 apk update
 
 exit
+
+curl -s https://api.github.com/repos/docker/compose/releases/latest \
+  | grep browser_download_url \
+  | grep docker-compose-linux-x86_64 \
+  | cut -d '"' -f 4 \
+  | wget -qi -
 
 ## Connect to server:
 hydeprod.geo.uu.nl
