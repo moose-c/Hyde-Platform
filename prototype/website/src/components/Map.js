@@ -75,9 +75,20 @@ export default function MapWrapper() {
 
   // map click handler
   const handleMapClick = (event) => {
+    const highlightStyle = new Style({
+      fill: new Fill({
+          color: '#EEEEE',
+      }),
+      stroke: new Stroke({
+          color: '#3399CC',
+          width: 2,
+      }),
+  });
+
+  mapRef.current.forEachFeatureAtPixel(event.pixel, function (f) {
+    console.log(f.values_.name)
+  })
     
-    // get clicked coordinate using mapRef to access current React state inside OpenLayers callback
-    //  https://stackoverflow.com/a/60643670
     const clickedCoord = mapRef.current.getCoordinateFromPixel(event.pixel);
 
     console.log(clickedCoord)
