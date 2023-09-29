@@ -11,8 +11,6 @@ import XYZ from 'ol/source/XYZ.js';
 import { Zoom } from 'ol/control.js'
 import GeoJSON from 'ol/format/GeoJSON.js'
 
-import '../styles/map.css'
-
 export default function MapWrapper() {
 
   // set intial state

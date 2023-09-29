@@ -15,8 +15,6 @@ export default function MapWrapper() {
 
   // set intial state
   const [ map, setMap ] = useState()
-  const [ featuresLayer, setFeaturesLayer ] = useState()
-  const [ selectedCoord , setSelectedCoord ] = useState()
   
   // create state ref that can be accessed in OpenLayers onclick callback function
   //  https://stackoverflow.com/a/60643670
@@ -88,11 +86,7 @@ export default function MapWrapper() {
 
   // render component
   return (      
-    <div>
-      
       <div id='map' className="map-container"></div>
-
-    </div>
   ) 
 
 }

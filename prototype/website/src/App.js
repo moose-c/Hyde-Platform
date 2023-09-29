@@ -3,25 +3,18 @@ import './App.css';
 // react
 import React, { useState, useEffect } from 'react';
 
-// openlayers
-import GeoJSON from 'ol/format/GeoJSON'
-
 // components
-import MapWrapper from './components/MapWrapper'
+import Map from './components/Map'
+import Page from './components/Page'
 
-function App() {
+export default function App() {
+  const [selection, setSelection] = useState([])
+  const [overlay, setOverlay] = useState([])
+
   return (
-    <div className="App">
-      
-      <div className="app-label">
-        <p>React Functional Components with OpenLayers Example</p>
-        <p>Click the map to reveal location coordinate via React State</p>
-      </div>
-      
-      <MapWrapper/>
-
+    <div className='App'>
+      <Map selection={selection} overlay={overlay} onSelection={setSelection} />
+      <Page selection={selection} overlay={overlay} onOverlay={setOverlay} />
     </div>
   )
 }
-
-export default App
