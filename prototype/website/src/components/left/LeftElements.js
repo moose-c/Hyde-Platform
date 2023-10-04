@@ -1,5 +1,6 @@
-import Selection from './Selection'
 import TimeseriesForm from './TimeseriesForm'
+
+import { useEffect, useState } from "react"
 
 export default function LeftElements({ selection }) {
     return (
@@ -29,5 +30,23 @@ export default function LeftElements({ selection }) {
 }
 
 function displayFom() {
+    
+}
 
+function Selection({ selection }) {
+    let [countryList, setCountryList] = useState([])
+    useEffect(() => {
+        setCountryList(selection.map((feature, count) => {
+            return (
+                <li key={`country ${count}`}>
+                    {feature.values_.name}
+                </li>
+            )
+        }))
+    }, [selection])
+    return (
+        <>
+            <ol>{countryList}</ol>
+        </>
+    )
 }

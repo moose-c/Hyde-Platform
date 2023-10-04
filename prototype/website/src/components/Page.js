@@ -1,3 +1,5 @@
+import '../styles/Page.css'
+
 import LeftElements from './left/LeftElements'
 import MiddleElements from './middle/MiddleElements'
 import RightElements from './right/RightElements'
@@ -19,9 +21,9 @@ export default function Page({selection, overlay, onOverlay}) {
             rowHeight={10}
             width={1200}
         >
-            <div key="a" style={{border: '2px solid black'}}><LeftElements selection={selection}/></div>
-            <div key="b" style={{border: '2px solid black'}}><MiddleElements /></div>
-            <div key="c" style={{border: '2px solid black'}}><RightElements /></div>
+            <div className="left" key="a" style={{border: '2px solid black'}}><LeftElements selection={selection}/></div>
+            <div className="middle" key="b" style={{border: '2px solid black'}}><MiddleElements /></div>
+            <div className="right" key="c" style={{border: '2px solid black'}}><RightElements /></div>
         </GridLayout>
     )
 }

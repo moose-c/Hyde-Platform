@@ -1,4 +1,4 @@
-import './App.css';
+import './styles/App.css';
 
 // react
 import React, { useState } from 'react';
@@ -8,8 +8,11 @@ import Map from './components/Map'
 import Page from './components/Page'
 
 export default function App() {
+  // Contains countries currently selected
   const [selection, setSelection] = useState([])
-  const [overlay, setOverlay] = useState([])
+  
+  // Contains which raster overlay
+  const [overlay, setOverlay] = useState(null)
 
   function handleSelection(newSelection) {
     setSelection(newSelection)

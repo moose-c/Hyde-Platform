@@ -10,6 +10,7 @@ import VectorSource from 'ol/source/Vector.js'
 import XYZ from 'ol/source/XYZ.js';
 import { Zoom } from 'ol/control.js'
 import GeoJSON from 'ol/format/GeoJSON.js'
+import { TileWMS } from 'ol/source'
 
 export default function MapWrapper({ selection, overlay, handleSelection }) {
 
@@ -30,7 +31,7 @@ export default function MapWrapper({ selection, overlay, handleSelection }) {
     // create borders, seperate from groundlayer to allow clickability
     const borders = new VectorLayer({
       source: new VectorSource({
-        format: new GeoJSON(),
+        format: new GeoJSON(),   /* Make GeoJSON available offline, would be better. */
         url: 'https://raw.githubusercontent.com/openlayers/ol3/6838fdd4c94fe80f1a3c98ca92f84cf1454e232a/examples/data/geojson/countries.geojson'
       }),
       style: new Style({
@@ -64,17 +65,15 @@ export default function MapWrapper({ selection, overlay, handleSelection }) {
       controls: [new Zoom()]
     })
 
+    // save map and vector layer references to state
+    setMap(initialMap)
+
     // set map onclick handler
     initialMap.on('click', handleMapClick)
 
-    // save map and vector layer references to state
-    setMap(initialMap)
-// eslint-disable-next-line
-  }, [])
 
-  // useEffect(() => {
-  //   console.log('actually foking changed')
-  // }, [selection])
+    // eslint-disable-next-line
+  }, [])
 
   // map click handler
   const handleMapClick = (event) => {
@@ -101,6 +100,61 @@ export default function MapWrapper({ selection, overlay, handleSelection }) {
     })
   }
 
+  useEffect(() => {
+    if (!overlay) {
+    } else {
+      // time should be in state
+      const time = '0-05-01'
+      const style = 'seq-YlOrRd' // Option: allow user to set manually?
+      var minmax;
+      let response = fetch(`http://localhost:8080/ncWMS2/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&
+        TIME=${time}&
+        LAYERS=${overlay.name}`)
+      minmax = response.json()
+      if (minmax.min < 0) {
+        console.log('map has no values')
+      }
+      const fill = new TileLayer({
+        source: new TileWMS({
+          // URL should be fixed to point to server
+          url: 'http://localhost:8080/ncWMS2/wms',
+          params: {
+            'LAYERS': `${overlay.name}`,
+            'STYLES': `default-scalar/${style}`,
+            'TIME': time,
+            'COLORSCALERANGE': `${minmax.min + 0.00000001},${minmax.max}`,
+            'BELOWMINCOLOR': 'transparent'
+          },
+          projection: 'EPSG:4326',
+        }),
+        opacity: 0.8
+      })
+      const contour = new TileLayer({
+        source: new TileWMS({
+          url: 'http://localhost:8080/ncWMS2/wms',
+          params: {
+            'LAYERS': `${overlay.name}`,
+            'STYLES': `colored_contours/${style}`,
+            'TIME': time,
+          },
+          projection: 'EPSG:4326',
+        }),
+        opacity: 0.8
+      })
+
+      // Following should be where we actually want the legend
+      // const legend_request = fetch(`http://localhost:8080/ncWMS2/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&LAYERS=${window.layerName}&COLORBARONLY=FALSE&STYLES=default-scalar/${style}&HEIGHT=200&WIDTH=50&COLORSCALERANGE=${minmax.min},${minmax.max}`)
+      // const legend_blob = legend_request.blob()
+      // const legend = document.getElementById('legend')
+      // legend.src = URL.createObjectURL(legend_blob)
+
+      // Overlay will be an object, with attrs name, fill, countour
+      map.addLayer(fill)
+      map.addLayer(contour)
+      overlay.fill = fill
+      overlay.contour = contour
+    }
+  }, [overlay])
   // render component
   return (
     <div id='map' className="map-container"></div>

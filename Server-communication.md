@@ -60,3 +60,23 @@ netcdf location:
 
 txt location:
 /data/klein012/hyde/output/hyde33_c7_base_mrt2023/txt
+
+---
+Configure remote access for Docker daemon
+https://docs.docker.com/config/daemon/remote-access/
+
+---
+Protect the Docker daemon socket
+https://docs.docker.com/engine/security/protect-access/
+
+Use TLS (HTTPS) to protect the Docker daemon socket
+
+CA, Certificaat Autoriteit
+
+pass phrase: westerwind
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H fd:// -H tcp://127.0.0.1:2375
+
+131.211.68.33

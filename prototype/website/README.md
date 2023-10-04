@@ -30,3 +30,6 @@ This application was developed using create-react-app, with Node version v16.15.
 ## Supplemental Blog Post
 
 Here is a blog post I created that explains the integration in further detail: [https://taylor.callsen.me/using-openlayers-with-react-functional-components/](https://taylor.callsen.me/using-openlayers-with-react-functional-components/)
+
+curl http://131.211.68.33:8000/test
+curl http://192.168.122.1:8000/test

@@ -4,12 +4,11 @@
   width: 100%;
 }
 
-.map-container {
+#map {
   height: 100vh;
   width: 100%;
 }
 
-.Page {
-  height: 100vh;
-  width: 100%;
+ol {
+  margin: 0px;
 }
