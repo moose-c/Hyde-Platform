@@ -1,7 +1,12 @@
+* {
+  font-size: 11px;
+}
+
 .App {
   text-align: center;
   height: 100%;
   width: 100%;
+  
 }
 
 #map {
@@ -11,4 +16,8 @@
 
 ol {
   margin: 0px;
+}
+
+li {
+  font-size: 10px;
 }

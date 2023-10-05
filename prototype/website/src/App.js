@@ -14,13 +14,13 @@ export default function App() {
   // Contains which raster overlay
   const [overlay, setOverlay] = useState(null)
 
-  function handleSelection(newSelection) {
-    setSelection(newSelection)
-  }
+  // function handleSelection(newSelection) {
+  //   setSelection(newSelection)
+  // }
 
   return (
     <div className='App'>
-      <Map selection={selection} overlay={overlay} handleSelection={handleSelection} />
+      <Map selection={selection} overlay={overlay} handleSelection={setSelection} />
       <Page selection={selection} overlay={overlay} onOverlay={setOverlay} />
     </div>
   )

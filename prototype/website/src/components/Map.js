@@ -62,7 +62,7 @@ export default function MapWrapper({ selection, overlay, handleSelection }) {
         center: [0, 0],
         zoom: 2
       }),
-      controls: [new Zoom()]
+      controls: [/*new Zoom() */]
     })
 
     // save map and vector layer references to state

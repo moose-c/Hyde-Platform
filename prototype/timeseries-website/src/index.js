@@ -4,9 +4,12 @@ import { populateYears, populateIndicators } from "./modules/write_html"
 import { displayTimeseries } from "./modules/display_ts"
 import { switchCanvas } from "./modules/switchCanvas"
 
+// recreated in final website
 createMap()   /* display the base map, with aditional shapefile for borders loaded to allow country selection */
 
+// recreated
 allowSelection()   /* this makes the individual countries clickable */
+
 
 populateIndicators()   /* Insert indicators into timeseries form */
 
