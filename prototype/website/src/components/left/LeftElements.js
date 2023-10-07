@@ -14,7 +14,7 @@ export default function LeftElements({ selection, startYear, setStartYear, endYe
             <div>
                 <Selection selection={selection} />
                 <button onClick={() => setDisplayForm(!displayForm)}>
-                    Display Timeseries Plotting Form
+                    Display Plotting Form
                 </button>
             </div>
             <div style={style}>
@@ -67,7 +67,7 @@ function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, indicato
     return (
         <>
             <form id="timeseries-form">
-                <select multiple required onClick={handleSelection}>
+                <select multiple required onClick={(e) => handleSelection(e.target.value)}>
                     <optgroup label="Demographics">{
                         Object.entries(indicatorsObj.demographic).map(([key, value]) => (
                             <option key={key} value={key}>{value}</option>
@@ -82,21 +82,22 @@ function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, indicato
                         ))}</optgroup>
                 </select>
                 <p>Hold Ctrl (windows) or Command (Mac) to select multiple indicators.</p>
-                <label>Select start year:
-                    <select required value={startYear} onClick={(e) => setStartYear(e.target.value)}>
+                {/* Maybe the above values display when hover over select? Chatgpt had implementation ideas */}
+                <label> Select start year:
+                    <select required value={startYear} onChange={(e) => setStartYear(e.target.value)}>
                         {Object.entries(years).map(([key, value]) => (
                             <option key={key} value={key}>{value}</option>
                         ))}
                     </select>
-                </label>
+                </label><br />
                 <label> Select end year:
-                    <select required value={endYear} onClick={(e) => setEndYear(e.target.value)}>
+                    <select required value={endYear} onChange={(e) => setEndYear(e.target.value)}>
                         {Object.entries(years).map(([key, value]) => (
                             <option key={key} value={key}>{value}</option>
                         ))}
-                    </select>
+                    </select><br /> <br/>
                 </label>
-                <button onClick={() => setPlotting(!plotting)}>Request Figures</button>
+                <button onClick={(e) => {e.preventDefault(); setPlotOptions({...plotOptions, plotting: true});}}>Request Figures</button>
             </form>
             <div>
                 <label> {/* Checkbox, if selected change value of the relevant plotting option */}

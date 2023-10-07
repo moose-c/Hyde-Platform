@@ -24,8 +24,6 @@ export const years = Object.fromEntries(
     yearval_lst.map((element, index) => [element, yearname_lst[index]])
 )
 
-console.log(years)
-
 export const ind_vals = [
     'popc', 'popd', 'urbc', 'rurc',   /* 4 */
 
@@ -68,7 +66,3 @@ export const indicatorsObj = {
         tot_rainfed : 'Total Rainfed'
     }
 }
-
-// Object.fromEntries(
-//     ind_vals.map((element, index) => [element, ind_names[index]])
-// )

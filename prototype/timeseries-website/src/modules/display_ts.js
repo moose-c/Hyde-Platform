@@ -16,7 +16,7 @@ export async function displayTimeseries(e, isoCodes) {
         invisibleChartBox.removeChild(invisibleChartBox.firstChild);
       }
 
-
+    //
     // obtain variables to javascript:
     const indicators_selector = document.getElementById('indicators')
     const start = document.getElementById('start-year').value

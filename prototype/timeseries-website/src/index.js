@@ -10,11 +10,13 @@ createMap()   /* display the base map, with aditional shapefile for borders load
 // recreated
 allowSelection()   /* this makes the individual countries clickable */
 
-
+// recreated
 populateIndicators()   /* Insert indicators into timeseries form */
 
+//recreated
 populateYears()   /* Insert years into ts form */
 
+//recreated
 // Section to display or hide timeseries form
 const timeseriesForm = document.getElementById('timeseries-form-box')
 const formButton = document.getElementById("form-button")
@@ -33,6 +35,7 @@ document.getElementById('timeseries-button').addEventListener('click', (e) =>
     displayTimeseries(e, isoCodes)
 )
 
+// recreated
 // Section to allow switching of timeseries graphs
 for (var element of document.getElementsByClassName("arrow")) {
     element.addEventListener('click', (e) => {

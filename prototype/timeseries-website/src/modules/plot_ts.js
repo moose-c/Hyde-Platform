@@ -1,10 +1,6 @@
 import Chart from 'chart.js/auto'   /* Utilized plotting library */
 import { years, yearNbLst } from './create_data';
 
-import countries from "i18n-iso-countries"
-import language from "i18n-iso-countries/langs/en.json"
-countries.registerLocale(language);
-
 export async function fetchTimeseries(countryIndex, indicators, isoCode, start, end) {
   // retrieve timeserie from database through API.
   var response_json;
@@ -21,7 +17,7 @@ export async function fetchTimeseries(countryIndex, indicators, isoCode, start, 
 function plotTimeseries(timeseries, countryIndex, indicators, start, end) {
   // obtain indexes
   const startIndex = Object.keys(years).indexOf(start)
-  const endIndex = Object.keys(years).indexOf(end)   /* to ensure that the end year is included */
+  const endIndex = Object.keys(years).indexOf(end)   
 
   var chartIndex = parseInt(document.getElementById('chart-number').textContent, 10)
 
@@ -54,7 +50,7 @@ function createCharts(startName, startIndex, endName, endIndex, indicators, coun
 
   // general plotting necessities
   const chart = document.getElementById("chart")
-  const labelLst = yearNbLst.slice(startIndex, endIndex+1)   /* timesteps where there is data */
+  var labelLst = yearNbLst.slice(startIndex, endIndex+1)   /* timesteps where there is data */
   var yLabel
   if (['popc', 'urbc', 'rurc'].includes(indicators[0])){
     yLabel = '[-]'
@@ -85,7 +81,6 @@ function createCharts(startName, startIndex, endName, endIndex, indicators, coun
       },
     }
   }
-  // const indicatorName = $(`option[value=${indicator}]`).text() -> Label each line
 
   // Create data, of the form [[{x: val, y:val}, {x: val, y: val}], [{x: val, y:val}, {x: val, y: val}]]
   var datasets = []
@@ -118,11 +113,11 @@ function createCharts(startName, startIndex, endName, endIndex, indicators, coun
     )
   } else {   /* If Absolute plotting */
     // Idea is to add timelabels everywhere the same length as the timestep at the end, then earlier data will be spaced more
-    var yearsSmallInterval = []
+     labelLst = []
     var position = yearNbLst[startIndex]   /* Counter for the years */
     var minInterval = yearNbLst[endIndex] - yearNbLst[endIndex - 1]  /* Smallest interval between 2 adjacent datapoints always at the end */
     while (position <= yearNbLst[endIndex]) {
-      yearsSmallInterval.push(position)
+      labelLst.push(position)
       position += minInterval
     }
 
@@ -130,7 +125,7 @@ function createCharts(startName, startIndex, endName, endIndex, indicators, coun
       {
         type: 'line',
         data: {
-          labels: yearsSmallInterval,
+          labels: labelLst,
           datasets: datasets
         },
         scales: scales,

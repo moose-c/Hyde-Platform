@@ -1,1 +1,0 @@
-export const end_year = 2018
