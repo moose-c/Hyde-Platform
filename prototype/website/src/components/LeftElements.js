@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { indicatorsObj, years } from "../utilities/create_data"
+import { indicatorsObj, years } from "./utilities/create_data"
 
 
 export default function LeftElements({ selection, startYear, setStartYear, endYear, setEndYear, indicators, setIndicators, plotting, setPlotting, plotOptions, setPlotOptions }) {
