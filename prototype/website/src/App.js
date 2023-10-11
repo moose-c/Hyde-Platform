@@ -8,11 +8,15 @@ import Map from './components/Map'
 import Page from './components/Page'
 
 export default function App() {
+
+  // set openlayers map
+  const [map, setMap] = useState()
+
   // Contains countries currently selected
   const [selection, setSelection] = useState([])
   
   // Contains which raster overlay
-  const [overlay, setOverlay] = useState(null)
+  const [overlay, setOverlay] = useState([])
 
   // function handleSelection(newSelection) {
   //   setSelection(newSelection)
@@ -20,8 +24,8 @@ export default function App() {
 
   return (
     <div className='App'>
-      <Map selection={selection} overlay={overlay} handleSelection={setSelection} />
-      <Page selection={selection} overlay={overlay} onOverlay={setOverlay} />
+      <Map map={map} setMap={setMap} selection={selection} handleSelection={setSelection} />
+      <Page map={map} setMap={setMap} selection={selection} overlay={overlay} setOverlay={setOverlay} />
     </div>
   )
 }

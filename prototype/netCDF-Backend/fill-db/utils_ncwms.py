@@ -27,11 +27,12 @@ def populate():
                         )
         
         # Create title from filename, rainfed_rice.nc -> Rainfed Rice
+        idFile = file.split('.')[0]
         title = ' '.join([element.capitalize() for element in file.split('.')[0].split('_')])
 
         # post dataset to ncWMS server. WORKS!
         response = requests.post('http://tomcat-ncwms:8080/ncWMS/admin/addDataset', 
-                                data={'id': str(id_number), 
+                                data={'id': idFile, 
                                     'location': os.path.join(data_location, file),
                                     'title': title
                                     },

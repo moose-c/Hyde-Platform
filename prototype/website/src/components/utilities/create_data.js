@@ -8,7 +8,7 @@ export const yearNbLst = range(-10000, 0, 1000).concat(
 )
 
 // Return [bce_10000, .., ce_2018], as used by the API
-const yearval_lst = range(10000, 0, -1000).map(year => `bce_${year}`).concat(
+export const yearval_lst = range(10000, 0, -1000).map(year => `bce_${year}`).concat(
     range(0, 1700, 100).map(year => `ce_${year}`),
     range(1700, 1950, 10).map(year => `ce_${year}`),
     range(1950, end_year, 1).map(year => `ce_${year}`))
@@ -43,26 +43,28 @@ export const ind_names = [
 // indicator object, popc : Population Count
 export const indicatorsObj = {
     demographic : {
-        popc : 'Population Count',
+        popc : 'Population',
         popd : 'Population Density',
         urbc : 'Urban Population',
         rurc : 'Rural Population'
     },
     landUse : {
-        uopp : 'Build Area',
+        uopp : 'Urban Area',
         cropland : 'Cropland', 
-        grazing : 'Grazing', 
+        grazing : 'Grazing Land', 
         pasture : 'Pasture',
         rangeland : 'Rangeland',
-        conv_rangeland : 'Conventional Rangeland'
+        conv_rangeland : 'Conventional Rangeland'   /* Not in nc */
     },
     agricultural : {
         ir_rice : 'Irrigated Rice',
         rf_rice : 'Rainfed Rice', 
         tot_rice : 'Total Rice', 
-        ir_norice : 'Irrigated Other', 
-        rf_norice : 'Rainfed Other', 
+        ir_norice : 'Irrigated Not Rice', 
+        rf_norice : 'Rainfed Not Rice', 
         tot_irri : 'Total Irrigated', 
         tot_rainfed : 'Total Rainfed'
     }
 }
+
+export const indNc = ['urban_area', 'total_rice', 'urban_population', 'total_irrigated', 'rural_population', 'rainfed_not_rice', 'pasture', 'cropland', 'rainfed_rice', 'rangeland', 'grazing_land', 'irrigated_not_rice', 'population', 'total_rainfed', 'irrigated_rice', 'population_density'] 

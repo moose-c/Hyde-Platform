@@ -5,20 +5,18 @@ import { indicatorsObj, years } from "./utilities/create_data"
 export default function LeftElements({ selection, startYear, setStartYear, endYear, setEndYear, indicators, setIndicators, plotting, setPlotting, plotOptions, setPlotOptions }) {
     const [displayForm, setDisplayForm] = useState(false)
 
-    var style = { display: "none" }
-    if (displayForm) {
-        style.display = "block"
-    }
     return (
         <>
-            <div>
-                <Selection selection={selection} />
-                <button onClick={() => setDisplayForm(!displayForm)}>
-                    Display Plotting Form
-                </button>
-            </div>
-            <div style={style}>
-                <TimeseriesForm startYear={startYear} setStartYear={setStartYear} endYear={endYear} setEndYear={setEndYear} indicators={indicators} setIndicators={setIndicators} plotting={plotting} setPlotting={setPlotting} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+            <div style={{ display: 'flex', flexDirection: 'row'}}>
+                <div style={{flex: 1, alignSelf: 'flex-end', width: 0}}>
+                    <Selection selection={selection} />
+                </div>
+                <div style={{ flex: 2 }}>
+                    <button style={{pointerEvents: 'auto'}} onClick={() => setDisplayForm(!displayForm)}>
+                        Plot Timeseries
+                    </button>
+                    <TimeseriesForm startYear={startYear} setStartYear={setStartYear} endYear={endYear} setEndYear={setEndYear} indicators={indicators} setIndicators={setIndicators} plotting={plotting} setPlotting={setPlotting} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+                </div>
             </div>
         </>
     )
@@ -66,7 +64,7 @@ function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, indicato
 
     return (
         <>
-            <form id="timeseries-form">
+            <form >
                 <select multiple required onClick={(e) => handleSelection(e.target.value)}>
                     <optgroup label="Demographics">{
                         Object.entries(indicatorsObj.demographic).map(([key, value]) => (
@@ -95,19 +93,19 @@ function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, indicato
                         {Object.entries(years).map(([key, value]) => (
                             <option key={key} value={key}>{value}</option>
                         ))}
-                    </select><br /> <br/>
+                    </select><br /> <br />
                 </label>
-                <button onClick={(e) => {e.preventDefault(); setPlotOptions({...plotOptions, plotting: true});}}>Request Figures</button>
+                <button onClick={(e) => { e.preventDefault(); setPlotOptions({ ...plotOptions, plotting: true }); }}>Request Figures</button>
             </form>
             <div>
                 <label> {/* Checkbox, if selected change value of the relevant plotting option */}
-                    <input type="checkbox" onChange={() => setPlotOptions({...plotOptions, absolute: !plotOptions.absolute})} />
+                    <input type="checkbox" onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })} />
                     {/* And colour the option currently selected */}
                     <span style={isBold(!plotOptions.absolute)}>Relative</span>/<span style={isBold(plotOptions.absolute)}>Absolute</span> scale
                 </label>
                 <br />
                 <label>   {/* Checkbox, if selected change value of the relevant plotting option */}
-                    <input type="checkbox" onChange={() => setPlotOptions({...plotOptions, combined: !plotOptions.combined})} />
+                    <input type="checkbox" onChange={() => setPlotOptions({ ...plotOptions, combined: !plotOptions.combined })} />
                     {/* And colour the option currently selected */}
                     <span style={isBold(!plotOptions.combined)}>Seperate</span>/<span style={isBold(plotOptions.combined)}>Combined</span> figure
                 </label>

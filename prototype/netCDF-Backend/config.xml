@@ -2,10 +2,14 @@
 <config>
     <datasets>
         <dataset id="1" title="Irrigated Not Rice" location="/data/netCDF/irrigated_not_rice.nc" queryable="true" downloadable="false" dataReaderClass="" copyrightStatement="" moreInfo="" disabled="false" updateInterval="-1">
-            <variables/>
+            <variables>
+                <variable id="irrigated_not_rice" title="Area irrigated crops which are not rice" description="Area irrigated crops which are not rice" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="-3.659 76.84" scaling="linear"/>
+            </variables>
         </dataset>
         <dataset id="2" title="Irrigated Rice" location="/data/netCDF/irrigated_rice.nc" queryable="true" downloadable="false" dataReaderClass="" copyrightStatement="" moreInfo="" disabled="false" updateInterval="-1">
-            <variables/>
+            <variables>
+                <variable id="irrigated_rice" title="Area irrigated rice" description="Area irrigated rice" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="-4.267 89.61" scaling="linear"/>
+            </variables>
         </dataset>
     </datasets>
     <cache enabled="true">

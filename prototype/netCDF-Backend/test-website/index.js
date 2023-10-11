@@ -2,11 +2,13 @@ import { plotMap, changeOverlay } from './modules/plot_map';
 import { yearnum_lst, yearval_lst, years } from './modules/create_data'
 import {printFeatureInfo} from './modules/print_feature_info'
 
+// Is reacted
 plotMap()
 window.year = 0
 window.currentLayers = NaN
 window.layerName = NaN
 
+// TODO
 window.map.on('singleclick', function (e) {
   printFeatureInfo(e.pixel)
 })
@@ -21,6 +23,7 @@ radioButtons.forEach(function(radioButton) {
     });
   });
 
+  
 const yearRange = document.getElementById("year-range")
 const yearDisplay = document.getElementById("year-display")
 yearRange.addEventListener("input", function() {
