@@ -1,4 +1,5 @@
 import './styles/App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // react
 import React, { useState } from 'react';

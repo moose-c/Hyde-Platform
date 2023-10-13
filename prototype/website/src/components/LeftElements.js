@@ -1,21 +1,34 @@
 import { useEffect, useState } from "react"
-import { indicatorsObj, years } from "./utilities/create_data"
+import { indicatorTxtObj, years } from "./utilities/create_data"
+
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button"
+import ListGroup from 'react-bootstrap/ListGroup';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+
+import Select from "react-select"
 
 
-export default function LeftElements({ selection, startYear, setStartYear, endYear, setEndYear, indicators, setIndicators, plotting, setPlotting, plotOptions, setPlotOptions }) {
+export default function LeftElements({ selection, startYear, setStartYear, endYear, setEndYear, indicators, setIndicators, plotOptions, setPlotOptions }) {
     const [displayForm, setDisplayForm] = useState(false)
 
     return (
         <>
-            <div style={{ display: 'flex', flexDirection: 'row'}}>
-                <div style={{flex: 1, alignSelf: 'flex-end', width: 0}}>
-                    <Selection selection={selection} />
-                </div>
-                <div style={{ flex: 2 }}>
-                    <button style={{pointerEvents: 'auto'}} onClick={() => setDisplayForm(!displayForm)}>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div style={{ alignSelf: 'flex-end', border: '0px solid black', width: '230px' }}>
+                    <Button style={{ pointerEvents: 'auto' }} variant="primary" onClick={() => setDisplayForm(!displayForm)}>
                         Plot Timeseries
-                    </button>
-                    <TimeseriesForm startYear={startYear} setStartYear={setStartYear} endYear={endYear} setEndYear={setEndYear} indicators={indicators} setIndicators={setIndicators} plotting={plotting} setPlotting={setPlotting} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+                    </Button>
+                    <div style={{ pointerEvents: 'auto', display: displayForm ? 'block' : 'none' }}>
+                        <TimeseriesForm startYear={startYear} setStartYear={setStartYear} endYear={endYear} setEndYear={setEndYear} indicators={indicators} setIndicators={setIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+                    </div>
+                </div>
+                <div style={{ alignSelf: 'flex-end', width: '120px', margin: '5px', padding: '5px' }}>   {/* width chosen such that Selected countries on 1 line */}
+                    <p style={{ fontWeight: 'bold' }}>Selected Countries</p>
+                    <Selection selection={selection} />
                 </div>
             </div>
         </>
@@ -28,29 +41,31 @@ function Selection({ selection }) {
     useEffect(() => {
         setCountryList(selection.map((feature, count) => {
             return (
-                <li key={`country ${count}`}>
+                <ListGroup.Item key={`country ${count}`}>
                     {feature.values_.name}
-                </li>
+                </ListGroup.Item>
             )
         }))
     }, [selection])
     return (
         <>
-            <ol style={{ display: 'inline' }}>{countryList}</ol>
+            <ListGroup variant="flush" style={{ display: 'inline' }}>{countryList}</ListGroup>
         </>
     )
 }
 
-function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, indicators, setIndicators, plotting, setPlotting, plotOptions, setPlotOptions }) {
-    // Utilities to change fontWeight on plotting options
-    const boldStyle = { fontWeight: "bold" }
-    function isBold(option) {
-        if (option) {
-            return boldStyle
-        } else {
-            return {}
-        }
-    }
+function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, indicators, setIndicators, plotOptions, setPlotOptions }) {
+    const optionsYears = Object.entries(years).map(([key, value]) => (
+        { value: key, label: value }
+    ))
+
+    const optionsIndicators = Object.entries(indicatorTxtObj).map(([category, categorizedIndicators]) => ({
+        label: category,
+        options: Object.entries(categorizedIndicators).map(([indicatorValue, indicatorName]) => ({
+            value: indicatorValue,
+            label: indicatorName
+        }))
+    }))
 
     function handleSelection(newIndicator) {
         if (indicators.includes(newIndicator)) {
@@ -64,52 +79,40 @@ function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, indicato
 
     return (
         <>
-            <form >
-                <select multiple required onClick={(e) => handleSelection(e.target.value)}>
-                    <optgroup label="Demographics">{
-                        Object.entries(indicatorsObj.demographic).map(([key, value]) => (
-                            <option key={key} value={key}>{value}</option>
-                        ))}</optgroup>
-                    <optgroup label="Land Use">{
-                        Object.entries(indicatorsObj.landUse).map(([key, value]) => (
-                            <option key={key} value={key}>{value}</option>
-                        ))}</optgroup>
-                    <optgroup label="Agricultural">{
-                        Object.entries(indicatorsObj.agricultural).map(([key, value]) => (
-                            <option key={key} value={key}>{value}</option>
-                        ))}</optgroup>
-                </select>
-                <p>Hold Ctrl (windows) or Command (Mac) to select multiple indicators.</p>
-                {/* Maybe the above values display when hover over select? Chatgpt had implementation ideas */}
-                <label> Select start year:
-                    <select required value={startYear} onChange={(e) => setStartYear(e.target.value)}>
-                        {Object.entries(years).map(([key, value]) => (
-                            <option key={key} value={key}>{value}</option>
-                        ))}
-                    </select>
-                </label><br />
-                <label> Select end year:
-                    <select required value={endYear} onChange={(e) => setEndYear(e.target.value)}>
-                        {Object.entries(years).map(([key, value]) => (
-                            <option key={key} value={key}>{value}</option>
-                        ))}
-                    </select><br /> <br />
-                </label>
-                <button onClick={(e) => { e.preventDefault(); setPlotOptions({ ...plotOptions, plotting: true }); }}>Request Figures</button>
-            </form>
-            <div>
-                <label> {/* Checkbox, if selected change value of the relevant plotting option */}
-                    <input type="checkbox" onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })} />
-                    {/* And colour the option currently selected */}
-                    <span style={isBold(!plotOptions.absolute)}>Relative</span>/<span style={isBold(plotOptions.absolute)}>Absolute</span> scale
-                </label>
+            <Form>
+                <Row>
+                    <Col>
+                        <Form.Label> Start year
+                            <Select required options={optionsYears} defaultValue={{ value: startYear, label: years[startYear] }} onChange={(e) => setStartYear(e.value)} />
+                        </Form.Label>
+                    </Col>
+                    <Col>
+                        <Form.Label> End year
+                            <Select required options={optionsYears} defaultValue={{ value: endYear, label: years[endYear] }} onChange={(e) => setEndYear(e.value)} />
+                        </Form.Label>
+                    </Col>
+                </Row>
+                <Row>
+                    <Form.Label> Indicators
+                        <Select isMulti menuPlacement="top" closeMenuOnSelect={false} options={optionsIndicators} placeholder="None Selected" required onClick={(e) => handleSelection(e.target.value)} />
+                    </Form.Label>
+                </Row>
+
+                <Button variant="primary" onClick={() => setPlotOptions({ ...plotOptions, plotting: true })}>Request Figures</Button>
                 <br />
-                <label>   {/* Checkbox, if selected change value of the relevant plotting option */}
-                    <input type="checkbox" onChange={() => setPlotOptions({ ...plotOptions, combined: !plotOptions.combined })} />
-                    {/* And colour the option currently selected */}
-                    <span style={isBold(!plotOptions.combined)}>Seperate</span>/<span style={isBold(plotOptions.combined)}>Combined</span> figure
-                </label>
-            </div>
+                <Form.Label> Change X-axis    
+                    <ToggleButtonGroup type="radio" name="xAxis" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })}>
+                        <ToggleButton id="tbg-radio-1" value={1}>Relative</ToggleButton>
+                        <ToggleButton id="tbg-radio-2" value={2}>Absolute</ToggleButton>
+                    </ToggleButtonGroup>
+                </Form.Label>
+                <Form.Label> Change Graphs 
+                <ToggleButtonGroup type="radio" name="xAxis" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combined: !plotOptions.combined })}>
+                        <ToggleButton id="tbg-radio-1" value={1}>Seperate</ToggleButton>
+                        <ToggleButton id="tbg-radio-2" value={2}>Combined</ToggleButton>
+                    </ToggleButtonGroup>
+                </Form.Label>
+            </Form>
         </>
     )
 }

@@ -24,24 +24,8 @@ export const years = Object.fromEntries(
     yearval_lst.map((element, index) => [element, yearname_lst[index]])
 )
 
-export const ind_vals = [
-    'popc', 'popd', 'urbc', 'rurc',   /* 4 */
-
-    'uopp', 'cropland', 'grazing', 'pasture', 'rangeland', 'conv_rangeland',   /* 6 */
-
-    'ir_rice', 'rf_rice', 'tot_rice', 'ir_norice', 'rf_norice', 'tot_irri', 'tot_rainfed'   /* 7 */
-
-    // Miss indicator 'shifting'
-]
-
-export const ind_names = [
-    'Population Count', 'Population Density', 'Urban Population', 'Rural Population',
-    'Build Area', 'Cropland', 'Grazing', 'Pasture', 'Rangeland', 'Conventional Rangeland',
-    'Irrigated Rice', 'Rainfed Rice', 'Total Rice', 'Irrigated Other', 'Rainfed Other', 'Total Irrigated', 'Total Rainfed'
-]
-
 // indicator object, popc : Population Count
-export const indicatorsObj = {
+export const indicatorTxtObj = {
     demographic : {
         popc : 'Population',
         popd : 'Population Density',
@@ -67,4 +51,30 @@ export const indicatorsObj = {
     }
 }
 
-export const indNc = ['urban_area', 'total_rice', 'urban_population', 'total_irrigated', 'rural_population', 'rainfed_not_rice', 'pasture', 'cropland', 'rainfed_rice', 'rangeland', 'grazing_land', 'irrigated_not_rice', 'population', 'total_rainfed', 'irrigated_rice', 'population_density'] 
+// indicator object, popc : Population Count
+export const indicatorNcObj = {
+    demographic : {
+        population : 'Population',
+        population_density : 'Population Density',
+        urban_population: 'Urban Population',
+        rural_population : 'Rural Population'
+    },
+    landUse : {
+        urban_area : 'Urban Area',
+        cropland : 'Cropland', 
+        grazing_land : 'Grazing Land', 
+        pasture : 'Pasture',
+        rangeland : 'Rangeland',
+    },
+    agricultural : {
+        irrigated_rice : 'Irrigated Rice',
+        rainfed_rice : 'Rainfed Rice', 
+        total_rice : 'Total Rice', 
+        irrigated_not_rice : 'Irrigated Not Rice', 
+        rainfed_not_rice : 'Rainfed Not Rice', 
+        total_irrigated : 'Total Irrigated', 
+        total_rainfed : 'Total Rainfed'
+    }
+}
+
+export const indicatorNcOrder = ['urban_area', 'total_rice', 'urban_population', 'total_irrigated', 'rural_population', 'rainfed_not_rice', 'pasture', 'cropland', 'rainfed_rice', 'rangeland', 'grazing_land', 'irrigated_not_rice', 'population', 'total_rainfed', 'irrigated_rice', 'population_density'] 

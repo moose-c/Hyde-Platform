@@ -18,3 +18,7 @@ p {
 .right {
     left: 90%
 }
+
+Button {
+    margin: 5px
+}
