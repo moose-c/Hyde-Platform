@@ -11,24 +11,25 @@ import XYZ from 'ol/source/XYZ.js';
 import { Zoom } from 'ol/control.js'
 import GeoJSON from 'ol/format/GeoJSON.js'
 
+import CountryLayer from "../data/countries.geojson"
+
+// 'MapWrapper' chosen since 'Map' already declared from openlayers, since default export of little importance
 export default function MapWrapper({ map, setMap, selection, handleSelection }) {
 
-  // create state ref that can be accessed in OpenLayers onclick callback function
-  //  https://stackoverflow.com/a/60643670
+  // useRef better way of refering to a reference in hooks (i.e. useEffect)
   const mapRef = useRef()
   mapRef.current = map
 
   const selectionRef = useRef()
   selectionRef.current = selection
 
-  // initialize map on first render - logic formerly put into componentDidMount
+  // initialize map on first render
   useEffect(() => {
-
     // create borders, seperate from groundlayer to allow clickability
     const borders = new VectorLayer({
       source: new VectorSource({
-        format: new GeoJSON(),   /* Make GeoJSON available offline, would be better. */
-        url: 'https://raw.githubusercontent.com/openlayers/ol3/6838fdd4c94fe80f1a3c98ca92f84cf1454e232a/examples/data/geojson/countries.geojson'
+        format: new GeoJSON(),
+        url: CountryLayer
       }),
       style: new Style({
         fill: new Fill({
@@ -58,7 +59,7 @@ export default function MapWrapper({ map, setMap, selection, handleSelection }) 
         center: [0, 0],
         zoom: 2
       }),
-      controls: [new Zoom() ]
+      controls: [/* new Zoom() */]
     })
 
     // save map and vector layer references to state

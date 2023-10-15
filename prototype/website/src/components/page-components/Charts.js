@@ -1,16 +1,22 @@
 import { useState, useEffect, useRef } from "react"
 
+// eslint-disable-next-line
 import Chart from 'chart.js/auto';   /* Required to mitigate some erros */
 import { Line } from 'react-chartjs-2'   /* https://github.com/reactchartjs/react-chartjs-2 */
 
-import { years, yearNbLst } from './utilities/create_data'   /* First an object from value to name, second a list */
+import FormLabel from 'react-bootstrap/FormLabel'
+import Button from 'react-bootstrap/Button'
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
+import ToggleButton from 'react-bootstrap/ToggleButton'
+
+import { years, yearNbLst } from '../utilities/createData'   /* First an object from value to name, second a list */
 
 // For requesting iso codes
 import countries from "i18n-iso-countries"
 import language from "i18n-iso-countries/langs/en.json"
 countries.registerLocale(language);
 
-export default function MiddleElements({ selection, startYear, endYear, indicators, plotOptions }) {
+export default function Charts({ selection, startYear, endYear, indicators, plotOptions, setPlotOptions }) {
     const [currentChartNb, setCurrentChartNb] = useState(0)
     const [data, setData] = useState(false)
     const allDataRef = useRef(false)
@@ -21,7 +27,6 @@ export default function MiddleElements({ selection, startYear, endYear, indicato
     let currentCountry
     let currentIndicator
 
-    var fetchPromises = [];
     const nbCharts = plotOptions.combined ? selection.length : indicators.length * selection.length
 
     // Reflect on necessity later
@@ -32,6 +37,8 @@ export default function MiddleElements({ selection, startYear, endYear, indicato
     // obtain names, again, necessary?
     const startName = Object.values(years)[startIndex]
     const endName = Object.values(years)[endIndex]
+
+    const [avoidExtraCall, setAvoidExtraCall] = useState(false);
 
     var yLabel
     // modify to include value for population density and incorporate in loop
@@ -55,25 +62,25 @@ export default function MiddleElements({ selection, startYear, endYear, indicato
         }
         // Create data, values of the form [[{x: val, y:val}, {x: val, y: val}], [{x: val, y:val}, {x: val, y: val}]]
         if (plotOptions.plotting) {
-            fetchPromises = []
+            var fetchPromises = []
             for (const country of selection) {
-                allData[country.id_] = {}
-                allData[country.id_].all = []
-                const isoCode = parseInt(countries.alpha3ToNumeric(country.id_), 10).toString()   /* Retrieve isoCode, without leading 0's */
-                indicators.forEach((indicator, index) => {
-                    allData[country.id_][indicator] = [{
+                allData[country.values_.ISO_A3] = {}
+                allData[country.values_.ISO_A3].all = []
+                const isoCode = parseInt(countries.alpha3ToNumeric(country.values_.ISO_A3), 10).toString()   /* Retrieve isoCode, without leading 0's */
+                indicators.forEach((indicator) => {
+                    allData[country.values_.ISO_A3][indicator] = [{
                         label: indicator,
                         data: []
                     }]
-                    const fetchPromise = fetch(`http://localhost:8000/${indicator}/${isoCode}/${startYear}/${endYear}`).then((response) => response.json())
+                    const fetchPromise = fetch(`http://${window.URL}:8000/${indicator}/${isoCode}/${startYear}/${endYear}`).then((response) => response.json())
                         .then((r_json) => {
                             r_json[0].forEach((value, index) => {
-                                allData[country.id_][indicator][0].data.push({
+                                allData[country.values_.ISO_A3][indicator][0].data.push({
                                     x: measurementPoints[index],
                                     y: value
                                 })
                             })
-                            allData[country.id_].all.push(allData[country.id_][indicator][0])
+                            allData[country.values_.ISO_A3].all.push(allData[country.values_.ISO_A3][indicator][0])
                         })
                     fetchPromises.push(fetchPromise)
                 })
@@ -83,16 +90,26 @@ export default function MiddleElements({ selection, startYear, endYear, indicato
                 allDataRef.current = allData
                 handleChangeChart(-currentChartNb)
             })
-        }
+        } // eslint-disable-next-line
     }, [plotOptions])
+
+    function handleKeyDown(event) {
+            if (!avoidExtraCall) {
+                setAvoidExtraCall(true)
+                if (event.key === 'ArrowLeft') {
+                    handleChangeChart(-1)
+                } else if (event.key === 'ArrowRight') {
+                    handleChangeChart(1)
+                }
+            }
+        }
 
     function handleChangeChart(increment) {
         const newChartNb = currentChartNb + increment
         if (0 <= newChartNb && newChartNb <= nbCharts - 1) {
             currentCountry = plotOptions.combined ? selection[newChartNb] : selection[Math.floor(newChartNb / indicators.length)] /* 5 indicators relative -> for 5 chart changes no country change. combined -> combined direct change*/
-            console.log(currentCountry)
             currentIndicator = indicators[newChartNb % indicators.length]
-            const datasets = (plotOptions.combined ? allDataRef.current[currentCountry.id_].all : allDataRef.current[currentCountry.id_][currentIndicator])
+            const datasets = (plotOptions.combined ? allDataRef.current[currentCountry.values_.ISO_A3].all : allDataRef.current[currentCountry.values_.ISO_A3][currentIndicator])
             options.current = ({
                 scales: {
                     y: {
@@ -115,15 +132,16 @@ export default function MiddleElements({ selection, startYear, endYear, indicato
             alert('chart number out of range!')
         }
     }
-    console.log(data)   /* Nearly there! */
     return (
         <>
-            <button onClick={() => handleChangeChart(-1)}>&#8249;</button>
-            <div>
-                <p>Chart {currentChartNb}</p>
-                {data && <Line data={data} options={options.current} />}
+            <div onKeyDown={(e) => handleKeyDown(e)} onKeyUp={() => setAvoidExtraCall(false)}>
+                <div style={{ height: '220px' }} >
+                    <p style={{ fontWeight: 'bold' }}>Chart {currentChartNb}</p>
+                    {data && <Line data={data} options={{ ...options.current, maintainAspectRatio: false }} />}
+                </div> <br /> <br />
+                <Button onClick={() => handleChangeChart(-1)}>&#8249;</Button>
+                <Button onClick={() => handleChangeChart(1)}>&#8250;</Button>
             </div>
-            <button onClick={() => handleChangeChart(1)}>&#8250;</button>
         </>
     )
 }

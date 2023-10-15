@@ -1,16 +1,17 @@
 import './styles/App.css';
+
+// Necessary to use Bootstrap, a library aiding in styling
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // react
 import React, { useState } from 'react';
 
-// components
+// Two main components
 import Map from './components/Map'
 import Page from './components/Page'
 
 export default function App() {
-
-  // set openlayers map
+  // State, contains Openlayers map element
   const [map, setMap] = useState()
 
   // Contains countries currently selected
@@ -19,9 +20,13 @@ export default function App() {
   // Contains which raster overlay
   const [overlay, setOverlay] = useState([])
 
-  // function handleSelection(newSelection) {
-  //   setSelection(newSelection)
-  // }
+  // easily switch from remote and on-site work (production only)
+  const UUNetwork = false
+  if (UUNetwork) {
+    window.URL = 'hydeprod.geo.uu.nl'
+  } else {
+    window.URL = 'localhost'
+  }
 
   return (
     <div className='App'>

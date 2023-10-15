@@ -2,12 +2,13 @@ import { useState } from 'react'
 
 import '../styles/Page.css'
 
-import LeftElements from './LeftElements'
-import MiddleElements from './MiddleElements'
-import RightElements from './RightElements'
-
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+
+import TimeseriesForm from './page-components/TimeseriesForm';
+import Selection from './page-components/Selection';
+import Charts from './page-components/Charts';
+import OverlayForm from './page-components/OverlayForm';
 
 export default function Page({ map, setMap, selection, overlay, setOverlay }) {
     const [startYear, setStartYear] = useState('ce_1930')
@@ -20,15 +21,25 @@ export default function Page({ map, setMap, selection, overlay, setOverlay }) {
         combine: false
     })
 
-    const style = {
-        border: '1px solid black'
-    }
-    
     return (
         <>
-            <div className="part left" key="a" style={{ pointerEvents: 'none', border: '0px solid black' }}><LeftElements style={style} selection={selection} startYear={startYear} setStartYear={setStartYear} endYear={endYear} setEndYear={setEndYear} indicators={indicators} setIndicators={setIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} /></div>
-            {(<div style={style} className="part middle" key="b" ><MiddleElements selection={selection} startYear={startYear} endYear={endYear} indicators={indicators} plotOptions={plotOptions} /></div>)}
-            <div className="part right" key="c" style={{ border: '0px solid black' }}><RightElements map={map} setMap={setMap} overlay={overlay} setOverlay={setOverlay} /></div>
+            <div style={{ position: 'fixed', top: 0, margin: '5px', backgroundColor: 'white' } }>
+                <Tabs transition={false}>
+                    <Tab eventKey="selection" title="Selected Countries">
+                        <Selection selection={selection} />
+                    </Tab>
+                    <Tab eventKey="tsForm" title="Timeseries">
+                        <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setIndicators={setIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+                    </Tab>
+                    <Tab eventKey="ovForm" title="Overlay">
+                        <OverlayForm map={map} setMap={setMap} overlay={overlay} setOverlay={setOverlay} />
+                    </Tab>
+                </Tabs>
+            </div>
+
+            <div style={{position: 'fixed', bottom: 0}}>
+                <Charts selection={selection} startYear={startYear} endYear={endYear} indicators={indicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions}/>
+            </div>
         </>
     )
 }
