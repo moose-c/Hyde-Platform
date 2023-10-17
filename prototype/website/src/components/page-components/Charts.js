@@ -72,7 +72,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                         label: indicator,
                         data: []
                     }]
-                    const fetchPromise = fetch(`http://${window.URL}:8000/${indicator}/${isoCode}/${startYear}/${endYear}`).then((response) => response.json())
+                    const fetchPromise = fetch(`http://${window.apiUrl}:8000/${indicator}/${isoCode}/${startYear}/${endYear}`).then((response) => response.json())
                         .then((r_json) => {
                             r_json[0].forEach((value, index) => {
                                 allData[country.values_.ISO_A3][indicator][0].data.push({

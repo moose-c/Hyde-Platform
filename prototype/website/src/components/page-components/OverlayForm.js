@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect } from "react"
 
 // default background provided, should be oke but changing should also be easy.
 import { TileWMS } from 'ol/source';
@@ -11,6 +11,7 @@ import { years, yearval_lst, indicatorNcObj, indicatorNcOrder } from "../utiliti
 import Form from 'react-bootstrap/Form'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
+import Row from 'react-bootstrap/Row'
 
 import Select from "react-select"
 
@@ -26,24 +27,23 @@ export default function OverlayForm({ map, setMap, currentYear, setCurrentYear, 
         }))
     }))
 
-
     // interesting code no longer used: Object.assign({}, ...Object.values(tsIndicatorsObj)) // Remove the categorization
 
     useEffect(() => {
         overlay.forEach(layer => {
             mapRef.current.removeLayer(layer)
         });
-        if (ovIndicator) {
+        if (ovIndicator !== null) {
             const time = `${currentYear.split('_')[1]}-05-01`
-            const style = 'seq-YlOrRd' // Option: allow user to set manually?
-            fetch(`http://${window.URL}:8080/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&
+            const style = 'seq-YlOrRd'
+            fetch(`http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&
             TIME=${time}&
             LAYERS=${indicatorNcOrder.indexOf(ovIndicator) + 1}/${ovIndicator}`)
                 .then((response) => response.json())
                 .then(minmax => {
                     const fill = new TileLayer({
                         source: new TileWMS({
-                            url: `http://${window.URL}:8080/ncWMS/wms`,
+                            url: `http://${window.apiUrl}:8080/ncWMS/wms`,
                             params: {
                                 'LAYERS': `${indicatorNcOrder.indexOf(ovIndicator) + 1}/${ovIndicator}`,
                                 'STYLES': `default-scalar/${style}`,
@@ -58,7 +58,7 @@ export default function OverlayForm({ map, setMap, currentYear, setCurrentYear, 
 
                     const contour = new TileLayer({
                         source: new TileWMS({
-                            url: `http://${window.URL}:8080/ncWMS/wms`,
+                            url: `http://${window.apiUrl}:8080/ncWMS/wms`,
                             params: {
                                 'LAYERS': `${indicatorNcOrder.indexOf(ovIndicator) + 1}/${ovIndicator}`,
                                 'STYLES': `colored_contours/${style}`,
@@ -76,27 +76,39 @@ export default function OverlayForm({ map, setMap, currentYear, setCurrentYear, 
                 })
         } // eslint-disable-next-line
     }, [ovIndicator, currentYear])
+
+    function handleSelect(e) {
+        if (e) {
+            setOvIndicator(e.value)
+        } else {
+            setOvIndicator(e)
+        }
+
+    }
     return (
         <>
             <Form>
-                <Form.Label style={{ marginTop: '3px' }}>Year {years[currentYear]}
-                    <Form.Range onChange={(e) => setYear(yearval_lst[e.target.value])} type="range" min="0" max="74" step="1" value={yearval_lst.indexOf(currentYear)} />
-                </Form.Label> <br />
-                <Form.Label style={{}}>Indicator
-                    <Select menuPortalTarget={document.body} options={overlayOptions} placeholder="None Selected" onChange={(e) => setOvIndicator(e.value)} />
-                </Form.Label> <br />
-                <Form.Label> Change Overlay
-                    <ToggleButtonGroup type="radio" name="overlay" defaultValue={1} onChange=''>
-                        <ToggleButton size="sm" id="tbg-overlay-1" value={1}>World</ToggleButton>
-                        <ToggleButton size="sm" id="tbg-overlay-2" value={2}>Countries</ToggleButton>
-                    </ToggleButtonGroup>
-                </Form.Label>
+                <Row>
+                    <Form.Label style={{ marginTop: '3px' }}>Year {years[currentYear]} <br />
+                        <Form.Range style={{ width: 200 }} onChange={(e) => setCurrentYear(yearval_lst[e.target.value])} type="range" min="0" max="74" step="1" value={yearval_lst.indexOf(currentYear)} />
+                    </Form.Label>
+                </Row>
+                <Row>
+                    <Form.Label style={{}}>Indicator
+                        <div style={{ width: 200, margin: '0 auto' }}>
+                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} placeholder="None Selected" onChange={(e) => handleSelect(e)} /> 
+                        </div>
+                    </Form.Label>
+                </Row>
+                <Row>
+                    <Form.Label> Change Overlay
+                        <ToggleButtonGroup type="radio" name="overlay" defaultValue={1} onChange=''>
+                            <ToggleButton size="sm" id="tbg-overlay-1" value={1}>World</ToggleButton>
+                            <ToggleButton size="sm" id="tbg-overlay-2" value={2}>Countries</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Form.Label>
+                </Row>
             </Form>
         </>
     )
 }
-
-
-const legend_blob = await legend_request.blob()
-const legend = document.getElementById('legend')
-legend.src = URL.createObjectURL(legend_blob)

@@ -9,7 +9,7 @@ import TimeseriesForm from './page-components/TimeseriesForm';
 import Selection from './page-components/Selection';
 import Charts from './page-components/Charts';
 import OverlayForm from './page-components/OverlayForm';
-import Legend from './page-componenents/Legend'
+import Legend from './page-components/Legend'
 
 export default function Page({ map, setMap, selection, overlay, setOverlay }) {
     const [startYear, setStartYear] = useState('ce_1930')
@@ -26,7 +26,7 @@ export default function Page({ map, setMap, selection, overlay, setOverlay }) {
 
     return (
         <>
-            <div style={{ position: 'fixed', top: 0, margin: '5px', backgroundColor: 'white' } }>
+            <div style={{ position: 'fixed', top: 0, margin: 5, backgroundColor: 'white' } }>
                 <Tabs transition={false}>
                     <Tab eventKey="selection" title="Selected Countries">
                         <Selection selection={selection} />
@@ -44,8 +44,8 @@ export default function Page({ map, setMap, selection, overlay, setOverlay }) {
                 <Charts selection={selection} startYear={startYear} endYear={endYear} tsIndicators={tsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions}/>
             </div>
 
-            <div>
-                <Legend overlay={overlay} currentYear={currentYear} ovIndicator={ovIndicator}/>
+            <div style={{position: 'fixed', right: 0, top: 0, margin: 5}}>
+                <Legend currentYear={currentYear} ovIndicator={ovIndicator}/>
             </div>
         </>
     )
