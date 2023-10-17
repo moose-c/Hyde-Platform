@@ -16,7 +16,7 @@ import countries from "i18n-iso-countries"
 import language from "i18n-iso-countries/langs/en.json"
 countries.registerLocale(language);
 
-export default function Charts({ selection, startYear, endYear, indicators, plotOptions, setPlotOptions }) {
+export default function Charts({ selection, startYear, endYear, tsIndicators, plotOptions, setPlotOptions }) {
     const [currentChartNb, setCurrentChartNb] = useState(0)
     const [data, setData] = useState(false)
     const allDataRef = useRef(false)
@@ -27,7 +27,7 @@ export default function Charts({ selection, startYear, endYear, indicators, plot
     let currentCountry
     let currentIndicator
 
-    const nbCharts = plotOptions.combined ? selection.length : indicators.length * selection.length
+    const nbCharts = plotOptions.combined ? selection.length : tsIndicators.length * selection.length
 
     // Reflect on necessity later
     const startIndex = Object.keys(years).indexOf(startYear)
@@ -42,7 +42,7 @@ export default function Charts({ selection, startYear, endYear, indicators, plot
 
     var yLabel
     // modify to include value for population density and incorporate in loop
-    if (['popc', 'urbc', 'rurc'].includes(indicators[0])) {
+    if (['popc', 'urbc', 'rurc'].includes(tsIndicators[0])) {
         yLabel = '[-]'
     } else {
         yLabel = '[\u33A2]'
@@ -67,7 +67,7 @@ export default function Charts({ selection, startYear, endYear, indicators, plot
                 allData[country.values_.ISO_A3] = {}
                 allData[country.values_.ISO_A3].all = []
                 const isoCode = parseInt(countries.alpha3ToNumeric(country.values_.ISO_A3), 10).toString()   /* Retrieve isoCode, without leading 0's */
-                indicators.forEach((indicator) => {
+                tsIndicators.forEach((indicator) => {
                     allData[country.values_.ISO_A3][indicator] = [{
                         label: indicator,
                         data: []
@@ -107,8 +107,8 @@ export default function Charts({ selection, startYear, endYear, indicators, plot
     function handleChangeChart(increment) {
         const newChartNb = currentChartNb + increment
         if (0 <= newChartNb && newChartNb <= nbCharts - 1) {
-            currentCountry = plotOptions.combined ? selection[newChartNb] : selection[Math.floor(newChartNb / indicators.length)] /* 5 indicators relative -> for 5 chart changes no country change. combined -> combined direct change*/
-            currentIndicator = indicators[newChartNb % indicators.length]
+            currentCountry = plotOptions.combined ? selection[newChartNb] : selection[Math.floor(newChartNb / tsIndicators.length)] /* 5 tsIndicators relative -> for 5 chart changes no country change. combined -> combined direct change*/
+            currentIndicator = tsIndicators[newChartNb % tsIndicators.length]
             const datasets = (plotOptions.combined ? allDataRef.current[currentCountry.values_.ISO_A3].all : allDataRef.current[currentCountry.values_.ISO_A3][currentIndicator])
             options.current = ({
                 scales: {
@@ -135,7 +135,7 @@ export default function Charts({ selection, startYear, endYear, indicators, plot
     return (
         <>
             <div onKeyDown={(e) => handleKeyDown(e)} onKeyUp={() => setAvoidExtraCall(false)}>
-                <div style={{ height: '220px' }} >
+                <div style={{ height: '220px'}} >
                     <p style={{ fontWeight: 'bold' }}>Chart {currentChartNb}</p>
                     {data && <Line data={data} options={{ ...options.current, maintainAspectRatio: false }} />}
                 </div> <br /> <br />

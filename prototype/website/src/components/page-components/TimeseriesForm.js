@@ -11,7 +11,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import Select from "react-select"
 
-export default function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, setIndicators, plotOptions, setPlotOptions }) {
+export default function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, setTsIndicators, plotOptions, setPlotOptions }) {
     const [displayForm, setDisplayForm] = useState(false)
 
     const optionsYears = Object.entries(years).map(([key, value]) => (
@@ -35,18 +35,20 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
                 <Row>
                     <Col>
                         <Form.Label> Start year
-                            <Select maxMenuHeight={200} required options={optionsYears} defaultValue={{ value: startYear, label: years[startYear] }} onChange={(e) => setStartYear(e.value)} />
+                            <Select menuPortalTarget={document.body} maxMenuHeight={200} required options={optionsYears} defaultValue={{ value: startYear, label: years[startYear] }} onChange={(e) => setStartYear(e.value)} />
                         </Form.Label>
                     </Col>
                     <Col>
                         <Form.Label> End year
-                            <Select maxMenuHeight={200} required options={optionsYears} defaultValue={{ value: endYear, label: years[endYear] }} onChange={(e) => setEndYear(e.value)} />
+                            <Select menuPortalTarget={document.body} maxMenuHeight={200} required options={optionsYears} defaultValue={{ value: endYear, label: years[endYear] }} onChange={(e) => setEndYear(e.value)} />
                         </Form.Label>
                     </Col>
                 </Row>
                 <Row>
                     <Form.Label> Indicators
-                        <Select maxMenuHeight={250} isMulti closeMenuOnSelect={false} options={optionsIndicators} placeholder="None Selected" required onChange={(e) => setIndicators(e.map((input) => input.value))} />
+                        <div style={{ width: '250px', margin: '5px', zIndex: 9999 }}>
+                            <Select menuPortalTarget={document.body} maxMenuHeight={250} isMulti closeMenuOnSelect={false} options={optionsIndicators} placeholder="None Selected" required onChange={(e) => setTsIndicators(e.map((input) => input.value))} />
+                        </div>
                     </Form.Label>
                 </Row>
                 <Button variant="primary" onClick={() => setPlotOptions({ ...plotOptions, plotting: true })}>Request Figures</Button>

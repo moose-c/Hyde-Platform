@@ -21,7 +21,7 @@ export default function App() {
   const [overlay, setOverlay] = useState([])
 
   // easily switch from remote and on-site work (production only)
-  const UUNetwork = false
+  const UUNetwork = true 
   if (UUNetwork) {
     window.URL = 'hydeprod.geo.uu.nl'
   } else {

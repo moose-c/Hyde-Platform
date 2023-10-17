@@ -9,11 +9,14 @@ import TimeseriesForm from './page-components/TimeseriesForm';
 import Selection from './page-components/Selection';
 import Charts from './page-components/Charts';
 import OverlayForm from './page-components/OverlayForm';
+import Legend from './page-componenents/Legend'
 
 export default function Page({ map, setMap, selection, overlay, setOverlay }) {
     const [startYear, setStartYear] = useState('ce_1930')
     const [endYear, setEndYear] = useState('ce_1953')
-    const [indicators, setIndicators] = useState([])
+    const [tsIndicators, setTsIndicators] = useState([])
+    const [ovIndicator, setOvIndicator] = useState(null)
+    const [currentYear, setCurrentYear] = useState('ce_0')
     // use a dictionary since if now change plotting to the same value 'true' rerender page
     const [plotOptions, setPlotOptions] = useState({
         plotting: false,
@@ -29,16 +32,20 @@ export default function Page({ map, setMap, selection, overlay, setOverlay }) {
                         <Selection selection={selection} />
                     </Tab>
                     <Tab eventKey="tsForm" title="Timeseries">
-                        <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setIndicators={setIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+                        <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
                     </Tab>
                     <Tab eventKey="ovForm" title="Overlay">
-                        <OverlayForm map={map} setMap={setMap} overlay={overlay} setOverlay={setOverlay} />
+                        <OverlayForm map={map} setMap={setMap} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator} overlay={overlay} setOverlay={setOverlay} />
                     </Tab>
                 </Tabs>
             </div>
 
             <div style={{position: 'fixed', bottom: 0}}>
-                <Charts selection={selection} startYear={startYear} endYear={endYear} indicators={indicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions}/>
+                <Charts selection={selection} startYear={startYear} endYear={endYear} tsIndicators={tsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions}/>
+            </div>
+
+            <div>
+                <Legend overlay={overlay} currentYear={currentYear} ovIndicator={ovIndicator}/>
             </div>
         </>
     )
