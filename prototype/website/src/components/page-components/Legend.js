@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { React, useEffect, useRef, useState } from "react"
 import { indicatorNcOrder } from "../utilities/createData"  /* as ind.type : {ind -> Indicator Name} */
 
 
@@ -54,7 +54,7 @@ export default function Legend({ currentYear, ovIndicator }) {
                     <span>{minmax.current.min + 0.01}</span>
                 </div>
                 {/* scale potitioning is not correct yet */}
-                <span style={{transform: 'rotate(90deg)', transformOrigin: 'bottom left', height: 100}}>{scale.current}</span>
+                <span style={{transform: 'rotate(90deg)', transformOrigin: 'bottom left', whiteSpace: 'nowrap'}}>{scale.current}</span>
             </div></>}
     </>)
 

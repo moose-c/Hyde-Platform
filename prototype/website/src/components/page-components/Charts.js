@@ -1,31 +1,66 @@
-import { useState, useEffect, useRef } from "react"
+import { React, useState, useEffect, useRef } from "react"
 
 // eslint-disable-next-line
-import Chart from 'chart.js/auto';   /* Required to mitigate some erros */
+import Chart from 'chart.js/auto';   /* Required to mitigate some errors */
 import { Line } from 'react-chartjs-2'   /* https://github.com/reactchartjs/react-chartjs-2 */
 
-import FormLabel from 'react-bootstrap/FormLabel'
 import Button from 'react-bootstrap/Button'
+import Dropdown from 'react-bootstrap/Dropdown'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
-import { years, yearNbLst } from '../utilities/createData'   /* First an object from value to name, second a list */
+import { years, yearNbLst, indicatorTxtObj } from '../utilities/createData'   /* First an object from value to name, second a list */
 
 // For requesting iso codes
 import countries from "i18n-iso-countries"
 import language from "i18n-iso-countries/langs/en.json"
+
 countries.registerLocale(language);
 
-export default function Charts({ selection, startYear, endYear, tsIndicators, plotOptions, setPlotOptions }) {
-    const [currentChartNb, setCurrentChartNb] = useState(0)
-    const [data, setData] = useState(false)
+export default function Charts({ selection, startYear, endYear, tsIndicators, plotOptions }) {
     const allDataRef = useRef(false)
-    const options = useRef([])
+    const currentCountry = useRef(false)
+    const currentIndicator = useRef(false)
+
     const labels = useRef([])
+    const chartRef = useRef(null)
+    const chartFinishedRendering = useRef(false)
+
+    const [currentChartNb, setCurrentChartNb] = useState(null)
+    const [data, setData] = useState(null)
+    const [options, setOptions] = useState({
+        animation: {
+            onComplete: function () {
+                chartFinishedRendering.current = true
+            }
+        },
+        scales: {
+            y: {
+                title: {
+                    display: true,
+                    text: 'placeholder'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: '[year]'
+                }
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'placeholder'
+            },
+        }
+    })
+
+    const [exportTs, setExportTs] = useState({ type: 'false' })
+    const [exportTsAmt, setExportTsAmt] = useState('displayed')
 
     const allData = {}  /* Structure is: data = {country : { indicator1: [{label: lbl, data: values1}], indicator:[{label: lbl, data: values2}], all: [{label: lbl, data: values1}, {label: lbl, data: values2}]}} */
-    let currentCountry
-    let currentIndicator
+
 
     const nbCharts = plotOptions.combined ? selection.length : tsIndicators.length * selection.length
 
@@ -38,15 +73,9 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     const startName = Object.values(years)[startIndex]
     const endName = Object.values(years)[endIndex]
 
+    // Not yet functional
     const [avoidExtraCall, setAvoidExtraCall] = useState(false);
 
-    var yLabel
-    // modify to include value for population density and incorporate in loop
-    if (['popc', 'urbc', 'rurc'].includes(tsIndicators[0])) {
-        yLabel = '[-]'
-    } else {
-        yLabel = '[\u33A2]'
-    }
 
     useEffect(() => {
         if (!plotOptions.absolute) {
@@ -64,12 +93,13 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         if (plotOptions.plotting) {
             var fetchPromises = []
             for (const country of selection) {
+                // Do something slighly different if selected country is South Sudan
                 allData[country.values_.ISO_A3] = {}
                 allData[country.values_.ISO_A3].all = []
                 const isoCode = parseInt(countries.alpha3ToNumeric(country.values_.ISO_A3), 10).toString()   /* Retrieve isoCode, without leading 0's */
                 tsIndicators.forEach((indicator) => {
                     allData[country.values_.ISO_A3][indicator] = [{
-                        label: indicator,
+                        label: Object.assign({}, ...Object.values(indicatorTxtObj))[indicator],
                         data: []
                     }]
                     const fetchPromise = fetch(`http://${window.apiUrl}:8000/${indicator}/${isoCode}/${startYear}/${endYear}`).then((response) => response.json())
@@ -81,6 +111,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                                 })
                             })
                             allData[country.values_.ISO_A3].all.push(allData[country.values_.ISO_A3][indicator][0])
+                            allData[country.values_.ISO_A3][`${indicator}_json`] = r_json
                         })
                     fetchPromises.push(fetchPromise)
                 })
@@ -88,60 +119,136 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
             // Set Charts again to first
             Promise.all(fetchPromises).then(() => {
                 allDataRef.current = allData
-                handleChangeChart(-currentChartNb)
+                handleChangeChart(0)
             })
         } // eslint-disable-next-line
-    }, [plotOptions])
+    }, [plotOptions, selection, tsIndicators])
 
     function handleKeyDown(event) {
-            if (!avoidExtraCall) {
-                setAvoidExtraCall(true)
-                if (event.key === 'ArrowLeft') {
-                    handleChangeChart(-1)
-                } else if (event.key === 'ArrowRight') {
-                    handleChangeChart(1)
-                }
+        if (!avoidExtraCall) {
+            setAvoidExtraCall(true)
+            if (event.key === 'ArrowLeft') {
+                setCurrentChartNb(prevState => prevState - 1 >= 0 ? prevState - 1 : 0)
+            } else if (event.key === 'ArrowRight') {
+                setCurrentChartNb(prevState => prevState + 1 < nbCharts ? prevState + 1 : nbCharts - 1)
             }
         }
+    }
 
-    function handleChangeChart(increment) {
-        const newChartNb = currentChartNb + increment
-        if (0 <= newChartNb && newChartNb <= nbCharts - 1) {
-            currentCountry = plotOptions.combined ? selection[newChartNb] : selection[Math.floor(newChartNb / tsIndicators.length)] /* 5 tsIndicators relative -> for 5 chart changes no country change. combined -> combined direct change*/
-            currentIndicator = tsIndicators[newChartNb % tsIndicators.length]
-            const datasets = (plotOptions.combined ? allDataRef.current[currentCountry.values_.ISO_A3].all : allDataRef.current[currentCountry.values_.ISO_A3][currentIndicator])
-            options.current = ({
-                scales: {
-                    y: {
-                        title: {
-                            display: true,
-                            text: yLabel
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: [`Timeseries for ${currentCountry.values_.name}, from ${startName} to ${endName}`],
-                    },
-                }
-            })
+
+    function handleChangeChart(newChartNb) {
+        if (plotOptions.plotting && selection.length > 0 && tsIndicators.length > 0 && Object.keys(allDataRef.current).length > 0) {
+            currentCountry.current = plotOptions.combined ? selection[newChartNb] : selection[Math.floor(newChartNb / tsIndicators.length)]
+            currentIndicator.current = plotOptions.combined ? null : tsIndicators[newChartNb % tsIndicators.length]
+            var datasets = (plotOptions.combined ? allDataRef.current[currentCountry.current.values_.ISO_A3].all : allDataRef.current[currentCountry.current.values_.ISO_A3][currentIndicator.current])
+            const newOptions = options
+            newOptions.plugins.title.text = [`Chart ${newChartNb}`, `Timeseries for ${currentCountry.current.values_.ADMIN}, from ${startName} to ${endName}`]
+            newOptions.scales.y.title.text = plotOptions.combined ? null : chooseYLabel(currentIndicator.current)
+            setOptions(newOptions)
             setData({ labels: labels.current, datasets: datasets })
             setCurrentChartNb(newChartNb)
         } else {
-            alert('chart number out of range!')
+            setData(null)
         }
     }
+
+
+
+    useEffect(() => {
+        if (exportTs.type === 'CSV') {
+            const headersSingle = `Year,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]} ${chooseYLabel(currentIndicator.current)}`
+            var headersMultiple = `Year`
+            var rowContent = ''
+            measurementPoints.forEach((value, i) => {
+                if (exportTsAmt === 'displayed') {
+                    rowContent += `${value},` + allDataRef.current[currentCountry.current.values_.ISO_A3][`${currentIndicator.current}_json`][0][i] + '\r\n'
+                } else if (exportTsAmt === 'all') {
+                    var row = value
+                    for (const country of selection) {
+                        for (const indicator of tsIndicators) {
+                            const newHeader = `,${country.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]} ${chooseYLabel(currentIndicator.current)}`
+                            if (!headersMultiple.includes(newHeader)) {
+                                headersMultiple += newHeader
+                            }
+                            row += ',' + allDataRef.current[country.values_.ISO_A3][`${indicator}_json`][0][i]
+                        }
+                    }
+                    rowContent += row + '\r\n'
+                }
+            })
+            var csvContent = `data:tetxt/csv;chartset=utf-8,`
+            csvContent += exportTsAmt === 'displayed' ? headersSingle : headersMultiple
+            csvContent += '\r\n' + rowContent
+            var encodedUri = encodeURI(csvContent)
+            const link = document.createElement('a')
+            link.href = encodedUri
+            link.download = 'titel.csv'
+            link.click()
+            // iets met de json doen: [list of values]
+        } else if (exportTs.type === 'jpeg') {
+            if (exportTsAmt === 'displayed') {
+                const link = document.createElement('a');
+                link.download = 'chart' + '.jpeg'
+                link.href = chartRef.current.toBase64Image('image/jpeg', 1);
+                link.click();
+            } else if (exportTsAmt === 'all') {
+                chartFinishedRendering.current = false
+                const startingChartNb = currentChartNb
+                const awaitChartRender = async () => {
+                    for (let i = 0; i < nbCharts ; i++) {
+                        console.log((startingChartNb + i) % nbCharts, startingChartNb, nbCharts)
+                        handleChangeChart((startingChartNb + i) % nbCharts)
+                        while (true) {
+                            await new Promise(resolve => setTimeout(resolve, 10))
+                            if (chartFinishedRendering.current) { break }
+                        }
+                        chartFinishedRendering.current = false
+                        const link = document.createElement('a');
+                        link.download = 'chart' + '.jpeg'
+                        link.href = chartRef.current.toBase64Image('image/jpeg', 1);
+                        link.click();
+                        link.remove()
+                    }
+                    handleChangeChart(startingChartNb)
+                }
+                awaitChartRender()
+            }
+        }
+    }, [exportTs])
+
     return (
         <>
-            <div onKeyDown={(e) => handleKeyDown(e)} onKeyUp={() => setAvoidExtraCall(false)}>
-                <div style={{ height: '220px'}} >
-                    <p style={{ fontWeight: 'bold' }}>Chart {currentChartNb}</p>
-                    {data && <Line data={data} options={{ ...options.current, maintainAspectRatio: false }} />}
-                </div> <br /> <br />
-                <Button onClick={() => handleChangeChart(-1)}>&#8249;</Button>
-                <Button onClick={() => handleChangeChart(1)}>&#8250;</Button>
-            </div>
+            {data && (
+                <div onKeyDown={(e) => handleKeyDown(e)} onKeyUp={() => setAvoidExtraCall(false)} style={{backgroundColor: 'white'}}>
+                    <div style={{ height: '300px' }}>
+                        <Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />
+                    </div>
+                    <Button onClick={() => handleChangeChart(currentChartNb - 1 >= 0 ? currentChartNb - 1 : 0)}>&#8249;</Button>
+                    <Button onClick={() => handleChangeChart(currentChartNb + 1 < nbCharts ? currentChartNb + 1 : nbCharts - 1)}>&#8250;</Button>
+                    <Dropdown style={{ position: "absolute", right: 0, bottom: 0 }} drop="end">
+                        <Dropdown.Toggle>
+                            Export
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <ToggleButtonGroup type="radio" name="exportTs" defaultValue='displayed' onChange={(e) => setExportTsAmt(e)}>
+                                <ToggleButton size="sm" id="tbg-exportTs-1" value='displayed'>Displayed</ToggleButton>
+                                <ToggleButton size="sm" id="tbg-exportTs-2" value='all'>All</ToggleButton>
+                            </ToggleButtonGroup>
+                            <Dropdown.Item onClick={() => setExportTs({ type: 'CSV' })}>To CSV</Dropdown.Item>
+                            <Dropdown.Item onClick={() => setExportTs({ type: 'jpeg' })}>To jpeg</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>)}
         </>
     )
+}
+
+// Little helper function
+function chooseYLabel(ind) {
+    if (['popc', 'urbc', 'rurc'].includes(ind)) {
+        return '[inh]'
+    } else if ('popd' === ind) {
+        return '[inh/\u33A2]'
+    } else { return '[\u33A2]' }
 }

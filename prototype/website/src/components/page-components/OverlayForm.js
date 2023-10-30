@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react"
+import { React, useRef, useEffect } from "react"
 
 // default background provided, should be oke but changing should also be easy.
 import { TileWMS } from 'ol/source';
@@ -12,6 +12,7 @@ import Form from 'react-bootstrap/Form'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import Row from 'react-bootstrap/Row'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 import Select from "react-select"
 
@@ -83,7 +84,6 @@ export default function OverlayForm({ map, setMap, currentYear, setCurrentYear, 
         } else {
             setOvIndicator(e)
         }
-
     }
     return (
         <>
@@ -96,7 +96,7 @@ export default function OverlayForm({ map, setMap, currentYear, setCurrentYear, 
                 <Row>
                     <Form.Label style={{}}>Indicator
                         <div style={{ width: 200, margin: '0 auto' }}>
-                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} placeholder="None Selected" onChange={(e) => handleSelect(e)} /> 
+                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} placeholder="None Selected" onChange={(e) => handleSelect(e)} />
                         </div>
                     </Form.Label>
                 </Row>
@@ -107,6 +107,19 @@ export default function OverlayForm({ map, setMap, currentYear, setCurrentYear, 
                             <ToggleButton size="sm" id="tbg-overlay-2" value={2}>Countries</ToggleButton>
                         </ToggleButtonGroup>
                     </Form.Label>
+                </Row>
+                <Row>
+                    <Dropdown drop="down">
+                        <Dropdown.Toggle>
+                            Export
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-2">Single Year (Tiff)</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">All Years (netCDF)</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Selection (netCDF)</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Row>
             </Form>
         </>

@@ -79,3 +79,26 @@ utils_ncwms.py is used to connect to the ncWMS servlet, and fill this servlet wi
 ## Defining specific style
 styles can be manualy defined within $HOME/.ncWMS/.styles
 Examples are here: https://github.com/Reading-eScience-Centre/edal-java/blob/master/graphics/src/main/resources/styles/default-scalar.xml
+
+Geoserver creds:
+admin
+geoserver
+
+port:
+4000
+
+Geoserver netCDF:
+http://localhost:4000/geoserver/tiger/wms?service=WMS&version=1.1.0&request=GetMap&layers=tiger%3Airrigated_rice&bbox=-179.99999489666106%2C-90.00000252664061%2C179.9998575675595%2C89.9999262326953&time=2014-05-01&width=768&height=384&srs=EPSG%3A4326&styles=&format=application/openlayers
+
+See what this looks like and if it works within Openlayers application (I think it should work just this easily)
+
+Pitch: 
+science communication!
+Sell also yourself a bit!
+
+Styling:
+https://reading-escience-centre.gitbooks.io/ncwms-user-guide/content/06-development.html#styles
+https://github.com/Reading-eScience-Centre/edal-java/tree/master/graphics/src/main/resources/styles
+https://docs.geoserver.org/2.22.x/en/user/styling/webadmin/index.html
+
+Cannot export in ASCII Format, therefore manual stransformation needs to happen any way. Ths should be easy enough. Just build. 

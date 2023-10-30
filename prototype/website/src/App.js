@@ -12,7 +12,7 @@ import Page from './components/Page'
 
 export default function App() {
   // State, contains Openlayers map element
-  const [map, setMap] = useState()
+  const [map, setMap] = useState(false)
 
   // Contains countries currently selected
   const [selection, setSelection] = useState([])
@@ -21,7 +21,7 @@ export default function App() {
   const [overlay, setOverlay] = useState([])
 
   // easily switch from remote and on-site work (production only)
-  const UUNetwork = true 
+  const UUNetwork = false 
   if (UUNetwork) {
     window.apiUrl = 'hydeprod.geo.uu.nl'
   } else {

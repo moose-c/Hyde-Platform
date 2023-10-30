@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { indicatorTxtObj, years } from "../utilities/createData"
 
 import Form from "react-bootstrap/Form";
@@ -8,11 +7,11 @@ import Row from 'react-bootstrap/Row';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
+import React from "react";
+
 import Select from "react-select"
 
 export default function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, setTsIndicators, plotOptions, setPlotOptions }) {
-    const [displayForm, setDisplayForm] = useState(false)
-
     const optionsYears = Object.entries(years).map(([key, value]) => (
         { value: key, label: value }
     ))
@@ -27,10 +26,7 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
 
     return (
         <>
-            <Button style={{ pointerEvents: 'auto' }} variant="primary" onClick={() => setDisplayForm(!displayForm)}>
-                Plot Timeseries
-            </Button>
-            <Form >
+            <Form>
                 <Row>
                     <Col>
                         <Form.Label> Start year
@@ -51,10 +47,10 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
                     </Form.Label>
                 </Row>
                 <Row className="justify-content-center">
-                    <Button style={{ width: 200 }} variant="primary" onClick={() => setPlotOptions({ ...plotOptions, plotting: true })}>Request Figures</Button>
+                    <Button style={{ width: 200 }} variant="primary" onClick={() => setPlotOptions(prevOptions => ({ ...prevOptions, plotting: !prevOptions.plotting }))}>Request Figures</Button>
                 </Row>
                 <Row>
-                    <Form.Label> Change X-axis
+                    <Form.Label> Change X-axis: 
                         <ToggleButtonGroup type="radio" name="xAxis" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })}>
                             <ToggleButton size="sm" id="tbg-axis-1" value={1}>Relative</ToggleButton>
                             <ToggleButton size="sm" id="tbg-axis-2" value={2}>Absolute</ToggleButton>
@@ -62,7 +58,7 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
                     </Form.Label>
                 </Row>
                 <Row>
-                    <Form.Label> Change Graphs
+                    <Form.Label> Change Graphs: 
                         <ToggleButtonGroup type="radio" name="figures" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combined: !plotOptions.combined })}>
                             <ToggleButton size="sm" id="tbg-figures-1" value={1}>Seperate</ToggleButton>
                             <ToggleButton size="sm" id="tbg-figures-2" value={2}>Combined</ToggleButton>
