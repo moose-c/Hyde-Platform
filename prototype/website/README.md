@@ -61,3 +61,5 @@ If you want to set a net data location, folder should be empty!
 How to run a build:
 `npm install -g serve`
 `serve -s build -l 9000`
+
+scp -r .\build\ caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Platform-Frontend

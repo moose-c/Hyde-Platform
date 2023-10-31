@@ -8,6 +8,8 @@ import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
 
 import { years, yearNbLst, indicatorTxtObj } from '../utilities/createData'   /* First an object from value to name, second a list */
 
@@ -17,7 +19,7 @@ import language from "i18n-iso-countries/langs/en.json"
 
 countries.registerLocale(language);
 
-export default function Charts({ selection, startYear, endYear, tsIndicators, plotOptions }) {
+export default function Charts({ selection, startYear, endYear, tsIndicators, plotOptions, setPlotOptions }) {
     const allDataRef = useRef(false)
     const currentCountry = useRef(false)
     const currentIndicator = useRef(false)
@@ -142,7 +144,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
             currentIndicator.current = plotOptions.combined ? null : tsIndicators[newChartNb % tsIndicators.length]
             var datasets = (plotOptions.combined ? allDataRef.current[currentCountry.current.values_.ISO_A3].all : allDataRef.current[currentCountry.current.values_.ISO_A3][currentIndicator.current])
             const newOptions = options
-            newOptions.plugins.title.text = [`Chart ${newChartNb}`, `Timeseries for ${currentCountry.current.values_.ADMIN}, from ${startName} to ${endName}`]
+            newOptions.plugins.title.text = [`Timeseries for ${currentCountry.current.values_.ADMIN}, from ${startName} to ${endName}`]
             newOptions.scales.y.title.text = plotOptions.combined ? null : chooseYLabel(currentIndicator.current)
             setOptions(newOptions)
             setData({ labels: labels.current, datasets: datasets })
@@ -195,7 +197,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                 chartFinishedRendering.current = false
                 const startingChartNb = currentChartNb
                 const awaitChartRender = async () => {
-                    for (let i = 0; i < nbCharts ; i++) {
+                    for (let i = 0; i < nbCharts; i++) {
                         console.log((startingChartNb + i) % nbCharts, startingChartNb, nbCharts)
                         handleChangeChart((startingChartNb + i) % nbCharts)
                         while (true) {
@@ -219,26 +221,42 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     return (
         <>
             {data && (
-                <div onKeyDown={(e) => handleKeyDown(e)} onKeyUp={() => setAvoidExtraCall(false)} style={{backgroundColor: 'white'}}>
+                <div onKeyDown={(e) => handleKeyDown(e)} onKeyUp={() => setAvoidExtraCall(false)} style={{ backgroundColor: 'white' }}>
                     <div style={{ height: '300px' }}>
                         <Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />
                     </div>
-                    <Button onClick={() => handleChangeChart(currentChartNb - 1 >= 0 ? currentChartNb - 1 : 0)}>&#8249;</Button>
-                    <Button onClick={() => handleChangeChart(currentChartNb + 1 < nbCharts ? currentChartNb + 1 : nbCharts - 1)}>&#8250;</Button>
-                    <Dropdown style={{ position: "absolute", right: 0, bottom: 0 }} drop="end">
-                        <Dropdown.Toggle>
-                            Export
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <ToggleButtonGroup type="radio" name="exportTs" defaultValue='displayed' onChange={(e) => setExportTsAmt(e)}>
-                                <ToggleButton size="sm" id="tbg-exportTs-1" value='displayed'>Displayed</ToggleButton>
-                                <ToggleButton size="sm" id="tbg-exportTs-2" value='all'>All</ToggleButton>
+                    <Form>
+                        <Button onClick={() => handleChangeChart(currentChartNb - 1 >= 0 ? currentChartNb - 1 : 0)}>&#8249;</Button>
+                        <Button onClick={() => handleChangeChart(currentChartNb + 1 < nbCharts ? currentChartNb + 1 : nbCharts - 1)}>&#8250;</Button>
+                        <Dropdown style={{ position: "absolute", right: 0, bottom: 0 }} drop="end">
+                            <Dropdown.Toggle>
+                                Export
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <ToggleButtonGroup type="radio" name="exportTs" defaultValue='displayed' onChange={(e) => setExportTsAmt(e)}>
+                                    <ToggleButton size="sm" id="tbg-exportTs-1" value='displayed'>Displayed</ToggleButton>
+                                    <ToggleButton size="sm" id="tbg-exportTs-2" value='all'>All</ToggleButton>
+                                </ToggleButtonGroup>
+                                <Dropdown.Item onClick={() => setExportTs({ type: 'CSV' })}>To CSV</Dropdown.Item>
+                                <Dropdown.Item onClick={() => setExportTs({ type: 'jpeg' })}>To jpeg</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <Row>
+                            <Form.Label> Change X-axis:
+                                <ToggleButtonGroup type="radio" name="xAxis" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })}>
+                                    <ToggleButton size="sm" id="tbg-axis-1" value={1}>Relative</ToggleButton>
+                                    <ToggleButton size="sm" id="tbg-axis-2" value={2}>Absolute</ToggleButton>
+                                </ToggleButtonGroup>
+                            </Form.Label>
+                        </Row>
+                        <Form.Label> Change Graphs:
+                            <ToggleButtonGroup type="radio" name="figures" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combined: !plotOptions.combined })}>
+                                <ToggleButton size="sm" id="tbg-figures-1" value={1}>Seperate</ToggleButton>
+                                <ToggleButton size="sm" id="tbg-figures-2" value={2}>Combined</ToggleButton>
                             </ToggleButtonGroup>
-                            <Dropdown.Item onClick={() => setExportTs({ type: 'CSV' })}>To CSV</Dropdown.Item>
-                            <Dropdown.Item onClick={() => setExportTs({ type: 'jpeg' })}>To jpeg</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                        </Form.Label>
+                    </Form>
+
                 </div>)}
         </>
     )

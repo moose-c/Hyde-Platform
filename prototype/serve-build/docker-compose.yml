@@ -1,0 +1,7 @@
+version: '3'
+services:
+  map-website:
+    build: .
+    container_name: map-website
+    ports:
+      - 3000:3000

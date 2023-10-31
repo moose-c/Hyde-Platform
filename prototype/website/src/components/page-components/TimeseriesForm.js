@@ -49,22 +49,6 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
                 <Row className="justify-content-center">
                     <Button style={{ width: 200 }} variant="primary" onClick={() => setPlotOptions(prevOptions => ({ ...prevOptions, plotting: !prevOptions.plotting }))}>Request Figures</Button>
                 </Row>
-                <Row>
-                    <Form.Label> Change X-axis: 
-                        <ToggleButtonGroup type="radio" name="xAxis" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })}>
-                            <ToggleButton size="sm" id="tbg-axis-1" value={1}>Relative</ToggleButton>
-                            <ToggleButton size="sm" id="tbg-axis-2" value={2}>Absolute</ToggleButton>
-                        </ToggleButtonGroup>
-                    </Form.Label>
-                </Row>
-                <Row>
-                    <Form.Label> Change Graphs: 
-                        <ToggleButtonGroup type="radio" name="figures" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combined: !plotOptions.combined })}>
-                            <ToggleButton size="sm" id="tbg-figures-1" value={1}>Seperate</ToggleButton>
-                            <ToggleButton size="sm" id="tbg-figures-2" value={2}>Combined</ToggleButton>
-                        </ToggleButtonGroup>
-                    </Form.Label>
-                </Row>
             </Form>
         </>
     )
