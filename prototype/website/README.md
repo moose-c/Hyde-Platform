@@ -55,6 +55,8 @@ within web.xml:
   <param-name>GEOSERVER_FILEBROWSER_HIDEFS</param-name>
   <param-value>true</param-value>
 </context-param>
+Also remote this to preview:
+rm webapps/geoserver/WEB-INF/lib/marlin-0.9.3.jar
 
 If you want to set a net data location, folder should be empty!
 

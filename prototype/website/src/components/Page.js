@@ -12,7 +12,7 @@ import OverlayForm from './page-components/OverlayForm';
 import Legend from './page-components/Legend'
 import Attributions from './page-components/Attributions'
 
-export default function Page({ map, setMap, selection, overlay, setOverlay }) {
+export default function Page({ map, setMap, selection, setSelection, overlay, setOverlay }) {
     const [startYear, setStartYear] = useState('ce_1930')
     const [endYear, setEndYear] = useState('ce_1953')
     const [tsIndicators, setTsIndicators] = useState([])
@@ -30,7 +30,7 @@ export default function Page({ map, setMap, selection, overlay, setOverlay }) {
             <div style={{ position: 'fixed', top: 0, margin: 5, backgroundColor: 'white' }}>
                 <Tabs transition={false} style={{ fontWeight: 'bold' }}>
                     <Tab eventKey="selection" title="Selected Countries">
-                        <Selection selection={selection} />
+                        <Selection selection={selection} setSelection={setSelection}/>
                     </Tab>
                     <Tab eventKey="tsForm" title="Timeseries">
                         <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />

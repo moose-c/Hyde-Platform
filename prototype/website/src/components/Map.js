@@ -14,7 +14,7 @@ import GeoJSON from 'ol/format/GeoJSON.js'
 import CountryLayer from "../data/countries.geojson"
 
 // 'MapWrapper' chosen since 'Map' already declared from openlayers, since default export of little importance
-export default function MapWrapper({ map, setMap, selection, handleSelection }) {
+export default function MapWrapper({ map, setMap, selection, setSelection }) {
 
   // initialize map on first render
   useEffect(() => {
@@ -75,12 +75,12 @@ export default function MapWrapper({ map, setMap, selection, handleSelection }) 
         map.forEachFeatureAtPixel(event.pixel, function (f) {
           if (!selection.includes(f)) {
             f.setStyle(highlightStyle)
-            handleSelection([...selection, f])
+            setSelection([...selection, f])
           } else {
             f.setStyle(undefined)
             const newSelection = selection.slice(0)
             newSelection.splice(selection.indexOf(f), 1)
-            handleSelection(newSelection)
+            setSelection(newSelection)
           }
         })
       })

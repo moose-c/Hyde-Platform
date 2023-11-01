@@ -59,8 +59,8 @@ export default function App() {
         </Modal.Footer>
       </Modal>
       <div className='App'>
-        <Map map={map} setMap={setMap} selection={selection} handleSelection={setSelection} />
-        <Page map={map} setMap={setMap} selection={selection} overlay={overlay} setOverlay={setOverlay} />
+        <Map map={map} setMap={setMap} selection={selection} setSelection={setSelection} />
+        <Page map={map} setMap={setMap} selection={selection} setSelection={setSelection} overlay={overlay} setOverlay={setOverlay} />
       </div>
     </>
 
