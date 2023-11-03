@@ -55,6 +55,9 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                 display: true,
                 text: 'placeholder'
             },
+            colors: {
+                forceOverride: true
+            }
         }
     })
 
@@ -74,10 +77,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     // obtain names, again, necessary?
     const startName = Object.values(years)[startIndex]
     const endName = Object.values(years)[endIndex]
-
-    // Not yet functional
-    const [avoidExtraCall, setAvoidExtraCall] = useState(false);
-
 
     useEffect(() => {
         if (!plotOptions.absolute) {
@@ -126,17 +125,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         } // eslint-disable-next-line
     }, [plotOptions, selection, tsIndicators])
 
-    function handleKeyDown(event) {
-        if (!avoidExtraCall) {
-            setAvoidExtraCall(true)
-            if (event.key === 'ArrowLeft') {
-                setCurrentChartNb(prevState => prevState - 1 >= 0 ? prevState - 1 : 0)
-            } else if (event.key === 'ArrowRight') {
-                setCurrentChartNb(prevState => prevState + 1 < nbCharts ? prevState + 1 : nbCharts - 1)
-            }
-        }
-    }
-
 
     function handleChangeChart(newChartNb) {
         if (plotOptions.plotting && selection.length > 0 && tsIndicators.length > 0 && Object.keys(allDataRef.current).length > 0) {
@@ -144,8 +132,8 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
             currentIndicator.current = plotOptions.combined ? null : tsIndicators[newChartNb % tsIndicators.length]
             var datasets = (plotOptions.combined ? allDataRef.current[currentCountry.current.values_.ISO_A3].all : allDataRef.current[currentCountry.current.values_.ISO_A3][currentIndicator.current])
             const newOptions = options
-            newOptions.plugins.title.text = [`Timeseries for ${currentCountry.current.values_.ADMIN}, from ${startName} to ${endName}`]
-            newOptions.scales.y.title.text = plotOptions.combined ? null : chooseYLabel(currentIndicator.current)
+            newOptions.plugins.title.text = `${currentCountry.current.values_.ADMIN}, ${startName} - ${endName}`
+            newOptions.scales.y.title.text = chooseYLabel(currentIndicator.current, plotOptions.combined, tsIndicators)
             setOptions(newOptions)
             setData({ labels: labels.current, datasets: datasets })
             setCurrentChartNb(newChartNb)
@@ -158,39 +146,59 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
 
     useEffect(() => {
         if (exportTs.type === 'CSV') {
-            const headersSingle = `Year,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]} ${chooseYLabel(currentIndicator.current)}`
-            var headersMultiple = `Year`
             var rowContent = ''
-            measurementPoints.forEach((value, i) => {
-                if (exportTsAmt === 'displayed') {
-                    rowContent += `${value},` + allDataRef.current[currentCountry.current.values_.ISO_A3][`${currentIndicator.current}_json`][0][i] + '\r\n'
-                } else if (exportTsAmt === 'all') {
+            var title = ''
+            var header = 'Year'
+            if (exportTsAmt === 'displayed') {
+                if (plotOptions.combined) {
+                    title = 'combined'
+                    measurementPoints.forEach((value, i) => {
+                        var row = value
+                        for (const indicator of tsIndicators) {
+                            const newHeader = `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]} ${chooseYLabel(currentIndicator.current)}`
+                            if (!header.includes(newHeader)) {
+                                header += newHeader
+                            }
+                            // titel += `, ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]}`
+                            row += ',' + allDataRef.current[currentCountry.current.values_.ISO_A3][`${indicator}_json`][0][i]
+                        }
+                        rowContent += `${row}\r\n`
+                    })
+                } else {
+                    header += `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]} ${chooseYLabel(currentIndicator.current)}`
+                    title = 'single'
+                    // titel += `${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}`
+                    measurementPoints.forEach((value, i) => {
+                        rowContent += `${value},${allDataRef.current[currentCountry.current.values_.ISO_A3][`${currentIndicator.current}_json`][0][i]}\r\n`
+                    })
+                }
+            } else if (exportTsAmt === 'all') {
+                title = 'all'
+                measurementPoints.forEach((value, i) => {
                     var row = value
                     for (const country of selection) {
                         for (const indicator of tsIndicators) {
                             const newHeader = `,${country.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]} ${chooseYLabel(currentIndicator.current)}`
-                            if (!headersMultiple.includes(newHeader)) {
-                                headersMultiple += newHeader
+                            if (!header.includes(newHeader)) {
+                                header += newHeader
                             }
                             row += ',' + allDataRef.current[country.values_.ISO_A3][`${indicator}_json`][0][i]
                         }
                     }
-                    rowContent += row + '\r\n'
-                }
-            })
-            var csvContent = `data:tetxt/csv;chartset=utf-8,`
-            csvContent += exportTsAmt === 'displayed' ? headersSingle : headersMultiple
-            csvContent += '\r\n' + rowContent
+                    rowContent += `${row}\r\n`
+                })
+            }
+            const csvContent = `data:tetxt/csv;chartset=utf-8,\uFEFF${header}\r\n${rowContent}`
             var encodedUri = encodeURI(csvContent)
             const link = document.createElement('a')
             link.href = encodedUri
-            link.download = 'titel.csv'
+            link.download = `${title}.csv`
             link.click()
             // iets met de json doen: [list of values]
         } else if (exportTs.type === 'jpeg') {
             if (exportTsAmt === 'displayed') {
                 const link = document.createElement('a');
-                link.download = 'chart' + '.jpeg'
+                link.download = plotOptions.combined ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg` : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}.jpeg`
                 link.href = chartRef.current.toBase64Image('image/jpeg', 1);
                 link.click();
             } else if (exportTsAmt === 'all') {
@@ -198,7 +206,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                 const startingChartNb = currentChartNb
                 const awaitChartRender = async () => {
                     for (let i = 0; i < nbCharts; i++) {
-                        console.log((startingChartNb + i) % nbCharts, startingChartNb, nbCharts)
                         handleChangeChart((startingChartNb + i) % nbCharts)
                         while (true) {
                             await new Promise(resolve => setTimeout(resolve, 10))
@@ -206,7 +213,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                         }
                         chartFinishedRendering.current = false
                         const link = document.createElement('a');
-                        link.download = 'chart' + '.jpeg'
+                        link.download = plotOptions.combined ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg` : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}.jpeg`
                         link.href = chartRef.current.toBase64Image('image/jpeg', 1);
                         link.click();
                         link.remove()
@@ -220,14 +227,20 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
 
     return (
         <>
-            {data && (
-                <div onKeyDown={(e) => handleKeyDown(e)} onKeyUp={() => setAvoidExtraCall(false)} style={{ backgroundColor: 'white' }}>
-                    <div style={{ height: '300px' }}>
-                        <Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />
+            {plotOptions.plotting && data && (
+                <div style={{ backgroundColor: 'white' }}>
+                    <div style={{ height: '300px', display: 'flex', alignItems: "center" }}>
+                        <div>
+                            <Button onClick={() => handleChangeChart(currentChartNb - 1 >= 0 ? currentChartNb - 1 : 0)}>&#8249;</Button>
+                        </div>
+                        <div style={{ height: 300 }}>
+                            <Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />
+                        </div>
+                        <div>
+                            <Button onClick={() => handleChangeChart(currentChartNb + 1 < nbCharts ? currentChartNb + 1 : nbCharts - 1)}>&#8250;</Button>
+                        </div>
                     </div>
                     <Form>
-                        <Button onClick={() => handleChangeChart(currentChartNb - 1 >= 0 ? currentChartNb - 1 : 0)}>&#8249;</Button>
-                        <Button onClick={() => handleChangeChart(currentChartNb + 1 < nbCharts ? currentChartNb + 1 : nbCharts - 1)}>&#8250;</Button>
                         <Dropdown style={{ position: "absolute", right: 0, bottom: 0 }} drop="end">
                             <Dropdown.Toggle>
                                 Export
@@ -244,15 +257,15 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                         <Row>
                             <Form.Label> Change X-axis:
                                 <ToggleButtonGroup type="radio" name="xAxis" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })}>
-                                    <ToggleButton size="sm" id="tbg-axis-1" value={1}>Relative</ToggleButton>
-                                    <ToggleButton size="sm" id="tbg-axis-2" value={2}>Absolute</ToggleButton>
+                                    <ToggleButton variant="outline-secondary" size="sm" id="tbg-axis-1" value={1}>Relative</ToggleButton>
+                                    <ToggleButton variant="outline-secondary" size="sm" id="tbg-axis-2" value={2}>Absolute</ToggleButton>
                                 </ToggleButtonGroup>
                             </Form.Label>
                         </Row>
                         <Form.Label> Change Graphs:
                             <ToggleButtonGroup type="radio" name="figures" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combined: !plotOptions.combined })}>
-                                <ToggleButton size="sm" id="tbg-figures-1" value={1}>Seperate</ToggleButton>
-                                <ToggleButton size="sm" id="tbg-figures-2" value={2}>Combined</ToggleButton>
+                                <ToggleButton variant="outline-secondary" size="sm" id="tbg-figures-1" value={1}>Seperate</ToggleButton>
+                                <ToggleButton variant="outline-secondary" size="sm" id="tbg-figures-2" value={2}>Combined</ToggleButton>
                             </ToggleButtonGroup>
                         </Form.Label>
                     </Form>
@@ -263,10 +276,16 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
 }
 
 // Little helper function
-function chooseYLabel(ind) {
-    if (['popc', 'urbc', 'rurc'].includes(ind)) {
-        return '[inh]'
-    } else if ('popd' === ind) {
-        return '[inh/\u33A2]'
-    } else { return '[\u33A2]' }
+function chooseYLabel(ind, combined = false, all_indicators = []) {
+    if (combined) {
+        if (all_indicators.every(val => ['popc', 'urbc', 'rurc'].includes(val)) || all_indicators.every(val => ['popd'].includes(val)) || all_indicators.every(val => !['popc', 'urbc', 'rurc', 'popd'].includes(val))) {
+            return chooseYLabel(all_indicators[0])
+        } else { return null }
+    } else {
+        if (['popc', 'urbc', 'rurc'].includes(ind)) {
+            return '[inh]'
+        } else if ('popd' === ind) {
+            return `[inh/km\u00b2]`
+        } else { return '[km\u00b2]' }
+    }
 }

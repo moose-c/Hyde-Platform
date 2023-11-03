@@ -1,12 +1,10 @@
 import { React, useState, useEffect } from "react"
 import ListGroup from "react-bootstrap/ListGroup"
-import Button from "react-bootstrap/Button"
 
 export default function Selection({ selection, setSelection }) {
     let [countryList, setCountryList] = useState([])
     useEffect(() => {
         setCountryList(selection.map((feature, count) => {
-            console.log(feature)
             return (
                 <ListGroup.Item key={`country ${count}`}>
                     <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -15,7 +13,7 @@ export default function Selection({ selection, setSelection }) {
                 </ListGroup.Item>
             )
         }))
-    }, [selection])
+    }, [selection, setSelection])
     return (
         <>
             {/* <p style={{ fontWeight: 'bold' }}>Selected Countries</p> */}

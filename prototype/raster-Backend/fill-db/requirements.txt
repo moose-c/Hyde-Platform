@@ -3,4 +3,3 @@ xarray
 geopandas
 regionmask
 gadm
-matplotlib.pyplot

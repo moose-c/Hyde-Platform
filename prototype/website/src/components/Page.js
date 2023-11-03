@@ -12,12 +12,10 @@ import OverlayForm from './page-components/OverlayForm';
 import Legend from './page-components/Legend'
 import Attributions from './page-components/Attributions'
 
-export default function Page({ map, setMap, selection, setSelection, overlay, setOverlay }) {
+export default function Page({ map, setMap, selection, setSelection, overlay, setOverlay, ovIndicator, setOvIndicator, currentYear, setCurrentYear }) {
     const [startYear, setStartYear] = useState('ce_1930')
     const [endYear, setEndYear] = useState('ce_1953')
     const [tsIndicators, setTsIndicators] = useState([])
-    const [ovIndicator, setOvIndicator] = useState(null)
-    const [currentYear, setCurrentYear] = useState('ce_0')
     // use a dictionary since if now change plotting to the same value 'true' rerender page
     const [plotOptions, setPlotOptions] = useState({
         plotting: false,
@@ -35,8 +33,8 @@ export default function Page({ map, setMap, selection, setSelection, overlay, se
                     <Tab eventKey="tsForm" title="Timeseries">
                         <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
                     </Tab>
-                    <Tab eventKey="ovForm" title="Overlay">
-                        <OverlayForm map={map} setMap={setMap} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator} overlay={overlay} setOverlay={setOverlay} />
+                    <Tab eventKey="mapsForm" title="Maps">
+                        <OverlayForm map={map} setMap={setMap} setSelection={setSelection} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator} overlay={overlay} setOverlay={setOverlay} />
                     </Tab>
                 </Tabs>
             </div>

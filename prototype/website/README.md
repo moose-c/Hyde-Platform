@@ -34,34 +34,3 @@ React is centered around the concept of components, which are reusable and indep
 React allows developers to describe how the UI should look for a given state, and it automatically manages and updates the UI as the application's state changes. Developers specify what the UI should be based on the current state rather than imperatively changing the DOM.
 
 To learn react I would rever the reader to [Learn environment of the React webpage](https://react.dev/learn), where excellent tutorials are located which allows a reader to quickly pick up react. I really found React a usefull addition to my developers toolbelt.
-
-TODO: 
-- Make exportable
-
-Test backend:
-- curl http://127.0.0.1:8000/uopp/4/bce_1000/ce_700
-
-To Build:
-npm run build
-
-Idea: Do we want to design a course (Or somethg along these lines) to teach webdevlopment for mapsites
-
-Pitch: 
-science communication!
-Sell also yourself a bit!
-
-within web.xml:
-<context-param>
-  <param-name>GEOSERVER_FILEBROWSER_HIDEFS</param-name>
-  <param-value>true</param-value>
-</context-param>
-Also remote this to preview:
-rm webapps/geoserver/WEB-INF/lib/marlin-0.9.3.jar
-
-If you want to set a net data location, folder should be empty!
-
-How to run a build:
-`npm install -g serve`
-`serve -s build -l 9000`
-
-scp -r .\build\ caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Platform-Frontend

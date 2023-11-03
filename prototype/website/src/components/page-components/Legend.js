@@ -12,7 +12,6 @@ export default function Legend({ currentYear, ovIndicator }) {
 
     useEffect(() => {
         if (ovIndicator !== null) {
-            
             if ('population_density' === ovIndicator) {
                 scale.current = '[inh/km2'
             } else if (['population', 'urban_population', 'rural_population'].includes(ovIndicator)) {
@@ -21,9 +20,10 @@ export default function Legend({ currentYear, ovIndicator }) {
                 scale.current = '[km2'
             }
             scale.current += '/cell]'
+            const layer = window.apiUrl === 'localhost' ? '2/irrigated_rice' : `${indicatorNcOrder.indexOf(ovIndicator) + 1}/${ovIndicator}`
             fetch(`http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&
             TIME=${time}&
-            LAYERS=${indicatorNcOrder.indexOf(ovIndicator) + 1}/${ovIndicator}`)
+            LAYERS=${layer}`)
                 .then((response) => response.json())
                 .then(respJs => {
                     minmax.current = respJs
@@ -31,6 +31,7 @@ export default function Legend({ currentYear, ovIndicator }) {
                     &COLORBARONLY=TRUE
                     &HEIGHT=200&WIDTH=50
                     &PALETTE=${style}
+                    &NUMCOLORBANDS=6
                     `
                     fetch(legendUrl)
                         .then(response => response.blob())
@@ -51,10 +52,10 @@ export default function Legend({ currentYear, ovIndicator }) {
                 <div>
                     <span>{minmax.current.max}</span>
                     <img src={legend} alt="Legend" />
-                    <span>{minmax.current.min + 0.01}</span>
+                    <span>{minmax.current.min + 0.0001}</span>
                 </div>
                 {/* scale potitioning is not correct yet */}
-                <span style={{transform: 'rotate(90deg)', transformOrigin: 'bottom left', whiteSpace: 'nowrap'}}>{scale.current}</span>
+                <span style={{ transform: 'rotate(90deg)', transformOrigin: 'bottom left', whiteSpace: 'nowrap' }}>{scale.current}</span>
             </div></>}
     </>)
 
