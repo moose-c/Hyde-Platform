@@ -21,6 +21,9 @@ Following python container, the following works:
 curl -H "Accept: text/plain" -u ncwms:{password} -X GET http://tomcat-ncwms:8080/ncWMS/admin/datasetStatus?dataset=hmgrid
 
 **From browser:** 
+Access page:
+http://localhost:8080/ncWMS
+
 Test getmap: 
 http://localhost:8080/ncWMS/wms?REQUEST=GetMap&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&FORMAT=image/png&TRANSPARENT=true&TIME=-10000-05-01&LAYERS=2/irrigated_rice&BBOX=-179.99999489666106,-90.00000252664061,179.99985756755953,89.9999262326953
 
@@ -114,3 +117,5 @@ scp -r caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Platform-Backend/temp
 Download using geoserver?
 
 http://127.0.0.1:4000/geoserver/ows?service=wps
+
+wrote an aditional API in order for users request asc & tiff data

@@ -1,4 +1,4 @@
-import { React, useEffect, useRef, useState } from 'react'
+import { React, useState } from 'react'
 
 import '../styles/Page.css'
 
@@ -16,6 +16,7 @@ export default function Page({ map, setMap, selection, setSelection, overlay, se
     const [startYear, setStartYear] = useState('ce_1930')
     const [endYear, setEndYear] = useState('ce_1953')
     const [tsIndicators, setTsIndicators] = useState([])
+    const [afterChange, setAfterChange] = useState(false)
     // use a dictionary since if now change plotting to the same value 'true' rerender page
     const [plotOptions, setPlotOptions] = useState({
         plotting: false,
@@ -34,7 +35,7 @@ export default function Page({ map, setMap, selection, setSelection, overlay, se
                         <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
                     </Tab>
                     <Tab eventKey="mapsForm" title="Maps">
-                        <OverlayForm map={map} setMap={setMap} setSelection={setSelection} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator} overlay={overlay} setOverlay={setOverlay} />
+                        <OverlayForm map={map} setMap={setMap} setSelection={setSelection} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator} overlay={overlay} setOverlay={setOverlay} afterChange={afterChange} setAfterChange={setAfterChange}/>
                     </Tab>
                 </Tabs>
             </div>
@@ -44,7 +45,7 @@ export default function Page({ map, setMap, selection, setSelection, overlay, se
             </div>
 
             <div style={{ position: 'fixed', right: 0, top: 0, margin: 5 }}>
-                <Legend currentYear={currentYear} ovIndicator={ovIndicator} />
+                <Legend currentYear={currentYear} ovIndicator={ovIndicator} afterChange={afterChange} />
             </div>
 
             <div style={{ position: 'fixed', right: 0, bottom: 0 }}>

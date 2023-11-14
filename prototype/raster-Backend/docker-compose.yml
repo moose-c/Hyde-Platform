@@ -10,14 +10,13 @@ services:
     volumes:
       - C:\Users\Moos-Hyde\Documents\Hyde-Platform\prototype\raster-Backend\config.xml:/usr/local/tomcat/.ncWMS2/config.xml # config file for ncWMS
       - C:\Users\Moos-Hyde\Documents\Hyde-Platform\prototype\raster-Backend\tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml # user file for tomcat
-      - ./fill-db/netCDF:/data/netCDF # netCDF data
+      - ./WMS/netCDF:/data/netCDF # netCDF data
 
-    ports: 
+    ports:
       - 8080:8080
-      
 
     # now interactable with: docker compose exec tomcat-ncwms bash
-    stdin_open: true 
+    stdin_open: true
     tty: true
 
     # Requered for running on server, for some reason
@@ -32,7 +31,6 @@ services:
       start_period: 10s
       timeout: 10s
 
-
   ncwms-fill:
     container_name: ncwms-fill
 
@@ -44,14 +42,14 @@ services:
       - C:\Users\Moos-Hyde\Documents\Hyde-Platform\.env
 
     # make again interactible
-    stdin_open: true 
+    stdin_open: true
     tty: true
 
     # Starts after succesful healthcheck of timeseries-database container
-    depends_on: 
+    depends_on:
       tomcat-ncwms:
         condition: service_healthy
 
     # copy data into container
     volumes:
-      - ./fill-db/netCDF:/data/netCDF
+      - ./WMS/netCDF:/data/netCDF

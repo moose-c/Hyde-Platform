@@ -36,7 +36,7 @@ export default function App() {
 
 
   // easily switch from remote and on-site work (production only)
-  const UUNetwork = true
+  const UUNetwork = false
   if (UUNetwork) {
     window.apiUrl = 'hydeprod.geo.uu.nl'
   } else {

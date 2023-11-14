@@ -2,16 +2,17 @@ import { React, useEffect, useRef, useState } from "react"
 import { indicatorNcOrder } from "../utilities/createData"  /* as ind.type : {ind -> Indicator Name} */
 
 
-export default function Legend({ currentYear, ovIndicator }) {
+export default function Legend({ currentYear, ovIndicator, afterChange }) {
     const [legend, setLegend] = useState(null)
-
-    const time = `${currentYear.split('_')[1]}-05-01`
+    var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
+    year += `${currentYear.split('_')[1]}`
+    var time = `${year}-05-01`
     const style = 'seq-YlOrRd'
     const minmax = useRef()
     const scale = useRef()
 
     useEffect(() => {
-        if (ovIndicator !== null) {
+        if (ovIndicator !== null && afterChange) {
             if ('population_density' === ovIndicator) {
                 scale.current = '[inh/km2'
             } else if (['population', 'urban_population', 'rural_population'].includes(ovIndicator)) {
@@ -26,6 +27,7 @@ export default function Legend({ currentYear, ovIndicator }) {
             LAYERS=${layer}`)
                 .then((response) => response.json())
                 .then(respJs => {
+                    console.log('inside', respJs)
                     minmax.current = respJs
                     const legendUrl = `http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0
                     &COLORBARONLY=TRUE
@@ -44,7 +46,7 @@ export default function Legend({ currentYear, ovIndicator }) {
             scale.current = null
             setLegend(null)
         } // eslint-disable-next-line
-    }, [currentYear, ovIndicator])
+    }, [currentYear, ovIndicator, afterChange])
 
     return (<>
         {legend && <>

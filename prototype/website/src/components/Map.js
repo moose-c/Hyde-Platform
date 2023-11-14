@@ -62,7 +62,6 @@ export default function MapWrapper({ map, setMap, selection, setSelection, overl
       }),
       controls: [/* new Zoom() */]
     })
-
     // save map and vector layer references to state
     setMap(initialMap)
     mapRef.current = initialMap
