@@ -65,7 +65,7 @@ export default function MapWrapper({ map, setMap, selection, setSelection, overl
     // save map and vector layer references to state
     setMap(initialMap)
     mapRef.current = initialMap
-
+    
     // eslint-disable-next-line
   }, [])
 

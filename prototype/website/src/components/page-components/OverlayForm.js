@@ -85,7 +85,7 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
                     setMap(mapRef.current)
                     setOverlay([fill, contour])
                 })
-        } else {
+        } else if (map) {
             setSelection([])
             overlay.forEach(layer => {
                 mapRef.current.removeLayer(layer)
