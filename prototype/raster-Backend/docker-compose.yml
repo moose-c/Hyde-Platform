@@ -53,3 +53,18 @@ services:
     # copy data into container
     volumes:
       - ./WMS/netCDF:/data/netCDF
+
+  raster-api:
+    container_name: raster-api
+    build: ./api # build image again from Dockerfile within api folder
+
+    environment:
+      DEBUG: 0
+
+    volumes:
+      - ./api/data:/data/asc
+      - ./api/data:/data/png
+
+    # ports through which the API can be reached. [External]:[Docker]
+    ports:
+      - 8100:8100 Look this up

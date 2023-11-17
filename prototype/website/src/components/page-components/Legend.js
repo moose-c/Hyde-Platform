@@ -27,7 +27,6 @@ export default function Legend({ currentYear, ovIndicator, afterChange }) {
             LAYERS=${layer}`)
                 .then((response) => response.json())
                 .then(respJs => {
-                    console.log('inside', respJs)
                     minmax.current = respJs
                     const legendUrl = `http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0
                     &COLORBARONLY=TRUE

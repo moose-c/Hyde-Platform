@@ -1,24 +1,14 @@
 __pycache__
 .venv/
-.parcel-cache/
 
 node_modules/
 dist/
-redundand_code/
-leren/
-documentation/
 data/
 old/
-test-react/
 build/
 
-
-*.nc
-passwords.*
 package-lock.json
-*.jar
 TODO.md
 .env
-debug.py
 Server-communication.md
-
+*.nc

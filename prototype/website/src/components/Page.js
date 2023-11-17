@@ -13,8 +13,8 @@ import Legend from './page-components/Legend'
 import Attributions from './page-components/Attributions'
 
 export default function Page({ map, setMap, selection, setSelection, overlay, setOverlay, ovIndicator, setOvIndicator, currentYear, setCurrentYear }) {
-    const [startYear, setStartYear] = useState('ce_1930')
-    const [endYear, setEndYear] = useState('ce_1953')
+    const [startYear, setStartYear] = useState('bce_10000')
+    const [endYear, setEndYear] = useState('ce_2017')
     const [tsIndicators, setTsIndicators] = useState([])
     const [afterChange, setAfterChange] = useState(false)
     // use a dictionary since if now change plotting to the same value 'true' rerender page

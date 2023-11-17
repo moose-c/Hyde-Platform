@@ -3,7 +3,6 @@ version: "3.8"
 
 # contains images and container configuration, much like `docker run`
 services:
-
   # name of service 
   timeseries-database:
     container_name: timeseries-database

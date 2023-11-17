@@ -25,7 +25,7 @@ Access page:
 http://localhost:8080/ncWMS
 
 Test getmap: 
-http://localhost:8080/ncWMS/wms?REQUEST=GetMap&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&FORMAT=image/png&TRANSPARENT=true&TIME=-10000-05-01&LAYERS=2/irrigated_rice&BBOX=-179.99999489666106,-90.00000252664061,179.99985756755953,89.9999262326953
+http://localhost:8080/ncWMS/wms?REQUEST=GetMap&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&FORMAT=image/png&TRANSPARENT=true&TIME=-10000-05-01&LAYERS=2/irrigated_rice&BBOX=-180,-90,180,90
 
 Test GetMetadata:
 http://localhost:8080/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&FORMAT=image/png&TRANSPARENT=true&TIME=2021-05-01&LAYERS=2/irrigated_rice&BBOX=-179.99999489666106,-90.00000252664061,179.99985756755953,89.9999262326953
@@ -114,8 +114,20 @@ Cannot export in ASCII Format, therefore manual stransformation needs to happen 
 
 scp -r caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Platform-Backend/temp 
 
+scp caste001@hydeprod.geo.uu.nl:/data/klein012/hyde/output/hyde33_c7_base_mrt2023/zip/0AD_lu.zip .
+
 Download using geoserver?
 
 http://127.0.0.1:4000/geoserver/ows?service=wps
 
 wrote an aditional API in order for users request asc & tiff data
+
+Geoserver?
+
+within web.xml:
+<context-param>
+  <param-name>GEOSERVER_FILEBROWSER_HIDEFS</param-name>
+  <param-value>true</param-value>
+</context-param>
+Also remote this to preview:
+rm webapps/geoserver/WEB-INF/lib/marlin-0.9.3.jar

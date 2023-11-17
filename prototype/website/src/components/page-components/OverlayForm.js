@@ -6,7 +6,7 @@ import { TileWMS } from 'ol/source';
 // Renders sources that provide tiled images in grids that are organized by zoom levels for specific resolutions.
 import TileLayer from 'ol/layer/Tile.js';
 
-import { years, yearval_lst, indicatorNcObj, indicatorNcOrder } from "../utilities/createData"  /* as ind.type : {ind -> Indicator Name} */
+import { years, yearval_lst, indicatorNcObj, indicatorTxtObj, indicatorNcOrder } from "../utilities/createData"  /* as ind.type : {ind -> Indicator Name} */
 
 import Form from 'react-bootstrap/Form'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
@@ -20,7 +20,9 @@ import Select from "react-select"
 export default function OverlayForm({ map, setMap, setSelection, currentYear, setCurrentYear, ovIndicator, setOvIndicator, overlay, setOverlay, afterChange, setAfterChange }) {
     const mapRef = useRef()
     mapRef.current = map
-    console.log('map is', map)
+
+    console.log(yearval_lst)
+
 
     const overlayOptions = Object.entries(indicatorNcObj).map(([category, categorizedIndicators]) => ({
         label: category,
@@ -35,7 +37,6 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
     useEffect(() => {
         // This is not correct
         if (ovIndicator !== null && afterChange) {
-            console.log('inside')
             var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
             year += `${currentYear.split('_')[1]}`
             var time = `${year}-05-01`
@@ -45,10 +46,6 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
             fetch(url)
                 .then((response) => response.json())
                 .then(minmax => {
-                    if (minmax.max === 0.5) {
-                        console.log('no data available')
-                        return
-                    }
                     const fill = new TileLayer({
                         source: new TileWMS({
                             url: `http://${window.apiUrl}:8080/ncWMS/wms`,
@@ -103,13 +100,33 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
             setOvIndicator(e)
         }
     }
+
+    async function exportAsc() {
+        var uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
+        const url = `http://${window.apiUrl}:8100/asc/${uglyInd}/${currentYear}`
+        console.log(currentYear)
+/*         const link = document.createElement('a');
+        link.download = `${ovIndicator}-${currentYear}.asc`
+        link.href = 'fetch promise'
+        link.click()
+        link.remove()  */
+    }
+
+    async function exportPNG() {
+        const url = `http://${window.apiUrl}:8100/png/${ovIndicator}/${currentYear}`
+        const link = document.createElement('a');
+        link.download = `${ovIndicator}-${currentYear}.png`
+        link.href = 'fetch promise'
+        link.click()
+        link.remove()
+    }
     return (
         <>
             <Form>
                 <Row>
                     <Form.Label style={{ marginTop: '3px' }}>Year {years[currentYear]} <br />
                         <div style={{ display: 'flex', justifyContent: "center" }}>
-                            <RangeSlider tooltipStyle={{ display: "none" }} style={{ width: 200 }} onChange={(e) => { setAfterChange(false); setCurrentYear(yearval_lst[e.target.value]) }} onAfterChange={() => setAfterChange(true)} type="range" min="0" max="74" step="1" value={yearval_lst.indexOf(currentYear)} />
+                            <RangeSlider tooltipStyle={{ display: "none" }} style={{ width: 200 }} onChange={(e) => { setAfterChange(false); setCurrentYear(yearval_lst[e.target.value]) }} onAfterChange={() => setAfterChange(true)} type="range" min={0} max={yearval_lst.length-1} step={1} value={yearval_lst.indexOf(currentYear)} />
                         </div>
                     </Form.Label>
                 </Row>
@@ -135,9 +152,8 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-2">Single Year (Tiff)</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">All Years (netCDF)</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Selection (netCDF)</Dropdown.Item>
+                            <Dropdown.Item onClick={() => exportPNG()}>PNG</Dropdown.Item>
+                            <Dropdown.Item onClick={() => exportAsc()}>asc</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Row>

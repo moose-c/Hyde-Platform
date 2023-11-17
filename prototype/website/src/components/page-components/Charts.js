@@ -30,6 +30,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
 
     const [currentChartNb, setCurrentChartNb] = useState(null)
     const [data, setData] = useState(null)
+    const [exportAmt, setExportAmt] = useState('displayed')
     const [options, setOptions] = useState({
         animation: {
             onComplete: function () {
@@ -60,9 +61,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
             }
         }
     })
-
-    const [exportTs, setExportTs] = useState({ type: 'false' })
-    const [exportTsAmt, setExportTsAmt] = useState('displayed')
 
     const allData = {}  /* Structure is: data = {country : { indicator1: [{label: lbl, data: values1}], indicator:[{label: lbl, data: values2}], all: [{label: lbl, data: values1}, {label: lbl, data: values2}]}} */
 
@@ -142,88 +140,85 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         }
     }
 
-
-
-    useEffect(() => {
-        if (exportTs.type === 'CSV') {
-            var rowContent = ''
-            var title = ''
-            var header = 'Year'
-            if (exportTsAmt === 'displayed') {
-                if (plotOptions.combined) {
-                    title = 'combined'
-                    measurementPoints.forEach((value, i) => {
-                        var row = value
-                        for (const indicator of tsIndicators) {
-                            const newHeader = `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]} ${chooseYLabel(currentIndicator.current)}`
-                            if (!header.includes(newHeader)) {
-                                header += newHeader
-                            }
-                            // titel += `, ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]}`
-                            row += ',' + allDataRef.current[currentCountry.current.values_.ISO_A3][`${indicator}_json`][0][i]
-                        }
-                        rowContent += `${row}\r\n`
-                    })
-                } else {
-                    header += `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]} ${chooseYLabel(currentIndicator.current)}`
-                    title = 'single'
-                    // titel += `${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}`
-                    measurementPoints.forEach((value, i) => {
-                        rowContent += `${value},${allDataRef.current[currentCountry.current.values_.ISO_A3][`${currentIndicator.current}_json`][0][i]}\r\n`
-                    })
-                }
-            } else if (exportTsAmt === 'all') {
-                title = 'all'
+    function exportCSV() {
+        var rowContent = ''
+        var title = ''
+        var header = 'Year'
+        if (exportAmt === 'displayed') {
+            if (plotOptions.combined) {
+                title = 'combined'
                 measurementPoints.forEach((value, i) => {
                     var row = value
-                    for (const country of selection) {
-                        for (const indicator of tsIndicators) {
-                            const newHeader = `,${country.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]} ${chooseYLabel(currentIndicator.current)}`
-                            if (!header.includes(newHeader)) {
-                                header += newHeader
-                            }
-                            row += ',' + allDataRef.current[country.values_.ISO_A3][`${indicator}_json`][0][i]
+                    for (const indicator of tsIndicators) {
+                        const newHeader = `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]} ${chooseYLabel(currentIndicator.current)}`
+                        if (!header.includes(newHeader)) {
+                            header += newHeader
                         }
+                        // titel += `, ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]}`
+                        row += ',' + allDataRef.current[currentCountry.current.values_.ISO_A3][`${indicator}_json`][0][i]
                     }
                     rowContent += `${row}\r\n`
                 })
+            } else {
+                header += `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]} ${chooseYLabel(currentIndicator.current)}`
+                title = 'single'
+                // titel += `${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}`
+                measurementPoints.forEach((value, i) => {
+                    rowContent += `${value},${allDataRef.current[currentCountry.current.values_.ISO_A3][`${currentIndicator.current}_json`][0][i]}\r\n`
+                })
             }
-            const csvContent = `data:tetxt/csv;chartset=utf-8,\uFEFF${header}\r\n${rowContent}`
-            var encodedUri = encodeURI(csvContent)
-            const link = document.createElement('a')
-            link.href = encodedUri
-            link.download = `${title}.csv`
-            link.click()
-            // iets met de json doen: [list of values]
-        } else if (exportTs.type === 'jpeg') {
-            if (exportTsAmt === 'displayed') {
-                const link = document.createElement('a');
-                link.download = plotOptions.combined ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg` : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}.jpeg`
-                link.href = chartRef.current.toBase64Image('image/jpeg', 1);
-                link.click();
-            } else if (exportTsAmt === 'all') {
-                chartFinishedRendering.current = false
-                const startingChartNb = currentChartNb
-                const awaitChartRender = async () => {
-                    for (let i = 0; i < nbCharts; i++) {
-                        handleChangeChart((startingChartNb + i) % nbCharts)
-                        while (true) {
-                            await new Promise(resolve => setTimeout(resolve, 10))
-                            if (chartFinishedRendering.current) { break }
+        } else if (exportAmt === 'all') {
+            title = 'all'
+            measurementPoints.forEach((value, i) => {
+                var row = value
+                for (const country of selection) {
+                    for (const indicator of tsIndicators) {
+                        const newHeader = `,${country.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]} ${chooseYLabel(currentIndicator.current)}`
+                        if (!header.includes(newHeader)) {
+                            header += newHeader
                         }
-                        chartFinishedRendering.current = false
-                        const link = document.createElement('a');
-                        link.download = plotOptions.combined ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg` : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}.jpeg`
-                        link.href = chartRef.current.toBase64Image('image/jpeg', 1);
-                        link.click();
-                        link.remove()
+                        row += ',' + allDataRef.current[country.values_.ISO_A3][`${indicator}_json`][0][i]
                     }
-                    handleChangeChart(startingChartNb)
                 }
-                awaitChartRender()
-            }
+                rowContent += `${row}\r\n`
+            })
         }
-    }, [exportTs])
+        const csvContent = `data:tetxt/csv;chartset=utf-8,\uFEFF${header}\r\n${rowContent}`
+        var encodedUri = encodeURI(csvContent)
+        const link = document.createElement('a')
+        link.href = encodedUri
+        link.download = `${title}.csv`
+        link.click()
+    }
+
+    function exportJpeg() {
+        if (exportAmt === 'displayed') {
+            const link = document.createElement('a');
+            link.download = plotOptions.combined ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg` : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}.jpeg`
+            link.href = chartRef.current.toBase64Image('image/jpeg', 1);
+            link.click();
+        } else if (exportAmt === 'all') {
+            chartFinishedRendering.current = false
+            const startingChartNb = currentChartNb
+            const awaitChartRender = async () => {
+                for (let i = 0; i < nbCharts; i++) {
+                    handleChangeChart((startingChartNb + i) % nbCharts)
+                    while (true) {
+                        await new Promise(resolve => setTimeout(resolve, 10))
+                        if (chartFinishedRendering.current) { break }
+                    }
+                    chartFinishedRendering.current = false
+                    const link = document.createElement('a');
+                    link.download = plotOptions.combined ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg` : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}.jpeg`
+                    link.href = chartRef.current.toBase64Image('image/jpeg', 1);
+                    link.click();
+                    link.remove()
+                }
+                handleChangeChart(startingChartNb)
+            }
+            awaitChartRender()
+        }
+    }
 
     return (
         <>
@@ -246,12 +241,12 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                                 Export
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <ToggleButtonGroup type="radio" name="exportTs" defaultValue='displayed' onChange={(e) => setExportTsAmt(e)}>
+                                <ToggleButtonGroup type="radio" name="exportTs" defaultValue='displayed' onChange={(e) => setExportAmt(e)}>
                                     <ToggleButton size="sm" id="tbg-exportTs-1" value='displayed'>Displayed</ToggleButton>
                                     <ToggleButton size="sm" id="tbg-exportTs-2" value='all'>All</ToggleButton>
                                 </ToggleButtonGroup>
-                                <Dropdown.Item onClick={() => setExportTs({ type: 'CSV' })}>To CSV</Dropdown.Item>
-                                <Dropdown.Item onClick={() => setExportTs({ type: 'jpeg' })}>To jpeg</Dropdown.Item>
+                                <Dropdown.Item onClick={() => exportCSV()}>To CSV</Dropdown.Item>
+                                <Dropdown.Item onClick={() => exportJpeg()}>To jpeg</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                         <Row>

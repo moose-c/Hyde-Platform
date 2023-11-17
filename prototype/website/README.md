@@ -34,3 +34,10 @@ React is centered around the concept of components, which are reusable and indep
 React allows developers to describe how the UI should look for a given state, and it automatically manages and updates the UI as the application's state changes. Developers specify what the UI should be based on the current state rather than imperatively changing the DOM.
 
 To learn react I would rever the reader to [Learn environment of the React webpage](https://react.dev/learn), where excellent tutorials are located which allows a reader to quickly pick up react. I really found React a usefull addition to my developers toolbelt.
+
+To Build:
+npm run build
+
+How to run a build:
+`npm install -g serve`
+`serve -s build -l 9000`
