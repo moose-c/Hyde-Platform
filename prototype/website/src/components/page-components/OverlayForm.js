@@ -102,23 +102,29 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
     }
 
     async function exportAsc() {
-        var uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
-        const url = `http://${window.apiUrl}:8100/asc/${uglyInd}/${currentYear}`
-        console.log(currentYear)
-/*         const link = document.createElement('a');
-        link.download = `${ovIndicator}-${currentYear}.asc`
-        link.href = 'fetch promise'
-        link.click()
-        link.remove()  */
+        const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
+        const fetchUrl = `http://${window.apiUrl}:8100/asc/${uglyInd}/${currentYear}`
+        fetch(fetchUrl).then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(new Blob([blob]))
+            const link = document.createElement('a');
+            link.href = url
+            link.setAttribute('download', `${ovIndicator}-${currentYear}.asc`)
+            link.click()
+        })
     }
 
     async function exportPNG() {
-        const url = `http://${window.apiUrl}:8100/png/${ovIndicator}/${currentYear}`
-        const link = document.createElement('a');
-        link.download = `${ovIndicator}-${currentYear}.png`
-        link.href = 'fetch promise'
-        link.click()
-        link.remove()
+        const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
+        const fetchUrl = `http://${window.apiUrl}:8100/png/${uglyInd}/${currentYear}`
+        fetch(fetchUrl).then(response => response.blob())
+        .then(image => {
+            const url = window.URL.createObjectURL(image)
+            const link = document.createElement('a');
+            link.href = url
+            link.setAttribute('download', `${ovIndicator}-${currentYear}.png`)
+            link.click()
+        })
     }
     return (
         <>
@@ -154,6 +160,7 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={() => exportPNG()}>PNG</Dropdown.Item>
                             <Dropdown.Item onClick={() => exportAsc()}>asc</Dropdown.Item>
+                            <Dropdown.Header>Access <a href="https://geo.yoda.uu.nl/">YODA</a> for .nc and zipped .asc</Dropdown.Header>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Row>

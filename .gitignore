@@ -10,5 +10,5 @@ build/
 package-lock.json
 TODO.md
 .env
-Server-communication.md
+External-communication.md
 *.nc

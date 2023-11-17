@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 COPY . /app
 
 # Run the flask API on a gunicorn WSGI server, this is for production
-CMD ["gunicorn", "api:app", "--workers", "2", "-b", "0.0.0.0:8100"]
+CMD ["gunicorn", "api:api", "--workers", "2", "-b", "0.0.0.0:8100"]
