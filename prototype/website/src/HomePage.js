@@ -1,7 +1,7 @@
 import "./styles/HomePage.css";
 import React from "react";
-import { Link } from "react-router-dom";
 import StaticMap from "./homepage-components/StaticMap";
+import Timeline from "./homepage-components/Timeline";
 
 const HomePage = () => {
   return (
@@ -18,10 +18,7 @@ const HomePage = () => {
         <StaticMap />
       </div>
       <div className="timeline-overlay">
-        Timeline
-        <Link to="/map">
-          <button>Klik hier om naar de map te gaan!</button>
-        </Link>
+        <Timeline />
       </div>
     </div>
   );
