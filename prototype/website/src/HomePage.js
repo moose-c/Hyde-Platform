@@ -6,14 +6,17 @@ import StaticMap from "./homepage-components/StaticMap";
 import Graph from "./homepage-components/Graph";
 import Timeline from "./homepage-components/Timeline"
 
+function roundYear(year) {
+  return 0
+}
 
 const HomePage = () => {
   const [currentYear, setCurrentYear] = useState(0)
   const [roundedYear, setRoundedYear] = useState(0)
   useState(() => {
-    newRoundedYear = roundYear(currentYear)
-    if (rounded) {
-      
+    const newRoundedYear = roundYear(currentYear)
+    if (newRoundedYear !== roundedYear) {
+
     }
   },[year])
   return (
