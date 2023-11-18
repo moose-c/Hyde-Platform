@@ -21,9 +21,6 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
     const mapRef = useRef()
     mapRef.current = map
 
-    console.log(yearval_lst)
-
-
     const overlayOptions = Object.entries(indicatorNcObj).map(([category, categorizedIndicators]) => ({
         label: category,
         options: Object.entries(categorizedIndicators).map(([indicatorValue, indicatorName]) => ({
@@ -117,7 +114,6 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
     async function exportPNG() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
         const fetchUrl = `http://${window.apiUrl}:8100/png/${uglyInd}/${currentYear}`
-        console.log(fetchUrl)
         fetch(fetchUrl).then(response => response.blob())
         .then(image => {
             const url = window.URL.createObjectURL(image)
