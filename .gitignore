@@ -12,3 +12,5 @@ TODO.md
 .env
 External-communication.md
 *.nc
+
+*.DS_STORE
