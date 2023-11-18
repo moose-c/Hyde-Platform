@@ -117,6 +117,7 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
     async function exportPNG() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
         const fetchUrl = `http://${window.apiUrl}:8100/png/${uglyInd}/${currentYear}`
+        console.log(fetchUrl)
         fetch(fetchUrl).then(response => response.blob())
         .then(image => {
             const url = window.URL.createObjectURL(image)
