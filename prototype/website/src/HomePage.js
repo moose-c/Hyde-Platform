@@ -12,7 +12,9 @@ const HomePage = () => {
   const [roundedYear, setRoundedYear] = useState(0)
   useState(() => {
     newRoundedYear = roundYear(currentYear)
-    if (rounded)
+    if (rounded) {
+      
+    }
   },[year])
   return (
     <div className="homepage">
