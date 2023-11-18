@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <div>
+    <div style={{display: "grid"}}>
       Home
       <Link to="/map">
         <button>Klik hier om naar de map te gaan!</button>

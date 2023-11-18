@@ -10,8 +10,8 @@ import Image from "react-bootstrap/Image";
 import React, { useState } from "react";
 
 // Two main components
-import Map from "./components/Map";
-import Page from "./components/Page";
+import Map from "./map-components/Map";
+import Page from "./map-components/Page";
 
 const MapPage = () => {
   // State, contains Openlayers map element
