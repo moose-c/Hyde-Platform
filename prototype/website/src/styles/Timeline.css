@@ -1,6 +1,5 @@
 .timeline {
   display: inline-flex;
-  /* flex: none; */
   width: 100%;
   overflow: scroll;
 }
@@ -9,17 +8,12 @@
   flex-shrink: 0;
   padding-top: 32px;
   padding-bottom: 32px;
-  width: 600px;
-  background-color: aqua;
+  width: 300px;
+  padding-left: 18px;
 }
 
 .timelineObject:hover {
-  background-color: grey;
   cursor: pointer;
-}
-
-.timelineObject:nth-child(2n) {
-  background-color: beige;
 }
 
 .relative {

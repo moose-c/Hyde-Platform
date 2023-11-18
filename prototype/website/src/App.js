@@ -1,3 +1,4 @@
+import "./styles/App.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MapPage from "./MapPage";
 import HomePage from "./HomePage";

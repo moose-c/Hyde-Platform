@@ -1,7 +1,4 @@
-import "./styles/App.css";
-
 // Necessary to use Bootstrap, a library aiding in styling
-import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
