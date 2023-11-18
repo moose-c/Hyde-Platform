@@ -11,14 +11,14 @@ function roundYear(year) {
 }
 
 const HomePage = () => {
-  const [currentYear, setCurrentYear] = useState(0)
-  const [roundedYear, setRoundedYear] = useState(0)
+  const [currentYear, setCurrentYear] = useState(11500)
+  const [roundedYear, setRoundedYear] = useState(11500)
   useState(() => {
     const newRoundedYear = roundYear(currentYear)
     if (newRoundedYear !== roundedYear) {
 
     }
-  },[year])
+  },[currentYear])
   return (
     <div className="homepage">
       <div className="top-section">
