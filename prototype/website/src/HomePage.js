@@ -1,6 +1,7 @@
 import "./styles/HomePage.css";
 import React from "react";
 import { Link } from "react-router-dom";
+import StaticMap from "./homepage-components/StaticMap";
 
 const HomePage = () => {
   return (
@@ -12,7 +13,10 @@ const HomePage = () => {
         Graphs Overlay Graphs Overlay Graphs Overlay Graphs OverlayGraphs
         Overlay Graphs Overlay
       </div>
-      <div className="logo">Hyde Portal</div>
+      <div className="logo">
+        Hyde Portal
+        <StaticMap />
+      </div>
       <div className="timeline-overlay">
         Timeline
         <Link to="/map">
