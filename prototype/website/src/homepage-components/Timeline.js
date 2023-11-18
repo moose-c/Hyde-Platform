@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/Timeline.css";
+import useDraggableScroll from "use-draggable-scroll";
+
 const timelineObjects = [
   {
     periodTag: "10000 b.C. - 2500 b.C.",
@@ -56,7 +58,6 @@ const yearIndexToYear = (yearIndex) => {
 const calculateCurrentYearBasedOnScroll = (scrollLeft) => {
   const TIMELINEBLOCKWIDTH = 600;
   const TIMELINEBLOCKS = timelineObjects.length;
-  const TIMELINEWIDTH = TIMELINEBLOCKWIDTH * TIMELINEBLOCKS;
   // If scrollLeft is inside the FIRST timeblock, then every pixel is 10000/600 years
   if (scrollLeft <= TIMELINEBLOCKWIDTH) {
     return (scrollLeft / TIMELINEBLOCKWIDTH) * 7500;
@@ -86,19 +87,23 @@ const calculateCurrentYearBasedOnScroll = (scrollLeft) => {
 };
 
 export default function Timeline() {
+  const ref = useRef(null);
+  const { onMouseDown } = useDraggableScroll(ref);
+
   const [currentYear, setCurrentYear] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
 
   useEffect(() => {
     setScreenWidth(window.innerWidth);
   }, []);
-  // WE ASSUME each timeline block is 600px wide
 
   return (
     <>
       This year: {yearIndexToYear(currentYear)}
       <div
         className="timeline"
+        ref={ref}
+        onMouseDown={onMouseDown}
         onScroll={(e) =>
           setCurrentYear(calculateCurrentYearBasedOnScroll(e.target.scrollLeft))
         }

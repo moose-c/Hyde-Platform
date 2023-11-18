@@ -1,5 +1,6 @@
 .timeline {
   display: inline-flex;
+  /* flex: none; */
   width: 100%;
   overflow: scroll;
 }
