@@ -45,7 +45,6 @@ const HomePage = () => {
       {/* <div className="logo"> */}
       {/* Hyde Portal */}
       {/* <StaticMap /> */}
-      {/* </div> */}
       <div className="timeline-overlay">
         <Timeline />
       </div>

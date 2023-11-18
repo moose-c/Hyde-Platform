@@ -20,3 +20,8 @@ ol {
 li {
   font-size: 10px;
 }
+
+$theme-colors: (
+  "primary": #79addc,
+);
+@import "~bootstrap/scss/bootstrap";
