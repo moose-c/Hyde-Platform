@@ -5,12 +5,11 @@ import Chart from 'chart.js/auto';   /* Required to mitigate some errors */
 import { Line } from 'react-chartjs-2'   /* https://github.com/reactchartjs/react-chartjs-2 */
 import { yearNbLst } from '../map-components/utilities/createData';
 
-export default function Graph({year}) {
+export default function Graph({ currentYear }) {
     const [data, setData] = useState(false)
     const chartRef = useRef(null)
 
     const options = {
-        responsive: false,
         scales: {
             y: {
                 title: {
@@ -35,13 +34,14 @@ export default function Graph({year}) {
             }
         }
     }
-    const labels = []
+    var labels = []
     var position = yearNbLst[0]   /* Counter for the years */
-    var minInterval = yearNbLst[yearNbLst.length-1] - yearNbLst[yearNbLst.length - 2]  /* Smallest interval between 2 adjacent datapoints always at the end */
-    while (position <= yearNbLst[yearNbLst.length-1]) {
+    var minInterval = yearNbLst[yearNbLst.length - 1] - yearNbLst[yearNbLst.length - 2]  /* Smallest interval between 2 adjacent datapoints always at the end */
+    while (position <= yearNbLst[yearNbLst.length - 1]) {
         labels.push(position)
         position += minInterval
     }
+    labels = yearNbLst
 
     fetch(`http://${window.apiUrl}:8000/popc/10000/bce_10000/ce_2017`).then((response) => response.json())
         .then((r_json) => {
@@ -54,17 +54,21 @@ export default function Graph({year}) {
             })
             setData({ labels: labels, datasets: [{ label: 'Population', data: newData }] })
         })
-    
+
     useEffect(() => {
         console.log('year changed')
         if (data) {
-            console.log(chartRef.current)
+            console.log(data)
         }
-    }, [year])
+    }, [currentYear])
 
     return (
-        <div style={{ height: 300 }}>
-            {data && (<Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />)}
-        </div>
+        <>
+            {data && (
+                <div style={{ height: 300 }}>
+                    <Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />
+                </div>
+            )}
+        </>
     )
 }
