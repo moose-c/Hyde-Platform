@@ -180,11 +180,10 @@ const calculateCurrentYearBasedOnScroll = (scrollLeft) => {
   return 12017;
 };
 
-export default function Timeline() {
+export default function Timeline({currentYear, setCurrentYear}) {
   const ref = useRef(null);
   const { onMouseDown } = useDraggableScroll(ref);
 
-  const [currentYear, setCurrentYear] = useState(11500);
   const [screenWidth, setScreenWidth] = useState(0);
 
   useEffect(() => {

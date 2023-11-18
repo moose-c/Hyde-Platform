@@ -41,7 +41,7 @@ services:
 
     # copy data into container
     volumes:
-      - ./fill-db/data/txt:/app/data/txt
+      - ./fill-db/data/txt:/data/txt
 
   timeseries-api:
     container_name: timeseries-api
