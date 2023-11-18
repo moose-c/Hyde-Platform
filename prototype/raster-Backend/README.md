@@ -131,3 +131,5 @@ within web.xml:
 </context-param>
 Also remote this to preview:
 rm webapps/geoserver/WEB-INF/lib/marlin-0.9.3.jar
+
+curl http://localhost:5000/png/pasture/ce_0

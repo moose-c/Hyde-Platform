@@ -36,7 +36,11 @@ React allows developers to describe how the UI should look for a given state, an
 To learn react I would rever the reader to [Learn environment of the React webpage](https://react.dev/learn), where excellent tutorials are located which allows a reader to quickly pick up react. I really found React a usefull addition to my developers toolbelt.
 
 To Build:
+!!!Set URL TO UU!!!
 npm run build
+
+To load to server:
+`scp -r .\build caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Platform-Frontend`
 
 How to run a build:
 `npm install -g serve`
