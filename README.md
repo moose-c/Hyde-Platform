@@ -12,7 +12,7 @@ In the **prototype** folder, different components of the project can be found. T
 1) Setup docker and docker compose 
 2) Write .env file as indicated in .env-template file
 3) Alter data locations within `docker-compose.yml` in raster-backend & timeseries-backend
-4) Execute `docker compose` from any or all of the components: 
+4) Execute `docker compose up` from any or all of the components: 
     - website is accessible at http://localhost:3000
     - raster-backend:
         - can be viewed in browser at http://localhost:8080/ncWMS
