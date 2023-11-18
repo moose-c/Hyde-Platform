@@ -1,13 +1,16 @@
-import {useState, React} from 'react'
+import { useState, React, useRef, useEffect } from 'react'
 
 // eslint-disable-next-line
 import Chart from 'chart.js/auto';   /* Required to mitigate some errors */
 import { Line } from 'react-chartjs-2'   /* https://github.com/reactchartjs/react-chartjs-2 */
+import { yearNbLst } from '../map-components/utilities/createData';
 
-export default function Graph() {
-    const [data, setData] = useState()
-    const measurementPoints = yearNbLst.slice(startIndex, endIndex + 1)
+export default function Graph({year}) {
+    const [data, setData] = useState(false)
+    const chartRef = useRef(null)
+
     const options = {
+        responsive: false,
         scales: {
             y: {
                 title: {
@@ -32,21 +35,36 @@ export default function Graph() {
             }
         }
     }
+    const labels = []
+    var position = yearNbLst[0]   /* Counter for the years */
+    var minInterval = yearNbLst[yearNbLst.length-1] - yearNbLst[yearNbLst.length - 2]  /* Smallest interval between 2 adjacent datapoints always at the end */
+    while (position <= yearNbLst[yearNbLst.length-1]) {
+        labels.push(position)
+        position += minInterval
+    }
 
     fetch(`http://${window.apiUrl}:8000/popc/10000/bce_10000/ce_2017`).then((response) => response.json())
         .then((r_json) => {
-            console.log(r_json[0])
+            const newData = []
             r_json[0].forEach((value, index) => {
-                data.push({
-                    x: measurementPoints[index],
+                newData.push({
+                    x: yearNbLst[index],
                     y: value
                 })
             })
-            setData(data)
+            setData({ labels: labels, datasets: [{ label: 'Population', data: newData }] })
         })
+    
+    useEffect(() => {
+        console.log('year changed')
+        if (data) {
+            console.log(chartRef.current)
+        }
+    }, [year])
+
     return (
         <div style={{ height: 300 }}>
-            {<Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />}
+            {data && (<Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />)}
         </div>
     )
 }

@@ -1,52 +1,48 @@
 import "./styles/HomePage.css";
 import Card from "react-bootstrap/Card";
-import React from "react";
+import { React, useState } from "react";
+import { Link } from "react-router-dom";
 import StaticMap from "./homepage-components/StaticMap";
 import Graph from "./homepage-components/Graph";
 import Timeline from "./homepage-components/Timeline"
 
 
 const HomePage = () => {
-  const [year, setYear] = useState()
+  const [year, setYear] = useState('0')
+  console.log(year)
   return (
     <div className="homepage">
-      <div className="information-overlay">
-        Information Hub Information HubInformation HubInformation Hub{" "}
-      </div>
-      <div className="graphs-overlay" style={{display: "flex", flexDirection: "column"}}>
-        <Graph year={year}/>
-        <StaticMap year={year} width={250} height={200} mapId={1}/>
-        Graphs Overlay Graphs Overlay Graphs Overlay Graphs OverlayGraphs
-        Overlay Graphs Overlay
-      </div>
-      <div className="logo">
-        Hyde Portal
-        <StaticMap width={400} height={200} mapId={2}/>
-      </div>
+      <InformationOverlay />
+      <GraphsOverlay year={year} />
+      <Link to='\web'>
+        <div className="logo">
+          Hyde Portal
+          <StaticMap width={400} height={200} mapId={2} />
+        </div>
+      </Link>
       <div className="timeline-overlay">
-        <Timeline year={year} setYear={setYear}/>
-        <Link to="/map">
-          <button>Klik hier om naar de map te gaan!</button>
-        </Link>
+        <Timeline year={year} setYear={setYear} />
       </div>
     </div>
   );
 };
 
-const GraphsOverlay = () => {
+const GraphsOverlay = ({ year }) => {
   return (
     <div className="graphs-overlay">
       <Card>
-        <Card.Header>Henkensteijn</Card.Header>
+        <Card.Header>Timeseries Example</Card.Header>
         <Card.Body>
-          <Card.Title>Henkensteijn Biodiversity Unit</Card.Title>
+          <Graph year={year} />
         </Card.Body>
       </Card>
 
       <Card>
-        <Card.Header>Henkensteijn</Card.Header>
+        <Card.Header>Map Example</Card.Header>
         <Card.Body>
-          <Card.Title>Henkensteijn Biodiversity Unit</Card.Title>
+          <Card.Text>
+            {/* <StaticMap year={year} width={250} height={200} mapId={1} netCDF={true} /> */}
+          </Card.Text>
         </Card.Body>
       </Card>
     </div>
@@ -57,37 +53,15 @@ const InformationOverlay = () => {
   return (
     <div className="information-overlay">
       <Card bg="primary" text="white" className="information-card">
-        {/* <Card.Header>Hyde Portal </Card.Header> */}
         <Card.Body>
-          <Card.Title>Hyde Portal Biodiversity Unit</Card.Title>
-          <Card.Text>
-            <p>
-              Lit buggin beef chucks fam, bodega cheddar jordans. Bum rush
-              doorknocker earrings crib jam, train projects guap fight og. Trees
-              gas 40 quarter water. Cheez doodles tropical fantasy. 99cent store
-              credit corner store flex. Down low bae cab pump, slang dying
-              building loosies 4loko. Apartment blunt koolaid, munchies yo
-              lockdown liquor, numbers brother ante. Joint chips sike suspect
-              stoop pizza parks. cash eighth jay buckfifty pound thot crime
-              neighbors kids. Vans chains gang swishers. 22 blunt hoodrich facts
-              808 grind baby daddy chill cipher bomb dealy. Banger crew, 730
-              benz juice, drop science dawg all that chin check, digits G
-              clockin homie sauce fiend. Dope flow dis ghetto dime get down
-              waddup cold deuces beats. Crackin dip be easy, benjamins faded cop
-              dozens, busta faking jacks aight.
-            </p>
-            <p>
-              Booty go off ends baby mama biscuit fly. Freestyle baller grill
-              foreals pyt front hard rock gully in game. Fasho shots OD set.
-              Kicks hustler grind ice, run it hood vic parlay piece. Jake math,
-              herb one love pop, jack mami scrilla player, mack daddy crunk
-              saggin blow strapped turn up. Wreck holla serve shank, ut played
-              out L shawty. Peace newjack son tax hoodbooger snuff. True dat
-              skeezer up. Spit 44 hottie zooted. 411 hype man bars, old school
-              downtown ox, wack thick whip. Copy kid kickin straight. Toy cop
-              lifted hoodrat.
-            </p>
-          </Card.Text>
+          <h1>Hyde Portal</h1>
+          <p>Through this portal, the information from the HYDE Model can be visualized and extracted. <br/>
+          Specifically, a user can do the following:
+          <ul>
+            <li>Investigate a global map</li>
+            <li>Request txt data</li>
+          </ul>
+          </p>
         </Card.Body>
       </Card>
     </div>
