@@ -22,22 +22,17 @@
   width: 100%;
 }
 
+.infosection {
+  flex: 1;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
 .jumbotron {
   padding: 15px;
   width: 40%;
-}
-
-.graphs-overlay {
-  /* border: 1px solid black; */
-  /* background-color: white; */
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 4px;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 
 .timeline-overlay {
@@ -45,13 +40,4 @@
   position: absolute;
   bottom: 0;
   background-color: white;
-}
-
-.logo {
-  margin-top: 150px;
-  background-color: white;
-  font-size: 64px;
-  padding: 10px;
-  border: 1px solid black;
-  max-width: 600px;
 }
