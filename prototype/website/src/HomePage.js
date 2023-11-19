@@ -4,25 +4,21 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import StaticMap from "./homepage-components/StaticMap";
 import Graph from "./homepage-components/Graph";
-import Timeline from "./homepage-components/Timeline"
-import { yearNbLst } from './map-components/utilities/createData';
+import Timeline from "./homepage-components/Timeline";
+import { yearNbLst } from "./map-components/utilities/createData";
 import { yearIndexToYear } from "./util/yearIndexToYear";
 import { timelineObjects } from "./util/timelineObjects";
 
-function roundYear(year) {
-  return 0;
-}
-
 const HomePage = () => {
-  const [currentYear, setCurrentYear] = useState(11500)
-  const [roundedYear, setRoundedYear] = useState(1500)
+  const [currentYear, setCurrentYear] = useState(11500);
+  const [roundedYear, setRoundedYear] = useState(1500);
   useEffect(() => {
-    const newRoundedYear = roundYear(currentYear)
+    const newRoundedYear = roundYear(currentYear);
     if (newRoundedYear !== roundedYear) {
-      console.log(newRoundedYear)
-      setRoundedYear(newRoundedYear)
+      console.log(newRoundedYear);
+      setRoundedYear(newRoundedYear);
     }
-  },[currentYear])
+  }, [currentYear]);
 
   return (
     <div className="homepage">
@@ -60,14 +56,14 @@ const HomePage = () => {
       </div>
       <div className="infosectin"></div>
       {/* <InformationOverlay /> */}
-      <GraphsOverlay roundedYear={roundedYear}/>
+      <GraphsOverlay roundedYear={roundedYear} />
       {/* <div className="logo"> */}
       {/* Hyde Portal */}
       {/* <StaticMap /> */}
       <div className="timeline-overlay">
         <Timeline currentYear={currentYear} setCurrentYear={setCurrentYear} />
       </div>
-    </div >
+    </div>
   );
 };
 
@@ -76,16 +72,20 @@ const GraphsOverlay = ({ roundedYear }) => {
     <div className="graphs-overlay">
       <Card>
         <Card.Header>Timeseries Example</Card.Header>
-        <Card.Body>
-          {/* <Graph roundedYear={roundedYear} /> */}
-        </Card.Body>
+        <Card.Body>{/* <Graph roundedYear={roundedYear} /> */}</Card.Body>
       </Card>
 
       <Card>
         <Card.Header>Map Example</Card.Header>
         <Card.Body>
           <Card.Text>
-            <StaticMap roundedYear={roundedYear} width={250} height={200} mapId={1} netCDF={true} />
+            <StaticMap
+              roundedYear={roundedYear}
+              width={250}
+              height={200}
+              mapId={1}
+              netCDF={true}
+            />
           </Card.Text>
         </Card.Body>
       </Card>
@@ -115,8 +115,8 @@ const InfoSection = ({ currentYear }) => {
 
 function roundYear(year) {
   for (const yearFromList of yearNbLst) {
-    if (yearFromList >= year-10000) {
-      return yearFromList
+    if (yearFromList >= year - 10000) {
+      return yearFromList;
     }
   }
 }
