@@ -2,7 +2,8 @@
   border-top: 1px solid black;
   display: inline-flex;
   width: 100%;
-  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 .icon {
   width: 48px;
