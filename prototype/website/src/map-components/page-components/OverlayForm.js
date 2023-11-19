@@ -21,9 +21,6 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
     const mapRef = useRef()
     mapRef.current = map
 
-    console.log(yearval_lst)
-
-
     const overlayOptions = Object.entries(indicatorNcObj).map(([category, categorizedIndicators]) => ({
         label: category,
         options: Object.entries(categorizedIndicators).map(([indicatorValue, indicatorName]) => ({
@@ -105,27 +102,26 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
         const fetchUrl = `http://${window.apiUrl}:8100/asc/${uglyInd}/${currentYear}`
         fetch(fetchUrl).then(response => response.blob())
-        .then(blob => {
-            const url = window.URL.createObjectURL(new Blob([blob]))
-            const link = document.createElement('a');
-            link.href = url
-            link.setAttribute('download', `${ovIndicator}-${currentYear}.asc`)
-            link.click()
-        })
+            .then(blob => {
+                const url = window.URL.createObjectURL(new Blob([blob]))
+                const link = document.createElement('a');
+                link.href = url
+                link.setAttribute('download', `${ovIndicator}-${currentYear}.asc`)
+                link.click()
+            })
     }
 
     async function exportPNG() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
         const fetchUrl = `http://${window.apiUrl}:8100/png/${uglyInd}/${currentYear}`
-        console.log(fetchUrl)
         fetch(fetchUrl).then(response => response.blob())
-        .then(image => {
-            const url = window.URL.createObjectURL(image)
-            const link = document.createElement('a');
-            link.href = url
-            link.setAttribute('download', `${ovIndicator}-${currentYear}.png`)
-            link.click()
-        })
+            .then(image => {
+                const url = window.URL.createObjectURL(image)
+                const link = document.createElement('a');
+                link.href = url
+                link.setAttribute('download', `${ovIndicator}-${currentYear}.png`)
+                link.click()
+            })
     }
     return (
         <>
@@ -133,7 +129,7 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
                 <Row>
                     <Form.Label style={{ marginTop: '3px' }}>Year {years[currentYear]} <br />
                         <div style={{ display: 'flex', justifyContent: "center" }}>
-                            <RangeSlider tooltipStyle={{ display: "none" }} style={{ width: 200 }} onChange={(e) => { setAfterChange(false); setCurrentYear(yearval_lst[e.target.value]) }} onAfterChange={() => setAfterChange(true)} type="range" min={0} max={yearval_lst.length-1} step={1} value={yearval_lst.indexOf(currentYear)} />
+                            <RangeSlider tooltipStyle={{ display: "none" }} style={{ width: 200 }} onChange={(e) => { setAfterChange(false); setCurrentYear(yearval_lst[e.target.value]) }} onAfterChange={() => setAfterChange(true)} type="range" min={0} max={yearval_lst.length - 1} step={1} value={yearval_lst.indexOf(currentYear)} />
                         </div>
                     </Form.Label>
                 </Row>

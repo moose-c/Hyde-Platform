@@ -35,7 +35,7 @@ services:
     container_name: ncwms-fill
 
     # Build image from the ./fill-db/Dockerfile
-    build: ./fill-db
+    build: ./WMS
 
     # Contains necessary password
     env_file:
