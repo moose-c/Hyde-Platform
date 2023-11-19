@@ -133,6 +133,7 @@ export default function Timeline({ currentYear, setCurrentYear }) {
               backgroundColor={timelineObject.color}
               periodTag={timelineObject.periodTag}
               periodText={timelineObject.periodText}
+              iconLink={timelineObject.iconLink}
             />
           );
         })}
@@ -146,14 +147,17 @@ export default function Timeline({ currentYear, setCurrentYear }) {
   );
 }
 
-const TimelineObject = ({ backgroundColor, periodTag, title }) => {
+const TimelineObject = ({ backgroundColor, periodTag, title, iconLink }) => {
   return (
     <div
       style={{ backgroundColor: backgroundColor }}
       className={`timelineObject`}
     >
-      <div style={{ fontWeight: "bold", fontSize: 16 }}>{title}</div>
-      <div style={{ fontWeight: 300, fontSize: 12 }}>{periodTag}</div>
+      <div className="">
+        <div style={{ fontWeight: "bold", fontSize: 16 }}>{title}</div>
+        <div style={{ fontWeight: 300, fontSize: 12 }}>{periodTag}</div>
+      </div>
+      <img className="icon" src={iconLink} />
     </div>
   );
 };
