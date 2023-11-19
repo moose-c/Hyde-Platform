@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/Timeline.css";
 import useDraggableScroll from "use-draggable-scroll";
-import { timelineObjects } from "../data/timelineObjects";
+import { timelineObjects } from "../util/timelineObjects";
 
 const TIMELINEBLOCKWIDTH = 300;
 

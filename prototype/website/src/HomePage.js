@@ -6,7 +6,7 @@ import StaticMap from "./homepage-components/StaticMap";
 import Graph from "./homepage-components/Graph";
 import Timeline from "./homepage-components/Timeline";
 import { yearIndexToYear } from "./util/yearIndexToYear";
-import { timelineObjects } from "./data/timelineObjects";
+import { timelineObjects } from "./util/timelineObjects";
 
 function roundYear(year) {
   return 0;
