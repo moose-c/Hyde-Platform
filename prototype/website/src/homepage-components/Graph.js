@@ -5,68 +5,86 @@ import Chart from 'chart.js/auto';   /* Required to mitigate some errors */
 import { Line } from 'react-chartjs-2'   /* https://github.com/reactchartjs/react-chartjs-2 */
 import { yearNbLst } from '../map-components/utilities/createData';
 
-export default function Graph({ currentYear }) {
+export default function Graph({ roundedYear }) {
     const [data, setData] = useState(false)
     const chartRef = useRef(null)
+    const options = useRef(null)
 
-    const options = {
-        scales: {
-            y: {
-                title: {
-                    display: true,
-                    text: 'placeholder'
-                }
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: '[year]'
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'placeholder'
-            },
-            colors: {
-                forceOverride: true
-            }
-        }
-    }
-    var labels = []
-    var position = yearNbLst[0]   /* Counter for the years */
-    var minInterval = yearNbLst[yearNbLst.length - 1] - yearNbLst[yearNbLst.length - 2]  /* Smallest interval between 2 adjacent datapoints always at the end */
-    while (position <= yearNbLst[yearNbLst.length - 1]) {
-        labels.push(position)
-        position += minInterval
-    }
-    labels = yearNbLst
 
-    fetch(`http://${window.apiUrl}:8000/popc/10000/bce_10000/ce_2017`).then((response) => response.json())
-        .then((r_json) => {
-            const newData = []
-            r_json[0].forEach((value, index) => {
-                newData.push({
-                    x: yearNbLst[index],
-                    y: value
-                })
-            })
-            setData({ labels: labels, datasets: [{ label: 'Population', data: newData }] })
-        })
+    /*     var labels = []
+        var position = yearNbLst[0]  
+        var minInterval = yearNbLst[yearNbLst.length - 1] - yearNbLst[yearNbLst.length - 2] 
+        while (position <= yearNbLst[yearNbLst.length - 1]) {
+            labels.push(position)
+            position += minInterval
+        } */
+    const labels = yearNbLst
 
     useEffect(() => {
-        console.log('year changed')
-        if (data) {
-            console.log(data)
+        if (roundedYear) {
+            fetch(`http://${window.apiUrl}:8000/popc/10000/bce_10000/ce_2017`).then((response) => response.json())
+                .then((r_json) => {
+                    const newData = []
+                    r_json[0].forEach((value, index) => {
+                        newData.push({
+                            x: yearNbLst[index],
+                            y: value
+                        })
+                    })
+                    options.current = {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: '[individuals]'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '[year]'
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Global population development'
+                            },
+                            annotation: {
+                                annotations: {
+                                    point1: {
+                                        type: 'point',
+                                        xValue: newData[yearNbLst.indexOf(roundedYear)].x,
+                                        yValue: newData[yearNbLst.indexOf(roundedYear)].y,
+                                        radius: 10000000,
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    setData({
+                        labels: labels, datasets: [{
+                            label: 'Population', data: newData, fill: false,
+                        }]
+                    })
+                })
         }
-    }, [currentYear])
+    }, [])
+
+
+    useEffect(() => {
+        if (data) {
+            options.current.plugins.annotation.annotations.point1.xValue = 5
+            options.current.plugins.annotation.annotations.point1.yValue = 5
+        }
+    }, [roundedYear, data])
 
     return (
         <>
             {data && (
                 <div style={{ height: 300 }}>
-                    <Line ref={chartRef} data={data} options={{ ...options, maintainAspectRatio: false }} />
+                    <Line ref={chartRef} data={data} options={{ ...options.current, maintainAspectRatio: false }} />
                 </div>
             )}
         </>
