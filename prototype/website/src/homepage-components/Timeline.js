@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../styles/Timeline.css";
 import useDraggableScroll from "use-draggable-scroll";
 import { timelineObjects } from "../util/timelineObjects";
+import { yearIndexToYear } from "../util/yearIndexToYear";
 
 const TIMELINEBLOCKWIDTH = 300;
 
@@ -113,7 +114,6 @@ export default function Timeline({ currentYear, setCurrentYear }) {
 
   return (
     <>
-      {/* This year: {yearIndexToYear(currentYear)} */}
       <div
         className="timeline"
         ref={ref}
