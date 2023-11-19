@@ -13,6 +13,7 @@
   left: 0;
   padding: 4px;
   max-width: 500px;
+  overflow-y: scroll;
 }
 
 .top-section {
@@ -28,6 +29,7 @@
   padding-bottom: 15px;
   padding-left: 24px;
   padding-right: 24px;
+  overflow-y: scroll;
 }
 
 .jumbotron {
@@ -38,7 +40,7 @@
 
 .timeline-overlay {
   width: 100%;
-  position: absolute;
+  position: sticky;
   bottom: 0;
   background-color: white;
 }

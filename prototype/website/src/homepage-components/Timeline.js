@@ -129,7 +129,7 @@ export default function Timeline({ currentYear, setCurrentYear }) {
             backgroundColor: "#cbd5e1",
           }}
         >
-          <div className="">
+          <div style={{ marginLeft: "auto" }} className="">
             <div style={{ fontWeight: "bold", fontSize: 16 }}>
               No data available
             </div>
