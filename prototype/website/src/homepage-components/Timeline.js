@@ -141,7 +141,7 @@ export default function Timeline({ currentYear, setCurrentYear }) {
           className="timelineObject"
           style={{ width: screenWidth / 2 }}
         ></div>
-        <div id="pin" />
+        <img src="/pointer.png" id="pin" />
       </div>
     </>
   );
