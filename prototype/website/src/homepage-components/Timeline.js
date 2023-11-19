@@ -197,7 +197,7 @@ export default function Timeline() {
 
   return (
     <>
-      This year: {yearIndexToYear(currentYear)}
+      {/* This year: {yearIndexToYear(currentYear)} */}
       <div
         className="timeline"
         ref={ref}
