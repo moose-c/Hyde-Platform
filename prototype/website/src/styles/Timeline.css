@@ -1,7 +1,12 @@
 .timeline {
+  border-top: 1px solid black;
   display: inline-flex;
   width: 100%;
-  overflow: scroll;
+  overflow-x: scroll;
+}
+.icon {
+  width: 48px;
+  height: 48px;
 }
 
 .timelineObject {
@@ -10,6 +15,10 @@
   padding-bottom: 32px;
   width: 300px;
   padding-left: 18px;
+  padding-right: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .timelineObject:hover {
@@ -21,9 +30,8 @@
 }
 
 #pin {
-  background-color: red;
-  width: 5px;
-  height: 30px;
+  width: 40px;
   position: absolute;
-  left: calc(50% - 2.5px);
+  left: calc(50% - 20px);
+  top: -20px;
 }

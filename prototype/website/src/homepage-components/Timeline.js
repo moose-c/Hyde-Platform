@@ -1,92 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/Timeline.css";
 import useDraggableScroll from "use-draggable-scroll";
+import { timelineObjects } from "../util/timelineObjects";
 
 const TIMELINEBLOCKWIDTH = 300;
-
-const timelineObjects = [
-  {
-    periodTag: "10000 b.C. - 3000 b.C.",
-    startYear: 0,
-    endYear: 7000,
-    title: "New Stone Age",
-    color: "#15588d",
-    periodText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed ante ac metus fringilla rutrum. Cras egestas felis non nisi consequat vulputate. Nam nec odio sagittis lacus interdum tempor. Phasellus venenatis arcu ut consequat ornare. Sed viverra tellus sit amet enim malesuada, et molestie elit viverra. Duis eleifend mi sit amet metus pellentesque vestibulum. Praesent in turpis neque. Vestibulum non eleifend nisl. Cras finibus vehicula odio, id vulputate velit mattis tempor.\nInteger ac enim elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac tortor neque. Integer pellentesque est dui, a posuere sapien elementum et. In hac habitasse platea dictumst. Aliquam gravida maximus nibh ac ornare. Proin vitae egestas lectus. Mauris fermentum ipsum id ex porta dignissim. Duis volutpat, dui quis fringilla elementum, dui ante commodo ex, sollicitudin sollicitudin urna lectus vitae dolor. Etiam lacinia ipsum leo, at pharetra purus blandit eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed id volutpat libero, ut finibus turpis.\nMorbi lacinia ipsum in magna ullamcorper dignissim. Quisque placerat tortor a lacus eleifend, sed egestas diam blandit. Cras non tellus vitae felis dictum ullamcorper et a ante. Curabitur faucibus urna id nibh facilisis aliquet. Vivamus sit amet elementum turpis. Ut ut ipsum vitae arcu aliquam finibus. Nullam sit amet mi malesuada, ullamcorper tortor nec, pharetra ex. Sed pulvinar mi tellus, quis cursus sem dictum id. Duis accumsan magna eu leo pellentesque dapibus. Maecenas ac sem lorem. Proin dictum risus non mollis cursus. Duis feugiat ipsum purus.",
-  },
-  {
-    periodTag: "3000 b.C. - 1300 b.C.",
-    startYear: 7000,
-    endYear: 8700,
-    title: "The Bronze Age",
-    color: "#487386",
-    periodText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed ante ac metus fringilla rutrum. Cras egestas felis non nisi consequat vulputate. Nam nec odio sagittis lacus interdum tempor. Phasellus venenatis arcu ut consequat ornare. Sed viverra tellus sit amet enim malesuada, et molestie elit viverra. Duis eleifend mi sit amet metus pellentesque vestibulum. Praesent in turpis neque. Vestibulum non eleifend nisl. Cras finibus vehicula odio, id vulputate velit mattis tempor.\nInteger ac enim elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac tortor neque. Integer pellentesque est dui, a posuere sapien elementum et. In hac habitasse platea dictumst. Aliquam gravida maximus nibh ac ornare. Proin vitae egestas lectus. Mauris fermentum ipsum id ex porta dignissim. Duis volutpat, dui quis fringilla elementum, dui ante commodo ex, sollicitudin sollicitudin urna lectus vitae dolor. Etiam lacinia ipsum leo, at pharetra purus blandit eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed id volutpat libero, ut finibus turpis.\nMorbi lacinia ipsum in magna ullamcorper dignissim. Quisque placerat tortor a lacus eleifend, sed egestas diam blandit. Cras non tellus vitae felis dictum ullamcorper et a ante. Curabitur faucibus urna id nibh facilisis aliquet. Vivamus sit amet elementum turpis. Ut ut ipsum vitae arcu aliquam finibus. Nullam sit amet mi malesuada, ullamcorper tortor nec, pharetra ex. Sed pulvinar mi tellus, quis cursus sem dictum id. Duis accumsan magna eu leo pellentesque dapibus. Maecenas ac sem lorem. Proin dictum risus non mollis cursus. Duis feugiat ipsum purus.",
-  },
-
-  {
-    periodTag: "1300 b.C. - 600 b.C.",
-    startYear: 8700,
-    endYear: 9400,
-    color: "#2a8983",
-    title: "The Iron Age",
-    periodText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed ante ac metus fringilla rutrum. Cras egestas felis non nisi consequat vulputate. Nam nec odio sagittis lacus interdum tempor. Phasellus venenatis arcu ut consequat ornare. Sed viverra tellus sit amet enim malesuada, et molestie elit viverra. Duis eleifend mi sit amet metus pellentesque vestibulum. Praesent in turpis neque. Vestibulum non eleifend nisl. Cras finibus vehicula odio, id vulputate velit mattis tempor.\nInteger ac enim elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac tortor neque. Integer pellentesque est dui, a posuere sapien elementum et. In hac habitasse platea dictumst. Aliquam gravida maximus nibh ac ornare. Proin vitae egestas lectus. Mauris fermentum ipsum id ex porta dignissim. Duis volutpat, dui quis fringilla elementum, dui ante commodo ex, sollicitudin sollicitudin urna lectus vitae dolor. Etiam lacinia ipsum leo, at pharetra purus blandit eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed id volutpat libero, ut finibus turpis.\nMorbi lacinia ipsum in magna ullamcorper dignissim. Quisque placerat tortor a lacus eleifend, sed egestas diam blandit. Cras non tellus vitae felis dictum ullamcorper et a ante. Curabitur faucibus urna id nibh facilisis aliquet. Vivamus sit amet elementum turpis. Ut ut ipsum vitae arcu aliquam finibus. Nullam sit amet mi malesuada, ullamcorper tortor nec, pharetra ex. Sed pulvinar mi tellus, quis cursus sem dictum id. Duis accumsan magna eu leo pellentesque dapibus. Maecenas ac sem lorem. Proin dictum risus non mollis cursus. Duis feugiat ipsum purus.",
-  },
-  {
-    periodTag: "600 b.C. - 476 A.D.",
-    startYear: 9400,
-    endYear: 10476,
-    color: "#719c33",
-    title: "The Classical Era",
-    periodText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed ante ac metus fringilla rutrum. Cras egestas felis non nisi consequat vulputate. Nam nec odio sagittis lacus interdum tempor. Phasellus venenatis arcu ut consequat ornare. Sed viverra tellus sit amet enim malesuada, et molestie elit viverra. Duis eleifend mi sit amet metus pellentesque vestibulum. Praesent in turpis neque. Vestibulum non eleifend nisl. Cras finibus vehicula odio, id vulputate velit mattis tempor.\nInteger ac enim elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac tortor neque. Integer pellentesque est dui, a posuere sapien elementum et. In hac habitasse platea dictumst. Aliquam gravida maximus nibh ac ornare. Proin vitae egestas lectus. Mauris fermentum ipsum id ex porta dignissim. Duis volutpat, dui quis fringilla elementum, dui ante commodo ex, sollicitudin sollicitudin urna lectus vitae dolor. Etiam lacinia ipsum leo, at pharetra purus blandit eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed id volutpat libero, ut finibus turpis.\nMorbi lacinia ipsum in magna ullamcorper dignissim. Quisque placerat tortor a lacus eleifend, sed egestas diam blandit. Cras non tellus vitae felis dictum ullamcorper et a ante. Curabitur faucibus urna id nibh facilisis aliquet. Vivamus sit amet elementum turpis. Ut ut ipsum vitae arcu aliquam finibus. Nullam sit amet mi malesuada, ullamcorper tortor nec, pharetra ex. Sed pulvinar mi tellus, quis cursus sem dictum id. Duis accumsan magna eu leo pellentesque dapibus. Maecenas ac sem lorem. Proin dictum risus non mollis cursus. Duis feugiat ipsum purus.",
-  },
-  {
-    periodTag: "476 A.D. - 1450 A.D.",
-    startYear: 10476,
-    endYear: 11450,
-    title: "The Middle Ages",
-    color: "#f9c232",
-    periodText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed ante ac metus fringilla rutrum. Cras egestas felis non nisi consequat vulputate. Nam nec odio sagittis lacus interdum tempor. Phasellus venenatis arcu ut consequat ornare. Sed viverra tellus sit amet enim malesuada, et molestie elit viverra. Duis eleifend mi sit amet metus pellentesque vestibulum. Praesent in turpis neque. Vestibulum non eleifend nisl. Cras finibus vehicula odio, id vulputate velit mattis tempor.\nInteger ac enim elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac tortor neque. Integer pellentesque est dui, a posuere sapien elementum et. In hac habitasse platea dictumst. Aliquam gravida maximus nibh ac ornare. Proin vitae egestas lectus. Mauris fermentum ipsum id ex porta dignissim. Duis volutpat, dui quis fringilla elementum, dui ante commodo ex, sollicitudin sollicitudin urna lectus vitae dolor. Etiam lacinia ipsum leo, at pharetra purus blandit eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed id volutpat libero, ut finibus turpis.\nMorbi lacinia ipsum in magna ullamcorper dignissim. Quisque placerat tortor a lacus eleifend, sed egestas diam blandit. Cras non tellus vitae felis dictum ullamcorper et a ante. Curabitur faucibus urna id nibh facilisis aliquet. Vivamus sit amet elementum turpis. Ut ut ipsum vitae arcu aliquam finibus. Nullam sit amet mi malesuada, ullamcorper tortor nec, pharetra ex. Sed pulvinar mi tellus, quis cursus sem dictum id. Duis accumsan magna eu leo pellentesque dapibus. Maecenas ac sem lorem. Proin dictum risus non mollis cursus. Duis feugiat ipsum purus.",
-  },
-  {
-    periodTag: "1450 A.D. - 1750 A.D.",
-    startYear: 11450,
-    endYear: 11750,
-    color: "#f7941d",
-    title: "The Early Modern Era",
-    periodText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed ante ac metus fringilla rutrum. Cras egestas felis non nisi consequat vulputate. Nam nec odio sagittis lacus interdum tempor. Phasellus venenatis arcu ut consequat ornare. Sed viverra tellus sit amet enim malesuada, et molestie elit viverra. Duis eleifend mi sit amet metus pellentesque vestibulum. Praesent in turpis neque. Vestibulum non eleifend nisl. Cras finibus vehicula odio, id vulputate velit mattis tempor.\nInteger ac enim elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac tortor neque. Integer pellentesque est dui, a posuere sapien elementum et. In hac habitasse platea dictumst. Aliquam gravida maximus nibh ac ornare. Proin vitae egestas lectus. Mauris fermentum ipsum id ex porta dignissim. Duis volutpat, dui quis fringilla elementum, dui ante commodo ex, sollicitudin sollicitudin urna lectus vitae dolor. Etiam lacinia ipsum leo, at pharetra purus blandit eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed id volutpat libero, ut finibus turpis.\nMorbi lacinia ipsum in magna ullamcorper dignissim. Quisque placerat tortor a lacus eleifend, sed egestas diam blandit. Cras non tellus vitae felis dictum ullamcorper et a ante. Curabitur faucibus urna id nibh facilisis aliquet. Vivamus sit amet elementum turpis. Ut ut ipsum vitae arcu aliquam finibus. Nullam sit amet mi malesuada, ullamcorper tortor nec, pharetra ex. Sed pulvinar mi tellus, quis cursus sem dictum id. Duis accumsan magna eu leo pellentesque dapibus. Maecenas ac sem lorem. Proin dictum risus non mollis cursus. Duis feugiat ipsum purus.",
-  },
-  {
-    periodTag: "1750 A.D. - 1950 A.D.",
-    startYear: 11750,
-    endYear: 11950,
-    color: "#f36523",
-    title: "Classical Modernity",
-    periodText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed ante ac metus fringilla rutrum. Cras egestas felis non nisi consequat vulputate. Nam nec odio sagittis lacus interdum tempor. Phasellus venenatis arcu ut consequat ornare. Sed viverra tellus sit amet enim malesuada, et molestie elit viverra. Duis eleifend mi sit amet metus pellentesque vestibulum. Praesent in turpis neque. Vestibulum non eleifend nisl. Cras finibus vehicula odio, id vulputate velit mattis tempor.\nInteger ac enim elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac tortor neque. Integer pellentesque est dui, a posuere sapien elementum et. In hac habitasse platea dictumst. Aliquam gravida maximus nibh ac ornare. Proin vitae egestas lectus. Mauris fermentum ipsum id ex porta dignissim. Duis volutpat, dui quis fringilla elementum, dui ante commodo ex, sollicitudin sollicitudin urna lectus vitae dolor. Etiam lacinia ipsum leo, at pharetra purus blandit eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed id volutpat libero, ut finibus turpis.\nMorbi lacinia ipsum in magna ullamcorper dignissim. Quisque placerat tortor a lacus eleifend, sed egestas diam blandit. Cras non tellus vitae felis dictum ullamcorper et a ante. Curabitur faucibus urna id nibh facilisis aliquet. Vivamus sit amet elementum turpis. Ut ut ipsum vitae arcu aliquam finibus. Nullam sit amet mi malesuada, ullamcorper tortor nec, pharetra ex. Sed pulvinar mi tellus, quis cursus sem dictum id. Duis accumsan magna eu leo pellentesque dapibus. Maecenas ac sem lorem. Proin dictum risus non mollis cursus. Duis feugiat ipsum purus.",
-  },
-  {
-    periodTag: "1950 A.D. - 2017 A.D.",
-    startYear: 11950,
-    endYear: 12017,
-    color: "#ca4c57",
-    title: "Late Modernity",
-    periodText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed ante ac metus fringilla rutrum. Cras egestas felis non nisi consequat vulputate. Nam nec odio sagittis lacus interdum tempor. Phasellus venenatis arcu ut consequat ornare. Sed viverra tellus sit amet enim malesuada, et molestie elit viverra. Duis eleifend mi sit amet metus pellentesque vestibulum. Praesent in turpis neque. Vestibulum non eleifend nisl. Cras finibus vehicula odio, id vulputate velit mattis tempor.\nInteger ac enim elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac tortor neque. Integer pellentesque est dui, a posuere sapien elementum et. In hac habitasse platea dictumst. Aliquam gravida maximus nibh ac ornare. Proin vitae egestas lectus. Mauris fermentum ipsum id ex porta dignissim. Duis volutpat, dui quis fringilla elementum, dui ante commodo ex, sollicitudin sollicitudin urna lectus vitae dolor. Etiam lacinia ipsum leo, at pharetra purus blandit eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed id volutpat libero, ut finibus turpis.\nMorbi lacinia ipsum in magna ullamcorper dignissim. Quisque placerat tortor a lacus eleifend, sed egestas diam blandit. Cras non tellus vitae felis dictum ullamcorper et a ante. Curabitur faucibus urna id nibh facilisis aliquet. Vivamus sit amet elementum turpis. Ut ut ipsum vitae arcu aliquam finibus. Nullam sit amet mi malesuada, ullamcorper tortor nec, pharetra ex. Sed pulvinar mi tellus, quis cursus sem dictum id. Duis accumsan magna eu leo pellentesque dapibus. Maecenas ac sem lorem. Proin dictum risus non mollis cursus. Duis feugiat ipsum purus.",
-  },
-];
-
-const yearIndexToYear = (yearIndex) => {
-  if (yearIndex < 10000) {
-    return `${Math.round(10000 - yearIndex)} b.C.`;
-  } else {
-    return `${Math.round(yearIndex - 10000)} A.D.`;
-  }
-};
 
 const calculateScrollOffsetBasedOnYearIndex = (yearIndex) => {
   if (yearIndex <= 7000) {
@@ -180,7 +97,7 @@ const calculateCurrentYearBasedOnScroll = (scrollLeft) => {
   return 12017;
 };
 
-export default function Timeline({currentYear, setCurrentYear}) {
+export default function Timeline({ currentYear, setCurrentYear }) {
   const ref = useRef(null);
   const { onMouseDown } = useDraggableScroll(ref);
 
@@ -196,7 +113,7 @@ export default function Timeline({currentYear, setCurrentYear}) {
 
   return (
     <>
-      This year: {yearIndexToYear(currentYear)}
+      {/* This year: {yearIndexToYear(currentYear)} */}
       <div
         className="timeline"
         ref={ref}
@@ -207,8 +124,20 @@ export default function Timeline({currentYear, setCurrentYear}) {
       >
         <div
           className="timelineObject"
-          style={{ width: screenWidth / 2 }}
-        ></div>
+          style={{
+            width: screenWidth / 2,
+            backgroundColor: "#cbd5e1",
+          }}
+        >
+          <div className="">
+            <div style={{ fontWeight: "bold", fontSize: 16 }}>
+              No data available
+            </div>
+            <div style={{ fontWeight: 300, fontSize: 12 }}>
+              Until 10.000 B.C.
+            </div>
+          </div>
+        </div>
         {timelineObjects.map((timelineObject, i) => {
           return (
             <TimelineObject
@@ -216,27 +145,41 @@ export default function Timeline({currentYear, setCurrentYear}) {
               backgroundColor={timelineObject.color}
               periodTag={timelineObject.periodTag}
               periodText={timelineObject.periodText}
+              iconLink={timelineObject.iconLink}
             />
           );
         })}
         <div
+          style={{
+            width: screenWidth / 2,
+            backgroundColor: "#cbd5e1",
+          }}
           className="timelineObject"
-          style={{ width: screenWidth / 2 }}
-        ></div>
-        <div id="pin" />
+        >
+          <div className="">
+            <div style={{ fontWeight: "bold", fontSize: 16 }}>
+              No data available
+            </div>
+            <div style={{ fontWeight: 300, fontSize: 12 }}>From 2017 A.D.</div>
+          </div>
+        </div>
+        <img src="/pointer.png" id="pin" />
       </div>
     </>
   );
 }
 
-const TimelineObject = ({ backgroundColor, periodTag, title }) => {
+const TimelineObject = ({ backgroundColor, periodTag, title, iconLink }) => {
   return (
     <div
       style={{ backgroundColor: backgroundColor }}
       className={`timelineObject`}
     >
-      <div style={{ fontWeight: "bold", fontSize: 16 }}>{title}</div>
-      <div style={{ fontWeight: 300, fontSize: 12 }}>{periodTag}</div>
+      <div className="">
+        <div style={{ fontWeight: "bold", fontSize: 16 }}>{title}</div>
+        <div style={{ fontWeight: 300, fontSize: 12 }}>{periodTag}</div>
+      </div>
+      <img className="icon" src={iconLink} />
     </div>
   );
 };
