@@ -7,7 +7,11 @@ import Graph from "./homepage-components/Graph";
 import Timeline from "./homepage-components/Timeline"
 import { yearNbLst } from './map-components/utilities/createData';
 import { yearIndexToYear } from "./util/yearIndexToYear";
-import { timelineObjects } from "./data/timelineObjects";
+import { timelineObjects } from "./util/timelineObjects";
+
+function roundYear(year) {
+  return 0;
+}
 
 const HomePage = () => {
   const [currentYear, setCurrentYear] = useState(11500)

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/Timeline.css";
 import useDraggableScroll from "use-draggable-scroll";
-import { timelineObjects } from "../data/timelineObjects";
+import { timelineObjects } from "../util/timelineObjects";
 
 const TIMELINEBLOCKWIDTH = 300;
 
@@ -124,8 +124,20 @@ export default function Timeline({ currentYear, setCurrentYear }) {
       >
         <div
           className="timelineObject"
-          style={{ width: screenWidth / 2 }}
-        ></div>
+          style={{
+            width: screenWidth / 2,
+            backgroundColor: "#cbd5e1",
+          }}
+        >
+          <div className="">
+            <div style={{ fontWeight: "bold", fontSize: 16 }}>
+              No data available
+            </div>
+            <div style={{ fontWeight: 300, fontSize: 12 }}>
+              Until 10.000 B.C.
+            </div>
+          </div>
+        </div>
         {timelineObjects.map((timelineObject, i) => {
           return (
             <TimelineObject
@@ -138,10 +150,20 @@ export default function Timeline({ currentYear, setCurrentYear }) {
           );
         })}
         <div
+          style={{
+            width: screenWidth / 2,
+            backgroundColor: "#cbd5e1",
+          }}
           className="timelineObject"
-          style={{ width: screenWidth / 2 }}
-        ></div>
-        <div id="pin" />
+        >
+          <div className="">
+            <div style={{ fontWeight: "bold", fontSize: 16 }}>
+              No data available
+            </div>
+            <div style={{ fontWeight: 300, fontSize: 12 }}>From 2017 A.D.</div>
+          </div>
+        </div>
+        <img src="/pointer.png" id="pin" />
       </div>
     </>
   );

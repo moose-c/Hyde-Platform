@@ -4,6 +4,7 @@
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
+  background-color: ;
 }
 .icon {
   width: 48px;
@@ -31,20 +32,8 @@
 }
 
 #pin {
-  background-color: skyblue;
-  width: 5px;
-  height: 20px;
+  width: 40px;
   position: absolute;
-  left: calc(50% - 2.5px);
-  top: -5px;
-}
-
-#pin::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: calc(50% - 5px);
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid skyblue;
+  left: calc(50% - 20px);
+  top: -20px;
 }
