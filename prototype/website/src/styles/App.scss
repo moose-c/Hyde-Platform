@@ -19,11 +19,11 @@ ol {
   margin: 0px;
 }
 
-li {
-  font-size: 10px;
-}
-
 $theme-colors: (
   "primary": #2187e1,
 );
 @import "~bootstrap/scss/bootstrap";
+
+a {
+  color: #fff
+}

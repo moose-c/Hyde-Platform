@@ -179,7 +179,7 @@ const TimelineObject = ({ backgroundColor, periodTag, title, iconLink }) => {
         <div style={{ fontWeight: "bold", fontSize: 16 }}>{title}</div>
         <div style={{ fontWeight: 300, fontSize: 12 }}>{periodTag}</div>
       </div>
-      <img className="icon" src={iconLink} />
+      <img className="icon" src={iconLink} draggable={false} />
     </div>
   );
 };

@@ -44,7 +44,7 @@ const StaticMap = ({ roundedYear = 0, mapId = 0, width = 400, height = 200, netC
 
     useEffect(() => {
       // add something to only render after scroll
-      if (map && netCDF) {
+      if (mapRef.current !== null && netCDF) {
         if (overlay.length > 0) {
           overlay.forEach(layer => {
             mapRef.current.removeLayer(layer)
@@ -54,7 +54,7 @@ const StaticMap = ({ roundedYear = 0, mapId = 0, width = 400, height = 200, netC
         }
         var time = `${roundedYear}-05-01`
         const style = 'seq-YlOrRd'
-        const layer = '2/irrigated_rice'
+        const layer = 'cropland/cropland'
         const url = `http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
         fetch(url)
           .then((response) => response.json())
@@ -75,7 +75,6 @@ const StaticMap = ({ roundedYear = 0, mapId = 0, width = 400, height = 200, netC
               }),
               opacity: 0.8
             })
-  
             const contour = new TileLayer({
               source: new TileWMS({
                 url: `http://${window.apiUrl}:8080/ncWMS/wms`,

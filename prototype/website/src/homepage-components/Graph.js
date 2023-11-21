@@ -9,24 +9,23 @@ import annotationPlugin from "chartjs-plugin-annotation";
 Chart.register(annotationPlugin);
 
 export default function Graph({ roundedYear }) {
-  const [data, setData] = useState(false);
-  const chartRef = useRef(null);
-  const options = useRef(null);
+    const data = useRef(null)
+    const [options, setOptions] = useState(null);
+    const chartRef = useRef(null);
 
-  /*     var labels = []
-        var position = yearNbLst[0]  
-        var minInterval = yearNbLst[yearNbLst.length - 1] - yearNbLst[yearNbLst.length - 2] 
-        while (position <= yearNbLst[yearNbLst.length - 1]) {
-            labels.push(position)
-            position += minInterval
-        } */
-  const labels = yearNbLst;
+    /*     var labels = []
+          var position = yearNbLst[0]  
+          var minInterval = yearNbLst[yearNbLst.length - 1] - yearNbLst[yearNbLst.length - 2] 
+          while (position <= yearNbLst[yearNbLst.length - 1]) {
+              labels.push(position)
+              position += minInterval
+          } */
+    const labels = yearNbLst;
 
     useEffect(() => {
         if (roundedYear) {
             fetch(`http://${window.apiUrl}:8000/popc/10000/bce_10000/ce_2017`).then((response) => response.json())
                 .then((r_json) => {
-                    console.log(r_json)
                     const newData = []
                     r_json[0].forEach((value, index) => {
                         newData.push({
@@ -34,7 +33,13 @@ export default function Graph({ roundedYear }) {
                             y: value
                         })
                     })
-                    options.current = {
+                    data.current = {
+                        labels: labels, datasets: [{
+                            label: 'Population', data: newData, fill: false,
+                        }]
+                    }
+                    setOptions({
+                        maintainAspectRatio: false,
                         scales: {
                             y: {
                                 title: {
@@ -57,46 +62,44 @@ export default function Graph({ roundedYear }) {
                             annotation: {
                                 annotations: {
                                     point1: {
-                                        type: 'point',
-                                        xValue: newData[yearNbLst.indexOf(roundedYear)].x,
+                                        type: "point",
+                                        xValue: yearNbLst.indexOf(roundedYear),
                                         yValue: newData[yearNbLst.indexOf(roundedYear)].y,
-                                        radius: 10000000,
-                                    }
-                                }
-                            }
+                                        radius: 5,
+                                        backgroundColor: "rgba(255, 99, 132, 0.25)",
+                                    },
+                                },
+                            },
                         }
-                    }
-                    setData({
-                        labels: labels, datasets: [{
-                            label: 'Population', data: newData, fill: false,
-                        }]
                     })
                 })
         }
     }, [])
 
-
     useEffect(() => {
-        if (data) {
-            options.current.plugins.annotation.annotations.point1.xValue = data.datasets // give true value
-            // options.current.plugins.annotation.annotations.point1.yValue = data.datasets[yearNbLst.indexOf(roundedYear)].y // give true value
-            console.log(data.datasets[yearNbLst.indexOf(roundedYear)].y)
+        if (options !== null) {
+            setOptions((prevOptions) => {
+                const updatedOptions = { ...prevOptions }
+                updatedOptions.plugins.annotation.annotations.point1.xValue = yearNbLst.indexOf(roundedYear)
+                updatedOptions.plugins.annotation.annotations.point1.yValue = data.current.datasets[0].data[yearNbLst.indexOf(roundedYear)].y
+                return updatedOptions
+            })
         }
-    }, [roundedYear, data])
+    }, [roundedYear])
 
-  return (
-    <>
-      {data ? (
-        <div style={{}}>
-          <Line
-            ref={chartRef}
-            data={data}
-            options={{ ...options.current, maintainAspectRatio: false }}
-          />
-        </div>
-      ) : (
-        <div>No data yet</div>
-      )}
-    </>
-  );
+    return (
+        <>
+            {data.current ? (
+                <div style={{}}>
+                    <Line
+                        ref={chartRef}
+                        data={data.current}
+                        options={options}
+                    />
+                </div>
+            ) : (
+                <div>No data yet</div>
+            )}
+        </>
+    );
 }

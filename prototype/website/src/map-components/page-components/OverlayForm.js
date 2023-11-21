@@ -157,7 +157,7 @@ export default function OverlayForm({ map, setMap, setSelection, currentYear, se
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={() => exportPNG()}>PNG</Dropdown.Item>
                             <Dropdown.Item onClick={() => exportAsc()}>asc</Dropdown.Item>
-                            <Dropdown.Header>Access <a href="https://geo.yoda.uu.nl/">YODA</a> for .nc and zipped .asc</Dropdown.Header>
+                            <Dropdown.Header>Access <a href="https://landuse.sites.uu.nl/datasets/">YODA</a> for .nc and zipped .asc</Dropdown.Header>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Row>

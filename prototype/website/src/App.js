@@ -8,7 +8,7 @@ const router = createBrowserRouter([
   { path: "/map", Component: MapPage },
 ]);
 
-const UUNetwork = false
+const UUNetwork = true
 if (UUNetwork) {
   window.apiUrl = 'hydeprod.geo.uu.nl'
 } else {
