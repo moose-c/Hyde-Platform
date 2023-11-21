@@ -49,6 +49,3 @@ def clean():
 
 if __name__ == '__main__':
     populate()
-    # following allows container to remain accessible, otherwise container closes
-    # while True:
-    #     pass

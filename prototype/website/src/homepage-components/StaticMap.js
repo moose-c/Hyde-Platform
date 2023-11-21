@@ -9,7 +9,7 @@ import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ.js";
 import { TileWMS } from 'ol/source';
 
-const StaticMap = ({ year = '0', mapId = 0, width = 400, height = 200, netCDF = false }) => {
+const StaticMap = ({ roundedYear = 0, mapId = 0, width = 400, height = 200, netCDF = false }) => {
 
   const [map, setMap] = useState([])
   const [overlay, setOverlay] = useState([])
@@ -42,7 +42,8 @@ const StaticMap = ({ year = '0', mapId = 0, width = 400, height = 200, netCDF = 
 
   }, [])
 
-  /*   useEffect(() => {
+    useEffect(() => {
+      // add something to only render after scroll
       if (map && netCDF) {
         if (overlay.length > 0) {
           overlay.forEach(layer => {
@@ -51,9 +52,9 @@ const StaticMap = ({ year = '0', mapId = 0, width = 400, height = 200, netCDF = 
           setOverlay([])
           setMap(mapRef.current)
         }
-        var time = `${year}-05-01`
+        var time = `${roundedYear}-05-01`
         const style = 'seq-YlOrRd'
-        const layer = 'cropland'
+        const layer = '2/irrigated_rice'
         const url = `http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
         fetch(url)
           .then((response) => response.json())
@@ -95,8 +96,8 @@ const StaticMap = ({ year = '0', mapId = 0, width = 400, height = 200, netCDF = 
             setOverlay([fill, contour])
           })
       }
-    }, [map, year])
-   */
+    }, [map, roundedYear])
+  
 
   return (
     <div ref={mapRef} style={{ width: width, height: height }} id={idTag}></div>

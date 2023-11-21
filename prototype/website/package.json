@@ -21,7 +21,8 @@
     "react-select": "^5.7.7",
     "sass": "^1.69.5",
     "source-map-loader": "^4.0.1",
-    "use-draggable-scroll": "^0.1.0"
+    "use-draggable-scroll": "^0.1.0",
+    "chartjs-plugin-annotation": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
