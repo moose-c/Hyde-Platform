@@ -43,6 +43,7 @@ const StaticMap = ({ roundedYear = 0, mapId = 0, width = 400, height = 200, netC
   }, [])
 
     useEffect(() => {
+      // add something to only render after scroll
       if (map && netCDF) {
         if (overlay.length > 0) {
           overlay.forEach(layer => {

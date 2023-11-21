@@ -9,10 +9,6 @@ import { yearNbLst } from './map-components/utilities/createData';
 import { yearIndexToYear } from "./util/yearIndexToYear";
 import { timelineObjects } from "./util/timelineObjects";
 
-function roundYear(year) {
-  return 0;
-}
-
 const HomePage = () => {
   const [currentYear, setCurrentYear] = useState(11500)
   const [roundedYear, setRoundedYear] = useState(1500)
@@ -22,7 +18,7 @@ const HomePage = () => {
       console.log(newRoundedYear)
       setRoundedYear(newRoundedYear)
     }
-  },[currentYear])
+  }, [currentYear])
 
   return (
     <div className="homepage">
@@ -58,9 +54,10 @@ const HomePage = () => {
         </div>
         <InfoSection currentYear={currentYear} />
       </div>
-      <div className="infosectin"></div>
+      <div className="infosectin">
+        <GraphsOverlay roundedYear={roundedYear} />
+      </div>
       {/* <InformationOverlay /> */}
-      <GraphsOverlay roundedYear={roundedYear}/>
       {/* <div className="logo"> */}
       {/* Hyde Portal */}
       {/* <StaticMap /> */}
@@ -77,7 +74,7 @@ const GraphsOverlay = ({ roundedYear }) => {
       <Card>
         <Card.Header>Timeseries Example</Card.Header>
         <Card.Body>
-          {/* <Graph roundedYear={roundedYear} /> */}
+          <Graph roundedYear={roundedYear} />
         </Card.Body>
       </Card>
 
@@ -115,7 +112,7 @@ const InfoSection = ({ currentYear }) => {
 
 function roundYear(year) {
   for (const yearFromList of yearNbLst) {
-    if (yearFromList >= year-10000) {
+    if (yearFromList >= year - 10000) {
       return yearFromList
     }
   }

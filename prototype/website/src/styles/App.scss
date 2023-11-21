@@ -1,5 +1,6 @@
 * {
   font-size: 12px;
+  // overflow-x: hidden; 
 }
 
 .App {
@@ -22,6 +23,6 @@ li {
 }
 
 $theme-colors: (
-  "primary": #79addc,
+  "primary": #2187e1,
 );
 @import "~bootstrap/scss/bootstrap";

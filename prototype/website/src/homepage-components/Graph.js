@@ -24,6 +24,7 @@ export default function Graph({ roundedYear }) {
         if (roundedYear) {
             fetch(`http://${window.apiUrl}:8000/popc/10000/bce_10000/ce_2017`).then((response) => response.json())
                 .then((r_json) => {
+                    console.log(r_json)
                     const newData = []
                     r_json[0].forEach((value, index) => {
                         newData.push({
@@ -75,8 +76,9 @@ export default function Graph({ roundedYear }) {
 
     useEffect(() => {
         if (data) {
-            options.current.plugins.annotation.annotations.point1.xValue = 5
-            options.current.plugins.annotation.annotations.point1.yValue = 5
+            options.current.plugins.annotation.annotations.point1.xValue = data.datasets // give true value
+            // options.current.plugins.annotation.annotations.point1.yValue = data.datasets[yearNbLst.indexOf(roundedYear)].y // give true value
+            console.log(data.datasets[yearNbLst.indexOf(roundedYear)].y)
         }
     }, [roundedYear, data])
 
