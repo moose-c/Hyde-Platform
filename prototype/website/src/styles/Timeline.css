@@ -3,6 +3,7 @@
   display: inline-flex;
   width: 100%;
   overflow-x: scroll;
+  bottom: 0;
   overflow-y: hidden;
 }
 .icon {

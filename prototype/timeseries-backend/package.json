@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "chartjs-plugin-annotation": "^3.0.1",
     "react-bootstrap-range-slider": "^3.0.8"
   }
 }

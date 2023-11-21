@@ -1,24 +1,26 @@
-import { useState, React, useRef, useEffect } from 'react'
+import { useState, React, useRef, useEffect } from "react";
 
 // eslint-disable-next-line
-import Chart from 'chart.js/auto';   /* Required to mitigate some errors */
-import { Line } from 'react-chartjs-2'   /* https://github.com/reactchartjs/react-chartjs-2 */
-import { yearNbLst } from '../map-components/utilities/createData';
+import Chart from "chart.js/auto"; /* Required to mitigate some errors */
+import { Line } from "react-chartjs-2"; /* https://github.com/reactchartjs/react-chartjs-2 */
+import { yearNbLst } from "../map-components/utilities/createData";
+import annotationPlugin from "chartjs-plugin-annotation";
+
+Chart.register(annotationPlugin);
 
 export default function Graph({ roundedYear }) {
-    const [data, setData] = useState(false)
-    const chartRef = useRef(null)
-    const options = useRef(null)
+  const [data, setData] = useState(false);
+  const chartRef = useRef(null);
+  const options = useRef(null);
 
-
-    /*     var labels = []
+  /*     var labels = []
         var position = yearNbLst[0]  
         var minInterval = yearNbLst[yearNbLst.length - 1] - yearNbLst[yearNbLst.length - 2] 
         while (position <= yearNbLst[yearNbLst.length - 1]) {
             labels.push(position)
             position += minInterval
         } */
-    const labels = yearNbLst
+  const labels = yearNbLst;
 
     useEffect(() => {
         if (roundedYear) {
@@ -82,13 +84,19 @@ export default function Graph({ roundedYear }) {
         }
     }, [roundedYear, data])
 
-    return (
-        <>
-            {data && (
-                <div style={{ height: 300 }}>
-                    <Line ref={chartRef} data={data} options={{ ...options.current, maintainAspectRatio: false }} />
-                </div>
-            )}
-        </>
-    )
+  return (
+    <>
+      {data ? (
+        <div style={{}}>
+          <Line
+            ref={chartRef}
+            data={data}
+            options={{ ...options.current, maintainAspectRatio: false }}
+          />
+        </div>
+      ) : (
+        <div>No data yet</div>
+      )}
+    </>
+  );
 }
