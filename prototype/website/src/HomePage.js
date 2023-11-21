@@ -28,32 +28,6 @@ const HomePage = () => {
   );
 };
 
-// indicator object, popc : Population Count
-export const indicatorTxtObj = {
-  demographic : {
-      popc : 'Population',
-      popd : 'Population Density',
-      urbc : 'Urban Population',
-      rurc : 'Rural Population'
-  },
-  landUse : {
-      uopp : 'Urban Area',
-      cropland : 'Cropland', 
-      grazing : 'Grazing Land', 
-      pasture : 'Pasture',
-      rangeland : 'Rangeland',
-      conv_rangeland : 'Conventional Rangeland'   /* Not in nc */
-  },
-  agricultural : {
-      ir_rice : 'Irrigated Rice',
-      rf_rice : 'Rainfed Rice', 
-      tot_rice : 'Total Rice', 
-      ir_norice : 'Irrigated Not Rice', 
-      rf_norice : 'Rainfed Not Rice', 
-      tot_irri : 'Total Irrigated', 
-      tot_rainfed : 'Total Rainfed'
-  }
-}
 const Jumbotron = () => {
   return (
     <div className="jumbotron bg-primary text-white">
