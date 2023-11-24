@@ -1,3 +1,5 @@
+/* This code is using React and ReactDOMClient to render a React component called `App` to the DOM. 
+This is created with the setup of the react app by `npx create-react-app website`*/
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import App from './App';

@@ -7,9 +7,9 @@ services:
     image: guygriffiths/ncwms
 
     volumes:
-      - ./WMS/config.xml:/usr/local/tomcat/.ncWMS2/config.xml  # Configuration file for ncWMS
-      - ./WMS/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml  # User file for Tomcat
-      - ./WMS/netCDF:/data/netCDF  # Directory for netCDF data
+      - ./ncWMS/config.xml:/usr/local/tomcat/.ncWMS2/config.xml  # Configuration file for ncWMS
+      - ./ncWMS/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml  # User file for Tomcat
+      - ./ncWMS/netCDF:/data/netCDF  # Directory for netCDF data
 
     ports:
       - 8080:8080  # Expose port 8080 for external access
@@ -30,7 +30,7 @@ services:
   ncwms-fill:
     container_name: ncwms-fill
 
-    build: ./WMS  # Build from the specified Dockerfile
+    build: ./ncWMS  # Build from the specified Dockerfile
 
     env_file:
       - ../.env  # File containing necessary environment variables
@@ -41,7 +41,7 @@ services:
         condition: service_healthy
 
     volumes:
-      - ./WMS/netCDF:/data/netCDF  # Copy data into the container
+      - ./ncWMS/netCDF:/data/netCDF  # Copy data into the container
 
   # Service for the raster API, serving png and asc files
   raster-api:
