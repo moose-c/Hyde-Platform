@@ -3,7 +3,7 @@ __pycache__
 
 node_modules/
 dist/
-api-data/*/
+backend/api-data/*/
 old/
 build/
 
