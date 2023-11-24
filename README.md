@@ -3,11 +3,12 @@ This repository contains the code that was used to create the Hyde Platform, a p
 This markdown explains the structure of the final product and how to run this application. For documentation on the development process, read [Development-process.md](Development-Process.md). For a more extensive explanation of each component, read the documenation within that component.
 
 ## Structure
-In the **prototype** folder, different components of the project can be found. The following are currently implemented:
-1) **raster-backend**: Creates an API to serve the netcdf files and download png's and ascii Grid files (rasters) from the HYDE project.
-2) **timeseries-backend**: Creates an API to serve and download the txt files (timeseries per country) from the HYDE project.
-3) **website**: Contains a website displaying a map and capable of displaying rasters and timeseries using the API from raster-backend and timeseries-backend. 
-
+This project is split into two components:
+1) In the **frontend** folder, everything relating to the website can be found
+2) In the **backend** folder, APIs can be found that are used to serve data to the website, more specifically we have
+    - **raster-backend**: Creates an API to serve the netcdf files and download png's and ascii Grid files (rasters) from the HYDE project.
+    - **timeseries-backend**: Creates an API to serve and download the txt files (timeseries per country) from the HYDE project.
+    
 ## Stack
 For each of the components, different languages are used. 
 
