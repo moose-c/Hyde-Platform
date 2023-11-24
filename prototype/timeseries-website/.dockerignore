@@ -1,3 +1,0 @@
-# Files that are ignored by docker, similar to .gitignore
-node_modules/
-package-lock.json

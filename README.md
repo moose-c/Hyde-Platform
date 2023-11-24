@@ -4,19 +4,26 @@ This markdown explains the structure of the final product and how to run this ap
 
 ## Structure
 In the **prototype** folder, different components of the project can be found. The following are currently implemented:
-1) **raster-backend**: Creates an API to serve and download the netcdf files (rasters) from the HYDE project.
+1) **raster-backend**: Creates an API to serve the netcdf files and download png's and ascii Grid files (rasters) from the HYDE project.
 2) **timeseries-backend**: Creates an API to serve and download the txt files (timeseries per country) from the HYDE project.
 3) **website**: Contains a website displaying a map and capable of displaying rasters and timeseries using the API from raster-backend and timeseries-backend. 
 
-## Setup locally
-1) Setup docker and docker compose 
-2) Write .env file as indicated in .env-template file
-3) Alter data locations within `docker-compose.yml` in raster-backend & timeseries-backend
-4) Execute `docker compose up` from any or all of the components: 
-    - website is accessible at http://localhost:3000
-    - raster-backend:
-        - can be viewed in browser at http://localhost:8080/ncWMS
-        - API can be used as displayed in the folder
-    - timeseries-backend 
-        - API can be used: curl http://localhost:8000/test
-        - Also as follows: curl http://localhost:8000/uopp/4/bce_1000/ce_700
+## Stack
+For each of the components, different languages are used. 
+
+### Overarching
+- **Visual Studio Code** was used as a code editor
+- **Docker** was used to compartmentalize different parts of the application, and to allow for easy setup on different locations. 
+
+### Backend
+-  **ncWMS** is an existing java application that was used for serving netCDF files
+- **postgres** is a database system where the information for the timeseries is stored
+- **python** was used to fill postgres and ncWMS
+- **Flask** is a python library and was used to serve the data from postgres and additional rasker data
+- **Gunicorn** by the API, as WSGI HTTP server for managing requests
+
+### Frontend
+- **HTML, CSS & JS**, basic web development skils are required 
+- **React**, a javascript library aiding in web development
+- **Openlayers**, a javascript library utilized for interactive maps on a webpage
+- **Chart.js**, javascript library for displaying figures

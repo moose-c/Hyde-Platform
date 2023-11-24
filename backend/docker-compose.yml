@@ -1,0 +1,126 @@
+version: "3.8"
+services:
+
+  tomcat-ncwms:
+    container_name: tomcat-ncwms
+
+    # External image for creating ncWMS docker containers
+    image: guygriffiths/ncwms
+
+    volumes:
+      - ./raster-backend/config.xml:/usr/local/tomcat/.ncWMS2/config.xml # config file for ncWMS
+      - ./raster-backend/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml # user file for tomcat
+      - ./raster-backend/WMS/netCDF:/data/netCDF # netCDF data
+
+    ports:
+      - 8080:8080
+
+    # now interactable with: docker compose exec tomcat-ncwms bash
+    stdin_open: true
+    tty: true
+
+    # Requered for running on server, for some reason
+    ulimits:
+      nofile: 65536
+
+    restart: always
+
+    # Healthcheck such that the fill-container can start after ncWMS is checked to have launched correctly
+    healthcheck:
+      test: curl --fail http://localhost:8080/ncWMS || exit 1
+      interval: 20s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
+  ncwms-fill:
+    container_name: ncwms-fill
+
+    # Build image from the ./fill-db/Dockerfile
+    build: ./raster-backend/WMS
+
+    # Contains necessary password
+    env_file:
+      - ..\.env
+
+    # make again interactible
+    stdin_open: true
+    tty: true
+
+    # Starts after succesful healthcheck of timeseries-database container
+    depends_on:
+      tomcat-ncwms:
+        condition: service_healthy
+
+    # copy data into container
+    volumes:
+      - ./raster-backend/WMS/netCDF:/data/netCDF
+
+  raster-api:
+    container_name: raster-api
+    build: ./raster-backend/api # build image again from Dockerfile 
+
+    environment:
+      DEBUG: 0
+
+    volumes:
+      - ./raster-backend/api/data/asc:/data/asc
+      - ./raster-backend/api/data/png:/data/png
+
+    # ports through which the API can be reached. [External]:[Docker]
+    ports:
+      - 8100:8100
+
+  timeseries-database:
+    container_name: timeseries-database
+
+    # manditory to mitigate 'role root does not exist' error
+    user: postgres
+
+    # specify image to pull from online, use small postgres dist
+    image: postgres:15-alpine
+
+    # specify environmental variables within container
+    environment:
+      DEBUG: 0 # don't work in debug env
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD # system variable set for postgres password
+      POSTGRES_DB: timeseries # name the database
+
+    # check whether setup was succesful, checked by next container
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      retries: 5
+
+  timeseries-fill:
+    container_name: timeseries-fill
+
+    # Build image from the ./fill-db/Dockerfile
+    build: ./timeseries-backend/fill-db
+    environment:
+      DEBUG: 0
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+    # Starts after succesful healthcheck of timeseries-database container
+    depends_on:
+      timeseries-database:
+        condition: service_healthy
+
+    # copy data into container
+    volumes:
+      - ./timeseries-backend/fill-db/data/txt:/data/txt
+
+  timeseries-api:
+    container_name: timeseries-api
+    build: ./timeseries-backend/api # build image again from Dockerfile within api folder
+    environment:
+      DEBUG: 0
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    depends_on:
+      # start after database is filled from previous container
+      timeseries-fill:
+        condition: service_completed_successfully
+
+    # ports through which the API can be reached. [External]:[Docker]
+    ports:
+      - 8000:8000

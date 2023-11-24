@@ -1,5 +1,0 @@
-Flask==2.3.2
-Flask-RESTFUL==0.3.10
-Flask-CORS==3.0.10
-psycopg2==2.9.6
-gunicorn==20.1.0
