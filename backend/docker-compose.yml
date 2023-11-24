@@ -9,7 +9,7 @@ services:
     volumes:
       - ./ncWMS/config.xml:/usr/local/tomcat/.ncWMS2/config.xml  # Configuration file for ncWMS
       - ./ncWMS/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml  # User file for Tomcat
-      - ./ncWMS/netCDF:/data/netCDF  # Directory for netCDF data
+      - ../api-data/netCDF:/data/netCDF  # Directory for netCDF data. CHANGE TO POINT TO CURRENT LOCATION
 
     ports:
       - 8080:8080  # Expose port 8080 for external access
@@ -41,7 +41,7 @@ services:
         condition: service_healthy
 
     volumes:
-      - ./ncWMS/netCDF:/data/netCDF  # Copy data into the container
+      - ../api-data/netCDF:/data/netCDF  # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
 
   # Service for the raster API, serving png and asc files
   raster-api:
@@ -53,8 +53,8 @@ services:
       DEBUG: 0
 
     volumes:
-      - ./raster-api/data/asc:/data/asc  # Volume for ASC data
-      - ./raster-api/data/png:/data/png  # Volume for PNG data
+      - ../api-data/asc:/data/asc  # Volume for ASC data. CHANGE TO POINT TO CURRENT LOCATION
+      - ../api-data/png:/data/png  # Volume for PNG data. CHANGE TO POINT TO CURRENT LOCATION
 
     ports:
       - 8100:8100  # Expose port 8100 for external access
@@ -92,7 +92,7 @@ services:
         condition: service_healthy
 
     volumes:
-      - ./timeseries-api/fill-db/data/txt:/data/txt  # Copy data into the container
+      - ../api-data/txt:/data/txt  # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
 
   # Service for the timeseries API
   timeseries-api:

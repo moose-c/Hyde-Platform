@@ -5,7 +5,7 @@ Contains a postgres database, populated with information of each indicator, coun
 
 ## Setup 
 ### Point to data for the database
-Populate ./fill-db/data/txt with the HYDE .txt files, obtained through the YODA platform.
+Populate api-data/txt with the HYDE .txt files, obtained through the YODA platform.
 
 ### Running setup bash script
 From the command line change to this directory and do:
