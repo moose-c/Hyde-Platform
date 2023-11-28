@@ -2,7 +2,7 @@ import { React, useEffect, useRef, useState } from "react"
 import { indicatorNcOrder } from "../../util/createData"  /* as ind.type : {ind -> Indicator Name} */
 
 
-export default function Legend({ currentYear, ovIndicator, afterChange }) {
+export default function Legend({ currentYear, ovIndicator }) {
     const [legend, setLegend] = useState(null)
     var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
     year += `${currentYear.split('_')[1]}`
@@ -12,7 +12,7 @@ export default function Legend({ currentYear, ovIndicator, afterChange }) {
     const scale = useRef()
 
     useEffect(() => {
-        if (ovIndicator !== null && afterChange) {
+        if (ovIndicator !== null ) {
             if ('population_density' === ovIndicator) {
                 scale.current = '[inh/km2'
             } else if (['population', 'urban_population', 'rural_population'].includes(ovIndicator)) {
@@ -45,7 +45,7 @@ export default function Legend({ currentYear, ovIndicator, afterChange }) {
             scale.current = null
             setLegend(null)
         } // eslint-disable-next-line
-    }, [currentYear, ovIndicator, afterChange])
+    }, [currentYear, ovIndicator])
 
     return (<>
         {legend && <>

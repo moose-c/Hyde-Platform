@@ -1,7 +1,7 @@
 /* Displays maps on Home, either Static or changing based on currentYear, 
 in the later case a raster from the -- val -- .nc is displayed  */
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
@@ -34,6 +34,7 @@ export default function HomeMap({ roundedYear = 0, mapId = 0, width = 400, heigh
       controls: [],
       interactions: []
     }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -92,6 +93,7 @@ export default function HomeMap({ roundedYear = 0, mapId = 0, width = 400, heigh
           setOverlay([fill, contour])
         })
     }   /* roundedYear updates only if currentYear == previousYear */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, roundedYear])
 
 

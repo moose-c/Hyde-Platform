@@ -20,17 +20,9 @@ import {
 // For requesting iso codes
 import countries from "i18n-iso-countries";
 import language from "i18n-iso-countries/langs/en.json";
-
 countries.registerLocale(language);
 
-export default function Charts({
-  selection,
-  startYear,
-  endYear,
-  tsIndicators,
-  plotOptions,
-  setPlotOptions,
-}) {
+export default function Charts({ selection, startYear, endYear, tsIndicators, plotOptions, setPlotOptions, }) {
   const allDataRef = useRef(false);
   const currentCountry = useRef(false);
   const currentIndicator = useRef(false);
@@ -98,7 +90,7 @@ export default function Charts({
       var minInterval =
         yearNbList[endIndex] -
         yearNbList[
-          endIndex - 1
+        endIndex - 1
         ]; /* Smallest interval between 2 adjacent datapoints always at the end */
       while (position <= yearNbList[endIndex]) {
         labels.current.push(position);
@@ -150,7 +142,7 @@ export default function Charts({
         handleChangeChart(0);
       });
     } // eslint-disable-next-line
-  }, [plotOptions, selection, tsIndicators]);
+  }, [plotOptions, selection, tsIndicators, startYear, endYear]);
 
   function handleChangeChart(newChartNb) {
     if (
@@ -168,8 +160,8 @@ export default function Charts({
       var datasets = plotOptions.combined
         ? allDataRef.current[currentCountry.current.values_.ISO_A3].all
         : allDataRef.current[currentCountry.current.values_.ISO_A3][
-            currentIndicator.current
-          ];
+        currentIndicator.current
+        ];
       const newOptions = options;
       newOptions.plugins.title.text = `${currentCountry.current.values_.ADMIN}, ${startName} - ${endName}`;
       newOptions.scales.y.title.text = chooseYLabel(
@@ -195,9 +187,8 @@ export default function Charts({
         measurementPoints.forEach((value, i) => {
           var row = value;
           for (const indicator of tsIndicators) {
-            const newHeader = `,${currentCountry.current.values_.ADMIN} - ${
-              Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]
-            } ${chooseYLabel(currentIndicator.current)}`;
+            const newHeader = `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]
+              } ${chooseYLabel(currentIndicator.current)}`;
             if (!header.includes(newHeader)) {
               header += newHeader;
             }
@@ -205,25 +196,23 @@ export default function Charts({
             row +=
               "," +
               allDataRef.current[currentCountry.current.values_.ISO_A3][
-                `${indicator}_json`
+              `${indicator}_json`
               ][0][i];
           }
           rowContent += `${row}\r\n`;
         });
       } else {
-        header += `,${currentCountry.current.values_.ADMIN} - ${
-          Object.assign({}, ...Object.values(indicatorTxtObj))[
-            currentIndicator.current
-          ]
-        } ${chooseYLabel(currentIndicator.current)}`;
+        header += `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[
+          currentIndicator.current
+        ]
+          } ${chooseYLabel(currentIndicator.current)}`;
         title = "single";
         // titel += `${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}`
         measurementPoints.forEach((value, i) => {
-          rowContent += `${value},${
-            allDataRef.current[currentCountry.current.values_.ISO_A3][
-              `${currentIndicator.current}_json`
-            ][0][i]
-          }\r\n`;
+          rowContent += `${value},${allDataRef.current[currentCountry.current.values_.ISO_A3][
+            `${currentIndicator.current}_json`
+          ][0][i]
+            }\r\n`;
         });
       }
     } else if (exportAmt === "all") {
@@ -232,16 +221,15 @@ export default function Charts({
         var row = value;
         for (const country of selection) {
           for (const indicator of tsIndicators) {
-            const newHeader = `,${country.values_.ADMIN} - ${
-              Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]
-            } ${chooseYLabel(currentIndicator.current)}`;
+            const newHeader = `,${country.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]
+              } ${chooseYLabel(currentIndicator.current)}`;
             if (!header.includes(newHeader)) {
               header += newHeader;
             }
             row +=
               "," +
               allDataRef.current[country.values_.ISO_A3][
-                `${indicator}_json`
+              `${indicator}_json`
               ][0][i];
           }
         }
@@ -261,11 +249,10 @@ export default function Charts({
       const link = document.createElement("a");
       link.download = plotOptions.combined
         ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg`
-        : `Chart - ${currentCountry.current.values_.ADMIN}, ${
-            Object.assign({}, ...Object.values(indicatorTxtObj))[
-              currentIndicator.current
-            ]
-          }.jpeg`;
+        : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[
+        currentIndicator.current
+        ]
+        }.jpeg`;
       link.href = chartRef.current.toBase64Image("image/jpeg", 1);
       link.click();
     } else if (exportAmt === "all") {
@@ -284,11 +271,10 @@ export default function Charts({
           const link = document.createElement("a");
           link.download = plotOptions.combined
             ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg`
-            : `Chart - ${currentCountry.current.values_.ADMIN}, ${
-                Object.assign({}, ...Object.values(indicatorTxtObj))[
-                  currentIndicator.current
-                ]
-              }.jpeg`;
+            : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[
+            currentIndicator.current
+            ]
+            }.jpeg`;
           link.href = chartRef.current.toBase64Image("image/jpeg", 1);
           link.click();
           link.remove();
@@ -307,13 +293,7 @@ export default function Charts({
             style={{ height: "300px", display: "flex", alignItems: "center" }}
           >
             <div>
-              <Button
-                onClick={() =>
-                  handleChangeChart(
-                    currentChartNb - 1 >= 0 ? currentChartNb - 1 : 0
-                  )
-                }
-              >
+              <Button onClick={() => handleChangeChart(currentChartNb - 1 >= 0 ? currentChartNb - 1 : 0)} >
                 &#8249;
               </Button>
             </div>
@@ -325,32 +305,16 @@ export default function Charts({
               />
             </div>
             <div>
-              <Button
-                onClick={() =>
-                  handleChangeChart(
-                    currentChartNb + 1 < nbCharts
-                      ? currentChartNb + 1
-                      : nbCharts - 1
-                  )
-                }
-              >
+              <Button onClick={() => handleChangeChart(currentChartNb + 1 < nbCharts ? currentChartNb + 1 : nbCharts - 1)} >
                 &#8250;
               </Button>
             </div>
           </div>
           <Form>
-            <Dropdown
-              style={{ position: "absolute", right: 0, bottom: 0 }}
-              drop="end"
-            >
+            <Dropdown style={{ position: "absolute", right: 0, bottom: 0 }} drop="end" >
               <Dropdown.Toggle>Export</Dropdown.Toggle>
               <Dropdown.Menu>
-                <ToggleButtonGroup
-                  type="radio"
-                  name="exportTs"
-                  defaultValue="displayed"
-                  onChange={(e) => setExportAmt(e)}
-                >
+                <ToggleButtonGroup type="radio" name="exportTs" defaultValue="displayed" onChange={(e) => setExportAmt(e)} >
                   <ToggleButton size="sm" id="tbg-exportTs-1" value="displayed">
                     Displayed
                   </ToggleButton>
@@ -359,42 +323,21 @@ export default function Charts({
                   </ToggleButton>
                 </ToggleButtonGroup>
                 <Dropdown.Item onClick={() => exportCSV()}>
-                  To CSV
+                  CSV
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => exportJpeg()}>
-                  To jpeg
+                  jpeg
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             <Row>
               <Form.Label>
-                {" "}
                 Change X-axis:
-                <ToggleButtonGroup
-                  type="radio"
-                  name="xAxis"
-                  defaultValue={1}
-                  onChange={() =>
-                    setPlotOptions({
-                      ...plotOptions,
-                      absolute: !plotOptions.absolute,
-                    })
-                  }
-                >
-                  <ToggleButton
-                    variant="outline-secondary"
-                    size="sm"
-                    id="tbg-axis-1"
-                    value={1}
-                  >
+                <ToggleButtonGroup type="radio" name="xAxis" defaultValue={2} onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })} >
+                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-axis-1" value={1}>
                     Relative
                   </ToggleButton>
-                  <ToggleButton
-                    variant="outline-secondary"
-                    size="sm"
-                    id="tbg-axis-2"
-                    value={2}
-                  >
+                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-axis-2" value={2}>
                     Absolute
                   </ToggleButton>
                 </ToggleButtonGroup>

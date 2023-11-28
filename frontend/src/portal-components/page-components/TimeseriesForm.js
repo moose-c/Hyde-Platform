@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button"
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import React from "react";
+import { React, useEffect, useRef } from "react";
 
 import Select from "react-select"
 
@@ -13,6 +13,10 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
     const optionsYears = Object.entries(yearsObject).map(([key, value]) => (
         { value: key, label: value }
     ))
+    const optionsStartYear = useRef()
+    optionsStartYear.current = JSON.parse(JSON.stringify(optionsYears));
+    const optionsEndYear = useRef()
+    optionsEndYear.current = JSON.parse(JSON.stringify(optionsYears));
 
     const optionsIndicators = Object.entries(indicatorTxtObj).map(([category, categorizedIndicators]) => ({
         label: category,
@@ -22,18 +26,30 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
         }))
     }))
 
+    // Modify the options such that endYear >= startYear
+    useEffect(() => {
+        for (let i = 0; i < Object.keys(yearsObject).indexOf(startYear); i++) {
+            optionsEndYear.current[i].isDisabled = true
+        }
+    }, [startYear])
+    useEffect(() => {
+        for (let i = Object.keys(yearsObject).indexOf(endYear)+1; i < Object.keys(yearsObject).length; i++) {
+            optionsStartYear.current[i].isDisabled = true
+        }
+    }, [endYear])
+    
     return (
         <>
             <Form>
                 <Row>
                     <Col>
                         <Form.Label> Start year
-                            <Select menuPortalTarget={document.body} maxMenuHeight={200} required options={optionsYears} defaultValue={{ value: startYear, label: yearsObject[startYear] }} onChange={(e) => setStartYear(e.value)} />
+                            <Select maxMenuHeight={200} required options={optionsStartYear.current} value={optionsStartYear.current[Object.keys(yearsObject).indexOf(startYear)]} onChange={(e) => setStartYear(e.value)} />
                         </Form.Label>
                     </Col>
                     <Col>
                         <Form.Label> End year
-                            <Select menuPortalTarget={document.body} maxMenuHeight={200} required options={optionsYears} defaultValue={{ value: endYear, label: yearsObject[endYear] }} onChange={(e) => setEndYear(e.value)} />
+                            <Select maxMenuHeight={200} required options={optionsEndYear.current} value={optionsEndYear.current[Object.keys(yearsObject).indexOf(endYear)]} onChange={(e) => setEndYear(e.value)} />
                         </Form.Label>
                     </Col>
                 </Row>

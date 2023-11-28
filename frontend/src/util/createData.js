@@ -2,18 +2,18 @@
 
 import range from "lodash.range"
 
-const end_year = 2018
+const endYear = parseInt(process.env.REACT_APP_END_YEAR)
 
 // create year range, true integer values
 export const yearNbList = range(-10000, 0, 1000).concat(
-    range(0, 1700, 100), range(1700, 1950, 10), range(1950, end_year, 1)
+    range(0, 1700, 100), range(1700, 1950, 10), range(1950, endYear+1, 1)
 )
 
-// Return [bce_10000, .., ce_2017], as used by the API
+// Return [bce_10000, .., ce_2023], as used by the API
 export const yearValueList = yearNbList.slice(0, 10).map(year => `bce_${-year}`).concat(
     yearNbList.slice(10).map(year => `ce_${year}`))
 
-// Return [10000 BCE, ..., 2018 CE], a prettier way to display years
+// Return [10000 BCE, ..., 2023 CE], a prettier way to display years
 const yearNameList = yearValueList.map(year => {
     let split_year = year.split('_')
     return `${split_year[1]} ${split_year[0].toUpperCase()}`
@@ -38,7 +38,7 @@ export const indicatorTxtObj = {
         grazing: 'Grazing Land',
         pasture: 'Pasture',
         rangeland: 'Rangeland',
-        conv_rangeland: 'Conventional Rangeland'   /* Not in nc */
+        conv_rangeland: 'Converted Rangeland'   /* Not in nc */
     },
     agricultural: {
         ir_rice: 'Irrigated Rice',

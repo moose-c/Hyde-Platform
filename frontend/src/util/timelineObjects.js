@@ -117,9 +117,9 @@ export const timelineObjects = [
 </>
    },
   {
-    periodTag: "1950 A.D. - 2017 A.D.",
+    periodTag: "1950 A.D. - 2023 A.D.",
     startYear: 11950,
-    endYear: 12017,
+    endYear: 12023,
     color: "#ca4c57",
     title: "Late Modernity",
     iconLink: "/icons/television.svg",

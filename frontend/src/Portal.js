@@ -12,17 +12,17 @@ import PortalMap from "./portal-components/PortalMap";
 import Page from "./portal-components/Page";
 
 export default function Portal() {
-  // State, contains Openlayers map element
-  const [map, setMap] = useState(false);
+  // There are two seperate ways the map can be used:
+  //    1) Countries can be selected after which charts can be requested 
+  //    2) Global raster can be displayed on top of the base map
+  // This state knows in which of the two cases we are currently operating
+  const [currentlySelecting, setCurrentlySelecting] = useState(true)
 
   // Contains countries currently selected
   const [selection, setSelection] = useState([]);
 
-  // Contains which raster overlay
-  const [overlay, setOverlay] = useState([]);
-
+  // value & year for overlay indicators
   const [ovIndicator, setOvIndicator] = useState(null);
-
   const [currentYear, setCurrentYear] = useState("ce_0");
 
   // Hide modal after first show
@@ -80,21 +80,16 @@ export default function Portal() {
       </Modal>
       <div className="App">
         <PortalMap
-          map={map}
-          setMap={setMap}
-          selection={selection}
+          currentlySelecting={currentlySelecting}
           setSelection={setSelection}
-          overlay={overlay}
           ovIndicator={ovIndicator}
+          setOvIndicator={setOvIndicator}
           currentYear={currentYear}
         />
         <Page
-          map={map}
-          setMap={setMap}
+          setCurrentlySelecting={setCurrentlySelecting}
           selection={selection}
           setSelection={setSelection}
-          overlay={overlay}
-          setOverlay={setOverlay}
           ovIndicator={ovIndicator}
           setOvIndicator={setOvIndicator}
           currentYear={currentYear}

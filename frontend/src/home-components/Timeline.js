@@ -32,18 +32,14 @@ const calculateScrollOffsetBasedOnYearIndex = (yearIndex) => {
     return (
       6 * TIMELINEBLOCKWIDTH + ((yearIndex - 11750) / 200) * TIMELINEBLOCKWIDTH
     );
-  } else if (yearIndex <= 12017) {
-    console.log("less than 12017");
-    console.log(
-      7 * TIMELINEBLOCKWIDTH + ((yearIndex - 11950) / 67) * TIMELINEBLOCKWIDTH
-    );
+  } else if (yearIndex <= 12023) {
     return (
       7 * TIMELINEBLOCKWIDTH + ((yearIndex - 11950) / 67) * TIMELINEBLOCKWIDTH
     );
   } else {
-    // Adjust the formula for year indices larger than 12017
+    // Adjust the formula for year indices larger than 12023
     return (
-      7 * TIMELINEBLOCKWIDTH + TIMELINEBLOCKWIDTH * ((yearIndex - 12017) / 1000)
+      7 * TIMELINEBLOCKWIDTH + TIMELINEBLOCKWIDTH * ((yearIndex - 12023) / 1000)
     );
   }
 };
@@ -94,7 +90,7 @@ const calculateCurrentYearBasedOnScroll = (scrollLeft) => {
     );
   }
 
-  return 12017;
+  return 12023;
 };
 
 export default function Timeline({ currentYear, setCurrentYear }) {
@@ -113,6 +109,7 @@ export default function Timeline({ currentYear, setCurrentYear }) {
 
   useEffect(() => {
     ref.current.scrollLeft = calculateScrollOffsetBasedOnYearIndex(currentYear);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, ref.current]);
 
   return (
@@ -160,10 +157,10 @@ export default function Timeline({ currentYear, setCurrentYear }) {
             <div style={{ fontWeight: "bold", fontSize: 16 }}>
               No data available
             </div>
-            <div style={{ fontWeight: 300, fontSize: 12 }}>From 2017 A.D.</div>
+            <div style={{ fontWeight: 300, fontSize: 12 }}>From 2023 A.D.</div>
           </div>
         </div>
-        <img src="/pointer.png" id="pin" />
+        <img src="/pointer.png" id="pin" alt="pointer"/>
       </div>
     </>
   );
@@ -179,7 +176,7 @@ const TimelineObject = ({ backgroundColor, periodTag, title, iconLink }) => {
         <div style={{ fontWeight: "bold", fontSize: 16 }}>{title}</div>
         <div style={{ fontWeight: 300, fontSize: 12 }}>{periodTag}</div>
       </div>
-      <img className="icon" src={iconLink} draggable={false} />
+      <img className="icon" src={iconLink} draggable={false} alt="icon"/>
     </div>
   );
 };

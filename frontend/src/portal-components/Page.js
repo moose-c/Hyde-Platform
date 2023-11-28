@@ -12,30 +12,30 @@ import OverlayForm from './page-components/OverlayForm';
 import Legend from './page-components/Legend'
 import Attributions from './page-components/Attributions'
 
-export default function Page({ map, setMap, selection, setSelection, overlay, setOverlay, ovIndicator, setOvIndicator, currentYear, setCurrentYear }) {
+export default function Page({ map, setMap, setCurrentlySelecting, selection, setSelection, ovIndicator, setOvIndicator, currentYear, setCurrentYear }) {
     const [startYear, setStartYear] = useState('bce_10000')
-    const [endYear, setEndYear] = useState('ce_2017')
+    const [endYear, setEndYear] = useState(`ce_${process.env.REACT_APP_END_YEAR}`)
     const [tsIndicators, setTsIndicators] = useState([])
-    const [afterChange, setAfterChange] = useState(false)
     // use a dictionary since if now change plotting to the same value 'true' rerender page
     const [plotOptions, setPlotOptions] = useState({
         plotting: false,
-        absolute: false,
+        absolute: true,
         combine: false
     })
 
     return (
         <>
             <div style={{ position: 'fixed', top: 0, margin: 5, backgroundColor: 'white' }}>
-                <Tabs transition={false} style={{ fontWeight: 'bold' }}>
-                    <Tab eventKey="selection" title="Selected Countries">
+                {/* The first two tabs are for selecting countries, the last is for laying raster over the map. This changes regime according to which tab is selected */}
+                <Tabs transition={false} style={{ fontWeight: 'bold' }} onSelect={(e) => {if (e === 'mapsForm') {setCurrentlySelecting(false)} else {setCurrentlySelecting(true)}}}>
+                    <Tab eventKey="selection" title="Selected Countries" >
                         <Selection selection={selection} setSelection={setSelection}/>
                     </Tab>
                     <Tab eventKey="tsForm" title="Timeseries">
                         <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
                     </Tab>
                     <Tab eventKey="mapsForm" title="Maps">
-                        <OverlayForm map={map} setMap={setMap} setSelection={setSelection} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator} overlay={overlay} setOverlay={setOverlay} afterChange={afterChange} setAfterChange={setAfterChange}/>
+                        <OverlayForm map={map} setMap={setMap} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator}/>
                     </Tab>
                 </Tabs>
             </div>
@@ -45,7 +45,7 @@ export default function Page({ map, setMap, selection, setSelection, overlay, se
             </div>
 
             <div style={{ position: 'fixed', right: 0, top: 0, margin: 5 }}>
-                <Legend currentYear={currentYear} ovIndicator={ovIndicator} afterChange={afterChange} />
+                <Legend currentYear={currentYear} ovIndicator={ovIndicator} />
             </div>
 
             <div style={{ position: 'fixed', right: 0, bottom: 0 }}>

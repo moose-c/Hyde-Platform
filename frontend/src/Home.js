@@ -47,7 +47,7 @@ const Jumbotron = () => {
         There are three main categories of indicators that can be retrieved through this portal:
         <ul>
           <li>Demographic: Population, Population Density, Urban Population and Rural Population</li>
-          <li>Land use: Urban Area, Cropland, Pasture, Rangeland and Conventional Rangeland</li>
+          <li>Land use: Urban Area, Cropland, Pasture, Rangeland and Converted Rangeland</li>
           <li>Agricultural: Irrigated Rice, Rainfed Rice, Total Rice, Irrigated Other, Rainfed Other, Total Irrigated and Total Rainfed</li>
         </ul>
       </p>
@@ -86,6 +86,7 @@ const InfoSection = ({ currentYear }) => {
     if (currentYear === previousYear) {
       setRoundedYear(roundYear(currentYear));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [previousYear])
 
   /* The code is finding the timeline object whose end year is greater than or equal to the current year. */

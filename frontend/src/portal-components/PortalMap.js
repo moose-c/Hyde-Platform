@@ -9,23 +9,28 @@ import TileLayer from 'ol/layer/Tile'
 import VectorSource from 'ol/source/Vector.js'
 import XYZ from 'ol/source/XYZ.js';
 import GeoJSON from 'ol/format/GeoJSON.js'
+import { TileWMS } from 'ol/source';
 
-// Does this work now?
-import CountryLayer from "../data/countries.geojson"
+// Borders
+import Borders from "../data/countries.geojson"
 
 import { indicatorNcOrder } from "../util/createData"
 
-export default function PortalMap({ map, setMap, selection, setSelection, overlay, ovIndicator, currentYear }) {
-  const mapRef = useRef()
-  // Custom hook which allows for knowing the previous value of selection
-  function usePrevious(value) {
-    const ref = useRef()
-    useEffect(() => {
-      ref.current = value
-    })
-    return ref.current
-  }
-  const prevSelection = usePrevious(selection)
+export default function PortalMap({ currentlySelecting, setSelection, ovIndicator, setOvIndicator, currentYear }) {
+  // Openlayers map element
+  const map = useRef()
+  const overlay = useRef([])
+
+  // border style of the selected countries
+  const highlightStyle = new Style({
+    fill: new Fill({
+      color: '#EEEEE',
+    }),
+    stroke: new Stroke({
+      color: '#3399CC',
+      width: 2,
+    }),
+  })
 
   // initialize map on first render
   useEffect(() => {
@@ -33,7 +38,7 @@ export default function PortalMap({ map, setMap, selection, setSelection, overla
     const borders = new VectorLayer({
       source: new VectorSource({
         format: new GeoJSON(),
-        url: CountryLayer
+        url: Borders
       }),
       style: new Style({
         fill: new Fill({
@@ -51,8 +56,8 @@ export default function PortalMap({ map, setMap, selection, setSelection, overla
       }),
     })
 
-    // create map
-    const initialMap = new Map({
+    // create initial map
+    map.current = new Map({
       target: 'map',
       layers: [base, borders],
       view: new View({
@@ -60,65 +65,114 @@ export default function PortalMap({ map, setMap, selection, setSelection, overla
         center: [0, 0],
         zoom: 2
       }),
-      controls: [/* new Zoom() */]
+      controls: []
     })
-    // save map and vector layer references to state
-    setMap(initialMap)
-    mapRef.current = initialMap
-
-    // eslint-disable-next-line
   }, [])
+
+  // Change between selecting and overlay regime
+  useEffect(() => {
+    if (currentlySelecting) {
+      setOvIndicator(null)
+    } else {
+      setSelection((previousSelection) => {
+        previousSelection.forEach((feature) => feature.setStyle(undefined))
+        return ([])
+      })
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentlySelecting])
+
+  // Overlay raster
+  useEffect(() => {
+    if (ovIndicator !== null) {
+      var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
+      year += `${currentYear.split('_')[1]}`
+      var time = `${year}-05-01`
+      const style = 'seq-YlOrRd'
+      const layer = window.apiUrl === 'localhost' ? '2/irrigated_rice' : `${indicatorNcOrder.indexOf(ovIndicator) + 1}/${ovIndicator}`
+      const url = `http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
+      fetch(url)
+        .then((response) => response.json())
+        .then(minmax => {
+          const fill = new TileLayer({
+            className: 'overlay',
+            source: new TileWMS({
+              url: `http://${window.apiUrl}:8080/ncWMS/wms`,
+              params: {
+                'LAYERS': layer,
+                'STYLES': `default-scalar/${style}`,
+                'TIME': time,
+                'COLORSCALERANGE': `${minmax.min + 0.00000001},${minmax.max}`,
+                'BELOWMINCOLOR': 'transparent',
+                'NUMCOLORBANDS': 6,
+                'LOGSCALE': false
+              },
+              projection: 'EPSG:4326',
+            }),
+            opacity: 0.8
+          })
+          map.current.addLayer(fill)
+          overlay.current = [fill]
+        })
+    } else if (map.current) {
+      setSelection([])
+      overlay.current.forEach(layer => {
+        map.current.removeLayer(layer)
+      });
+      overlay.current = []
+    }
+    // eslint-disable-next-line
+  }, [ovIndicator, currentYear])
+
+
 
   // If clicked on map, do one of two things
   function handleClick(e) {
-    if (overlay.length === 0) {
-      // If there is no overlay: update the selection
+    if (currentlySelecting) {
       // Only use first of the selected values, this way when you select precicely a border only 1 country is selected
-      const firstFeature = mapRef.current.getFeaturesAtPixel([e.pageX, e.pageY])[0]
+      const firstFeature = map.current.getFeaturesAtPixel([e.pageX, e.pageY])[0]
+      // doesn't exist if no country (i.e. sea) was selected
       if (firstFeature) {
-        if (!selection.includes(firstFeature)) {
-          setSelection([...selection, firstFeature])
-        } else {
-          setSelection((oldSelection) => {
-            const newSelection = oldSelection.slice(0)
-            newSelection.splice(selection.indexOf(firstFeature), 1)
+        setSelection((previousSelection) => {
+          if (!previousSelection.includes(firstFeature)) {
+            firstFeature.setStyle(highlightStyle)
+            return ([...previousSelection, firstFeature])
+          } else {
+            firstFeature.setStyle(undefined)
+            const newSelection = [...previousSelection]
+            newSelection.splice(previousSelection.indexOf(firstFeature), 1)
             return newSelection
-          })
-        }
+          }
+        })
       }
     } else {
-      // BETA If there is an overlay: when a pixel is selected display the value at that pixel
-      var pixel = [117.77521, 28.2917]
-      const layer = window.apiUrl === 'localhost' ? '2/irrigated_rice' : `${indicatorNcOrder.indexOf(ovIndicator) + 1}/${ovIndicator}`
-      const time = `${currentYear.split('_')[1]}-05-01`
-      const url = `http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetFeatureInfo&VERSION=1.3.0&CRS=CRS:84&QUERY_LAYERS=${layer}&TIME=${time}-05-01&LAYERS=${layer}&INFO_FORMAT=text/plain&I=1&J=1&BBOX=${pixel[0] - 0.001},${pixel[1] - 0.001},${pixel[0] + 0.001},${pixel[1] + 0.001}&WIDTH=400&HEIGHT=600`
-      /* const request = fetch(url)
-      const featureInfo = request.text
-      console.log(featureInfo) */
-      console.log(url)
-    }
-  }
-
-  useEffect(() => {
-    if (selection && prevSelection) {
-      if (prevSelection.length > selection.length) {
-        const removed = prevSelection.filter(f => !selection.includes(f))
-        removed.forEach(feature => feature.setStyle(undefined))
-      } else if (prevSelection.length < selection.length) {
-        const highlightStyle = new Style({
-          fill: new Fill({
-            color: '#EEEEE',
-          }),
-          stroke: new Stroke({
-            color: '#3399CC',
-            width: 2,
-          }),
-        })
-        const newFeature = selection.filter(f => !prevSelection.includes(f))
-        newFeature[0].setStyle(highlightStyle)
+      if (ovIndicator !== null) {
+        // BETA If there is an overlay: when a pixel is selected display the value at that pixel
+        var pixel = [e.pageX, e.pageY]
+        for (let layer of map.current.values_.layergroup.values_.layers.array_) {
+          if (layer.className_ === 'overlay') {
+            var overlayLayer = layer.values_.source
+            break
+          }
+        }
+        const view = map.current.values_.view
+        const projection = view.values_.projection
+        console.log(pixel)
+        const url = overlayLayer.getFeatureInfoUrl(
+          map.current.getCoordinateFromPixel(pixel),
+          view,
+          projection,
+          { 'INFO_FORMAT': 'text/plain' }
+        );
+        if (url) {
+          fetch(url)
+            .then((response) => response.text())
+            .then((html) => {
+              console.log(html)
+            });
+        }
       }
     }
-  }, [selection])
+  }
 
   // render component
   return (
