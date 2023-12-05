@@ -101,14 +101,17 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     if (plotOptions.plotting) {
       var fetchPromises = [];
       for (const country of selection) {
+        console.log(country)
         // Do something slighly different if selected country is South Sudan
         allData[country.values_.ISO_A3] = {};
         allData[country.values_.ISO_A3].all = [];
-        const isoCode = parseInt(
+        var isoCode = parseInt(
           countries.alpha3ToNumeric(country.values_.ISO_A3),
           10
         ).toString(); /* Retrieve isoCode, without leading 0's */
+        if (['728', '729'].includes(isoCode)) {isoCode = '736'}   /* Fix the Sudan case manually */
         tsIndicators.forEach((indicator) => {
+
           allData[country.values_.ISO_A3][indicator] = [
             {
               label: Object.assign({}, ...Object.values(indicatorTxtObj))[
@@ -151,19 +154,12 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
       tsIndicators.length > 0 &&
       Object.keys(allDataRef.current).length > 0
     ) {
-      currentCountry.current = plotOptions.combined
-        ? selection[newChartNb]
-        : selection[Math.floor(newChartNb / tsIndicators.length)];
-      currentIndicator.current = plotOptions.combined
-        ? null
-        : tsIndicators[newChartNb % tsIndicators.length];
-      var datasets = plotOptions.combined
-        ? allDataRef.current[currentCountry.current.values_.ISO_A3].all
-        : allDataRef.current[currentCountry.current.values_.ISO_A3][
-        currentIndicator.current
-        ];
+      currentCountry.current = plotOptions.combined ? selection[newChartNb] : selection[Math.floor(newChartNb / tsIndicators.length)];
+      currentIndicator.current = plotOptions.combined ? null : tsIndicators[newChartNb % tsIndicators.length];
+      var datasets = plotOptions.combined ? allDataRef.current[currentCountry.current.values_.ISO_A3].all : allDataRef.current[currentCountry.current.values_.ISO_A3][currentIndicator.current];
       const newOptions = options;
-      newOptions.plugins.title.text = `${currentCountry.current.values_.ADMIN}, ${startName} - ${endName}`;
+      newOptions.plugins.title.text = [`${currentCountry.current.values_.ADMIN}, ${startName} - ${endName}`];
+      if (['Sudan', 'South Sudan'].includes(currentCountry.current.values_.ADMIN)) { newOptions.plugins.title.text.push(`Sudan and South Sudan have the same grouped values!`)}
       newOptions.scales.y.title.text = chooseYLabel(
         currentIndicator.current,
         plotOptions.combined,

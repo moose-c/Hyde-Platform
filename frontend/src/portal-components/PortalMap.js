@@ -1,5 +1,5 @@
 // react
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Utilized openlayers elements
 import { Map, View } from 'ol'
@@ -16,10 +16,13 @@ import Borders from "../data/countries.geojson"
 
 import { indicatorNcOrder } from "../util/createData"
 
+
 export default function PortalMap({ currentlySelecting, setSelection, ovIndicator, setOvIndicator, currentYear }) {
   // Openlayers map element
   const map = useRef()
   const overlay = useRef([])
+
+  const [popoverInfo, setPopoverInfo] = useState(null)
 
   // border style of the selected countries
   const highlightStyle = new Style({
@@ -73,6 +76,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
   useEffect(() => {
     if (currentlySelecting) {
       setOvIndicator(null)
+      setPopoverInfo(null)
     } else {
       setSelection((previousSelection) => {
         previousSelection.forEach((feature) => feature.setStyle(undefined))
@@ -106,7 +110,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
                 'NUMCOLORBANDS': 6,
                 'LOGSCALE': false
               },
-              projection: 'EPSG:4326',
+              projection: 'EPSG:3857',
             }),
             opacity: 0.8
           })
@@ -155,19 +159,26 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
           }
         }
         const view = map.current.values_.view
+        const viewRes = view.getResolution()
         const projection = view.values_.projection
         console.log(pixel)
         const url = overlayLayer.getFeatureInfoUrl(
           map.current.getCoordinateFromPixel(pixel),
-          view,
+          viewRes,
           projection,
-          { 'INFO_FORMAT': 'text/plain' }
+          { 'INFO_FORMAT': 'text/xml' }
         );
         if (url) {
           fetch(url)
             .then((response) => response.text())
             .then((html) => {
-              console.log(html)
+              const parser = new DOMParser();
+              const xmlDoc = parser.parseFromString(html, 'text/xml');
+
+              const lon = parseFloat(xmlDoc.getElementsByTagName('longitude')[0].textContent)
+              const lat = parseFloat(xmlDoc.getElementsByTagName('latitude')[0].textContent)
+              const value = xmlDoc.getElementsByTagName('value').length > 0 ? parseFloat(xmlDoc.getElementsByTagName('value')[0].textContent) : null
+              setPopoverInfo({ left: e.clientX, top: e.clientY, lon: lon, lat: lat, value: value })
             });
         }
       }
@@ -176,6 +187,20 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
 
   // render component
   return (
-    <div id='map' className="map-container" onClick={(e) => handleClick(e)}></div>
+    <>
+      <div id='map' className="map-container" onClick={(e) => handleClick(e)}></div>
+      {/* When there is raster overlay, clicking a pixel displays a popup showing the value at that pixel */}
+      {popoverInfo !== null && (
+        <div style={{ border: 'solid black 1px', borderRadius: 5, backgroundColor: 'white', position: 'fixed', left: popoverInfo.left, top: popoverInfo.top }}>
+          <div style={{ display: 'flex', borderBottom: 'solid black 1px', borderRadius: '5px 5px 0px 0px', padding: '1px 3px 0px 3px' }}><h6 style={{ color: '#0A58CA', fontWeight: 'bold', marginBottom: 0, paddingRight: 5 }}>Pixel Information</h6><span style={{ cursor: "pointer" }} onClick={() => setPopoverInfo(null)}>X</span></div>
+          <div>
+            Longitude = {popoverInfo.lon.toFixed(3)} <br />
+            Latitude = {popoverInfo.lat.toFixed(3)} <br />
+            {popoverInfo.value !== null && (<span style={{ fontWeight: 'bold' }}>Pixel Value = {popoverInfo.value.toFixed(3)}<br /></span>)}
+            {popoverInfo.value === null && (<span style={{ fontWeight: 'bold' }}>No Pixel Value<br /></span>)}
+          </div>
+        </div>
+      )}
+    </>
   )
 }
