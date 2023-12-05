@@ -88,6 +88,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
   // Overlay raster
   useEffect(() => {
     if (ovIndicator !== null) {
+      console.log()
       var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
       year += `${currentYear.split('_')[1]}`
       var time = `${year}-05-01`
@@ -105,7 +106,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
                 'LAYERS': layer,
                 'STYLES': `default-scalar/${style}`,
                 'TIME': time,
-                'COLORSCALERANGE': `${minmax.min + 0.00000001},${minmax.max}`,
+                'COLORSCALERANGE': `${minmax.min + 0.0001},${minmax.max}`,
                 'BELOWMINCOLOR': 'transparent',
                 'NUMCOLORBANDS': 6,
                 'LOGSCALE': false
