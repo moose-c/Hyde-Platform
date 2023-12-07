@@ -39,7 +39,7 @@ For each of the components, different languages are used.
     - raster-backend:
         - can be viewed in browser at http://localhost:8080/ncWMS
         - ncWMS can be used to extract maps from .nc as writen [here](https://reading-escience-centre.gitbooks.io/ncwms-user-guide/content/04-usage.html)
-        - The additional API for png or asc can be accessed as http://localhost:5000/png/pasture/ce_0 or http://localhost:5000/asc/popc/bce_10000
+        - The additional API for png or asc can be accessed as http://localhost:8100/png/pasture/ce_0 or http://localhost:8100/asc/popc/bce_10000
     - timeseries-backend 
         - API can be used: curl http://localhost:8000/test
         - Also as follows: curl http://localhost:8000/uopp/4/bce_1000/ce_700

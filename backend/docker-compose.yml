@@ -9,7 +9,7 @@ services:
     volumes:
       - ./ncWMS/config.xml:/usr/local/tomcat/.ncWMS2/config.xml  # Configuration file for ncWMS
       - ./ncWMS/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml  # User file for Tomcat
-      - ./api-data/netCDF:/data/netCDF  # Directory for netCDF data. CHANGE TO POINT TO CURRENT LOCATION
+      - ../data/netCDF:/data/netCDF  # Directory for netCDF data. CHANGE TO POINT TO CURRENT LOCATION
 
     ports:
       - 8080:8080  # Expose port 8080 for external access
@@ -18,6 +18,9 @@ services:
       nofile: 65536  # Set file descriptor limit
 
     restart: always # Restart upon failure 
+
+    env_file:
+      - ../.env  # File containing postgress password
 
     healthcheck: # Healthcheck to ensure ncWMS is launched correctly
       test: curl --fail http://localhost:8080/ncWMS || exit 1  
@@ -33,7 +36,7 @@ services:
     build: ./ncWMS  # Build from the specified Dockerfile
 
     env_file:
-      - ./.env  # File containing necessary environment variables
+      - ../.env  # File containing ncWMS password
     
     # Only start if tomcat-ncwms is running correctly
     depends_on:
@@ -41,7 +44,7 @@ services:
         condition: service_healthy
 
     volumes:
-      - ./api-data/netCDF:/data/netCDF  # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
+      - ../data/netCDF:/data/netCDF  # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
 
   # Service for the raster API, serving png and asc files
   raster-api:
@@ -53,8 +56,8 @@ services:
       DEBUG: 0
 
     volumes:
-      - ./api-data/asc:/data/asc  # Volume for ASC data. CHANGE TO POINT TO CURRENT LOCATION
-      - ./api-data/png:/data/png  # Volume for PNG data. CHANGE TO POINT TO CURRENT LOCATION
+      - ../data/asc:/data/asc  # Volume for ASC data. CHANGE TO POINT TO CURRENT LOCATION
+      - ../data/png:/data/png  # Volume for PNG data. CHANGE TO POINT TO CURRENT LOCATION
 
     ports:
       - 8100:8100  # Expose port 8100 for external access
@@ -67,10 +70,12 @@ services:
 
     image: postgres:15-alpine  # Use the specified PostgreSQL image
 
+    env_file:
+      - ../.env  # File containing postgress password
+
     environment:
-      DEBUG: 0  # Disable debug mode
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD  # Set PostgreSQL password from system variable
-      POSTGRES_DB: timeseries  # Name the database as 'timeseries'
+      DEBUG: 0
+      POSTGRES_DB: timeseries
 
     healthcheck: # Check PostgreSQL availability
       test: ["CMD-SHELL", "pg_isready"]  
@@ -83,16 +88,15 @@ services:
 
     build: ./timeseries-api/fill-db  # Build from the specified Dockerfile
 
-    environment:
-      DEBUG: 0
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD  # Set PostgreSQL password from system variable
+    env_file:
+      - ../.env  # File containing postgress password
 
     depends_on:
       timeseries-database:
         condition: service_healthy
 
     volumes:
-      - ./api-data/txt:/data/txt  # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
+      - ../data/txt:/data/txt  # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
 
   # Service for the timeseries API
   timeseries-api:
@@ -100,9 +104,8 @@ services:
 
     build: ./timeseries-api/api  # Build image from the Dockerfile within 'api' folder
 
-    environment:
-      DEBUG: 0
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD  # Set PostgreSQL password from system variable
+    env_file:
+      - ../.env  # File containing postgress password
       
     depends_on:
       timeseries-fill:

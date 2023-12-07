@@ -93,7 +93,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
       year += `${currentYear.split('_')[1]}`
       var time = `${year}-05-01`
       const style = 'seq-YlOrRd'
-      const layer = window.apiUrl === 'localhost' ? '2/irrigated_rice' : `${indicatorNcOrder.indexOf(ovIndicator) + 1}/${ovIndicator}`
+      const layer = window.apiUrl === 'localhost' ? '2/irrigated_rice' : `${ovIndicator}/${ovIndicator}`
       const url = `http://${window.apiUrl}:8080/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
       fetch(url)
         .then((response) => response.json())

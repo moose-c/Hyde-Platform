@@ -6,6 +6,7 @@ dist/
 backend/api-data/*/
 old/
 build/
+data/
 
 package-lock.json
 TODO.md

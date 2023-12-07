@@ -62,7 +62,7 @@ Chart.js is a plotting library, used to display plots on websites. Their [gettin
 npm run build
 
 To load to server:
-`scp -r .\build caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Platform-Frontend`
+`scp -r .\build caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Portal/frontend`
 docker-compose down
 docker system prune -f
 docker rmi hyde-platform-frontend-map-website
