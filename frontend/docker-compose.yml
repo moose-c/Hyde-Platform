@@ -1,7 +1,20 @@
 version: '3'
+
 services:
   map-website:
     build: .
     container_name: map-website
+
+  nginx:
+    image: nginx
     ports:
-      - 80:80
+      - 80:80 # HTTP port
+      - 443:443 # HTTPS port
+    volumes:
+      - ./certificaten:/etc/nginx/certificaten:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      
+    depends_on:
+      - map-website
+    # Other configurations for the Nginx service
+
