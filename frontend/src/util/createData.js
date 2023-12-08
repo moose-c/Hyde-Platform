@@ -78,3 +78,74 @@ export const indicatorNcObj = {
 }
 
 export const indicatorNcOrder = ['urban_area', 'total_rice', 'urban_population', 'total_irrigated', 'rural_population', 'rainfed_not_rice', 'pasture', 'cropland', 'rainfed_rice', 'rangeland', 'grazing_land', 'irrigated_not_rice', 'population', 'total_rainfed', 'irrigated_rice', 'population_density'] 
+
+const rangeValues = {popAbs: '0,3200', popDens:'0,500', lu: ''}
+const styleValues = {pop: 'x-Rainbow', lu: 'div-Spectral-inv'}
+
+
+export const indicatorAxis = {
+    population: {
+        style: styleValues['pop'],
+        range: rangeValues['absPop']
+    },
+    population_density: {
+        style: '',
+        values: []
+    },
+    urban_population: {
+        style: '',
+        values: []
+    },
+    rural_population: {
+        style: '',
+        values: []
+    },
+    urban_area: {
+        style: '',
+        values: []
+    },
+    cropland: {
+        style: '',
+        values: []
+    },
+    grazing_land: {
+        style: '',
+        values: []
+    },
+    pasture: {
+        style: '',
+        values: []
+    },
+    rangeland: {
+        style: '',
+        values: []
+    },
+    irrigated_rice: {
+        style: '',
+        values: []
+    },
+    rainfed_rice: {
+        style: '',
+        values: []
+    },
+    total_rice: {
+        style: '',
+        values: []
+    },
+    rainfed_not_rice: {
+        style: '',
+        values: []
+    },
+    irrigated_not_rice: {
+        style: '',
+        values: []
+    },
+    total_irrigated: {
+        style: '',
+        values: []
+    },
+    total_rainfed: {
+        style: '',
+        values: []
+    }
+};

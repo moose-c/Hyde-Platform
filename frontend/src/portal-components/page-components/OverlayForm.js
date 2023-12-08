@@ -34,7 +34,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
 
     async function exportAsc() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
-        const fetchUrl = `http://${window.apiUrl}:8100/asc/${uglyInd}/${currentYear}`
+        const fetchUrl = `//${window.apiUrl}:8100/asc/${uglyInd}/${currentYear}`
         fetch(fetchUrl).then(response => response.blob())
             .then(blob => {
                 const url = window.URL.createObjectURL(new Blob([blob]))
@@ -47,7 +47,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
 
     async function exportPNG() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
-        const fetchUrl = `http://${window.apiUrl}:8100/png/${uglyInd}/${currentYear}`
+        const fetchUrl = `//${window.apiUrl}:8100/png/${uglyInd}/${currentYear}`
         fetch(fetchUrl).then(response => response.blob())
             .then(image => {
                 const url = window.URL.createObjectURL(image)

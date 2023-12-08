@@ -12,7 +12,7 @@ const router = createBrowserRouter([
 ]);
 
 // Usefull in development, allows to quickly use local or remote APIs. !!Clean When Done!!
-const UUNetwork = true
+const UUNetwork = false
 if (UUNetwork) {
   window.apiUrl = 'hydeprod.geo.uu.nl'
 } else {
