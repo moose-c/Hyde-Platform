@@ -13,7 +13,7 @@ def populate():
     for file in netcdf_names:
         # Retrieve status
         # there is now a connection! Tears of Joy
-        dataset_status = requests.get('tomcat-ncwms:8080/ncWMS/admin/datasetStatus', 
+        dataset_status = requests.get('http://tomcat-ncwms:8080/ncWMS/admin/datasetStatus', 
                                     params={'dataset': str(id_number)},
                                     headers={'Accept': 'text/plain'},
                                     auth=auth
@@ -21,7 +21,7 @@ def populate():
     
         # Check if there is already a dataset with the current id, after the id check what it says, remove if present
         if dataset_status.text.split(str(id_number))[1] != " not found on this server\n":
-            requests.post('tomcat-ncwms:8080/ncWMS/admin/removeDataset',
+            requests.post('http://tomcat-ncwms:8080/ncWMS/admin/removeDataset',
                         data={'id':str(id_number)},
                         auth=auth
                         )
@@ -31,7 +31,7 @@ def populate():
         title = ' '.join([element.capitalize() for element in file.split('.')[0].split('_')])
 
         # post dataset to ncWMS server. WORKS!
-        response = requests.post('tomcat-ncwms:8080/ncWMS/admin/addDataset', 
+        response = requests.post('http://tomcat-ncwms:8080/ncWMS/admin/addDataset', 
                                 data={'id': idFile, 
                                     'location': os.path.join(data_location, file),
                                     'title': title
@@ -42,7 +42,7 @@ def populate():
 
 def clean():
     for i in range(100):
-        requests.post('tomcat-ncwms:8080/ncWMS/admin/removeDataset',
+        requests.post('http://tomcat-ncwms:8080/ncWMS/admin/removeDataset',
                         data={'id':str(i)},
                         auth=auth
                         )
