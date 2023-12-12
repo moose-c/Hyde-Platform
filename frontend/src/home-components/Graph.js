@@ -26,7 +26,7 @@ export default function Graph({ roundedYear }) {
     useEffect(() => {
         if (roundedYear) {
             /* Fetched data is an array of numbers corresponding to float values for the population index, from 10000 BCE until 2023 */
-            fetch(`//${window.apiUrl}:8000/popc/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`).then((response) => response.json())
+            fetch(`/api/txt/popc/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`).then((response) => response.json())
                 .then((r_json) => {
                     const newData = []
                     r_json[0].forEach((value, index) => {

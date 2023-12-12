@@ -84,3 +84,16 @@ Changing endYear:
 
 # Server config
 Want to move
+
+# nginx 
+https://kinsta.com/knowledgebase/install-nginx/#step-1-download-the-nginx-installer-for-windows
+
+copy nginx.conf from here to nginx dir:
+cp ./nginx.conf C:\nginx-1.24.0\conf\nginx.conf
+
+get certificates from server:
+scp -r caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Portal/frontend/certificaten .
+
+scp ./nginx.conf caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Portal/frontend/
+
+scp caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Portal/frontend/nginx.conf .
