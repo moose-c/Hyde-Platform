@@ -16,6 +16,9 @@ services:
 
     depends_on:
       - map-website
+      - timeseries-api
+      - raster-api
+      - tomcat-ncwms
     # Service for ncWMS running on Tomcat
   tomcat-ncwms:
     container_name: tomcat-ncwms
