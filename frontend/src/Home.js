@@ -8,7 +8,6 @@ import HomeMap from "./home-components/HomeMap";
 import Graph from "./home-components/Graph";
 import Timeline from "./home-components/Timeline";
 import Table from "./home-components/Table";
-import Table from "./home-components/Table";
 
 import { yearIndexToYear } from "./util/yearIndexToYear";
 import { timelineObjects } from "./util/timelineObjects";
@@ -87,8 +86,14 @@ const Jumbotron = () => {
             overflow: "hidden",
           }}
         >
-          <div style={{ fontWeight: 800, fontSize: 20, paddingBottom: 5 }}>
-            Go to HYDE Portal
+          <div
+            style={{
+              fontWeight: 600,
+              fontSize: 20,
+              paddingBottom: 5,
+            }}
+          >
+            Explore HYDE Portal and time travel through the ages
           </div>
           <img
             src="/hyde-portal.png"

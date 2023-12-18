@@ -16,6 +16,7 @@
 
 .infosection-wrapper {
   margin: 28px;
+  width: 70%;
 }
 .infosection-text {
   /* background-color: red; */
@@ -28,9 +29,13 @@
 
 .jumbotron {
   padding: 15px;
-  width: 35%;
-  max-width: 60rem;
+  width: 50%;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
+}
+
+#gotohydeportal:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 .timeline-overlay {
