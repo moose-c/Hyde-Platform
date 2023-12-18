@@ -120,8 +120,9 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
               data: [],
             },
           ];
-          var domainName = window.apiUrl ? window.apiUrl === ''  : `${window.apiUrl}:8000`
+          var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8000`
           const url = `${domainName}/api/txt/${indicator}/${isoCode}/${startYear}/${endYear}`
+          console.log(url)
           const fetchPromise = fetch(url)
             .then((response) => response.json())
             .then((r_json) => {

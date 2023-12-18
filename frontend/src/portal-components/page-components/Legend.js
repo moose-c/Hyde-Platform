@@ -22,7 +22,7 @@ export default function Legend({ currentYear, ovIndicator }) {
             }
             scale.current += '/cell]'
             const layer = window.apiUrl === 'localhost' ? 'cropland/cropland' : `${ovIndicator}/${ovIndicator}`
-            var domainName = window.apiUrl ? window.apiUrl === ''  : `${window.apiUrl}:8080`
+            var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8080`
             fetch(`${domainName}/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&
             TIME=${time}&
             LAYERS=${layer}`)

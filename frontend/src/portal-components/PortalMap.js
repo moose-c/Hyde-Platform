@@ -94,7 +94,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
       var time = `${year}-05-01`
       const style = 'seq-YlOrRd'
       const layer = window.apiUrl === 'localhost' ? 'cropland/cropland' : `${ovIndicator}/${ovIndicator}`
-      var domainName = window.apiUrl ? window.apiUrl === ''  : `${window.apiUrl}:8080`
+      var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8080`
       const url = `${domainName}/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
       fetch(url)
         .then((response) => response.json())
