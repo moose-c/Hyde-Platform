@@ -103,11 +103,9 @@ const InfoSection = ({ currentYear }) => {
         <div className="periodText">
           <div style={{ display: "flex", gap: 20 }}>
             <div>{currentTimeLineObject.periodText}</div>
-            {/* <div style={{ flex: 1 }}> */}
-            {/* <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} /> */}
-            {/* </div> */}
             <div style={{}}>
-              <Table roundedYear={roundYear(currentYear)} />
+              <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} />
+              {/* <Table roundedYear={roundYear(currentYear)} /> */}
             </div>
           </div>
         </div>
