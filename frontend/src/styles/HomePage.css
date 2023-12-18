@@ -25,8 +25,9 @@
 
 .jumbotron {
   padding: 15px;
-  width: 40%;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: 35%;
+  max-width: 60rem;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
 }
 
 .timeline-overlay {
@@ -66,5 +67,5 @@ table tbody tr:nth-of-type(even) {
 }
 
 .jumbotron a {
-  color: #fff
+  color: #fff;
 }
