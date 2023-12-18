@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/Timeline.css";
 import useDraggableScroll from "use-draggable-scroll";
-import { timelineObjects } from "../util/timelineObjects";
+import {
+  CURR_YEAR_IN_YEARINDEX,
+  YEARS_FROM_1950_TO_NOW,
+  timelineObjects,
+} from "../util/timelineObjects";
+import { yearIndexToYear } from "../util/yearIndexToYear";
 
 const TIMELINEBLOCKWIDTH = 300;
 
@@ -32,14 +37,16 @@ const calculateScrollOffsetBasedOnYearIndex = (yearIndex) => {
     return (
       6 * TIMELINEBLOCKWIDTH + ((yearIndex - 11750) / 200) * TIMELINEBLOCKWIDTH
     );
-  } else if (yearIndex <= 12023) {
+  } else if (yearIndex <= CURR_YEAR_IN_YEARINDEX) {
     return (
-      7 * TIMELINEBLOCKWIDTH + ((yearIndex - 11950) / 67) * TIMELINEBLOCKWIDTH
+      7 * TIMELINEBLOCKWIDTH +
+      ((yearIndex - 11950) / YEARS_FROM_1950_TO_NOW) * TIMELINEBLOCKWIDTH
     );
   } else {
-    // Adjust the formula for year indices larger than 12023
+    // Adjust the formula for year indices larger than CURR_YEAR_IN_YEARINDEX
     return (
-      7 * TIMELINEBLOCKWIDTH + TIMELINEBLOCKWIDTH * ((yearIndex - 12023) / 1000)
+      7 * TIMELINEBLOCKWIDTH +
+      TIMELINEBLOCKWIDTH * ((yearIndex - CURR_YEAR_IN_YEARINDEX) / 1000)
     );
   }
 };
@@ -86,11 +93,13 @@ const calculateCurrentYearBasedOnScroll = (scrollLeft) => {
   }
   if (scrollLeft <= TIMELINEBLOCKWIDTH * 8) {
     return (
-      11950 + ((scrollLeft - TIMELINEBLOCKWIDTH * 7) / TIMELINEBLOCKWIDTH) * 67
+      11950 +
+      ((scrollLeft - TIMELINEBLOCKWIDTH * 7) / TIMELINEBLOCKWIDTH) *
+        YEARS_FROM_1950_TO_NOW
     );
   }
 
-  return 12023;
+  return CURR_YEAR_IN_YEARINDEX;
 };
 
 export default function Timeline({ currentYear, setCurrentYear }) {
@@ -126,7 +135,7 @@ export default function Timeline({ currentYear, setCurrentYear }) {
           className="timelineObject"
           style={{ width: screenWidth / 2, backgroundColor: "#cbd5e1" }}
         >
-          <div style={{ marginLeft: "auto" }} >
+          <div style={{ marginLeft: "auto" }}>
             <div style={{ fontWeight: "bold", fontSize: 16 }}>
               No data available
             </div>
@@ -157,10 +166,12 @@ export default function Timeline({ currentYear, setCurrentYear }) {
             <div style={{ fontWeight: "bold", fontSize: 16 }}>
               No data available
             </div>
-            <div style={{ fontWeight: 300, fontSize: 12 }}>From 2023 A.D.</div>
+            <div style={{ fontWeight: 300, fontSize: 12 }}>
+              From {yearIndexToYear(CURR_YEAR_IN_YEARINDEX)}
+            </div>
           </div>
         </div>
-        <img src="/pointer.png" id="pin" alt="pointer"/>
+        <img src="/pointer.png" id="pin" alt="pointer" />
       </div>
     </>
   );
@@ -176,7 +187,7 @@ const TimelineObject = ({ backgroundColor, periodTag, title, iconLink }) => {
         <div style={{ fontWeight: "bold", fontSize: 16 }}>{title}</div>
         <div style={{ fontWeight: 300, fontSize: 12 }}>{periodTag}</div>
       </div>
-      <img className="icon" src={iconLink} draggable={false} alt="icon"/>
+      <img className="icon" src={iconLink} draggable={false} alt="icon" />
     </div>
   );
 };
