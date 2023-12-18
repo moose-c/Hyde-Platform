@@ -8,6 +8,7 @@ import HomeMap from "./home-components/HomeMap";
 import Graph from "./home-components/Graph";
 import Timeline from "./home-components/Timeline";
 import Table from "./home-components/Table";
+import Table from "./home-components/Table";
 
 import { yearIndexToYear } from "./util/yearIndexToYear";
 import { timelineObjects } from "./util/timelineObjects";
@@ -29,14 +30,18 @@ export default function Home() {
     </div>
   );
 }
+}
 
 const Jumbotron = () => {
   return (
     <div className="jumbotron bg-primary text-white">
-      <h1>Hyde Portal</h1>
+      <h1 style={{ fontSize: 80 }}>Hyde Portal</h1>
       <p>
         Through this portal, data from the <strong>HYDE model</strong> can be
         accessed <br />
+        The HYDE model is a mathematical model calculating change in{" "}
+        <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
+        <strong>Agricultural</strong> indicators, starting from the rise of
         The HYDE model is a mathematical model calculating change in{" "}
         <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
         <strong>Agricultural</strong> indicators, starting from the rise of
@@ -45,6 +50,25 @@ const Jumbotron = () => {
         borders, generating timeseries and within 30kmx30km pixels for the globe
         generating maps.
       </p>
+      {/* <h4>Indicators</h4>
+      <p>
+        There are three main categories of indicators that can be retrieved
+        through this portal:
+        <ul>
+          <li>
+            Demographic: Population, Population Density, Urban Population and
+            Rural Population
+          </li>
+          <li>
+            Land use: Urban Area, Cropland, Pasture, Rangeland and Converted
+            Rangeland
+          </li>
+          <li>
+            Agricultural: Irrigated Rice, Rainfed Rice, Total Rice, Irrigated
+            Other, Rainfed Other, Total Irrigated and Total Rainfed
+          </li>
+        </ul>
+      </p> */}
       <h4> Repository </h4>
       The github repository can be entered{" "}
       <a href="https://github.com/UtrechtUniversity/Hyde-Platform">here</a>.
@@ -53,13 +77,36 @@ const Jumbotron = () => {
       <p></p>
       {/* Link from react-router-dom, allows changing webpages  */}
       <Link to="/portal">
-        <h1 style={{ fontWeight: 400 }}>Go to HYDE Portal</h1>
+        {/* <button className="btn btn-success btn-lg" style={{ fontWeight: 800 }}>
+          Go to HYDE Portal
+        </button> */}
         <div
-          style={{ width: "400px", borderRadius: "5px", overflow: "hidden" }}
+          className="bg-success text-white btn"
+          style={{
+            borderRadius: "5px",
+            padding: "10px 20px 20px 20px",
+            overflow: "hidden",
+          }}
         >
-          <HomeMap />
+          <div style={{ fontWeight: 800, fontSize: 20, paddingBottom: 5 }}>
+            Go to HYDE Portal
+          </div>
+          <img
+            src="/hyde-portal.png"
+            style={{
+              width: "100%",
+            }}
+          />
         </div>
       </Link>
+      {/* <Link to="/https://landuse.sites.uu.nl/hyde-project/">
+        <button
+          className="btn btn-secondary btn-lg"
+          style={{ fontWeight: 800 }}
+        >
+          Learn more about the HYDE model
+        </button>
+      </Link> */}
     </div>
   );
 };
@@ -67,7 +114,6 @@ const Jumbotron = () => {
 const InfoSection = ({ currentYear }) => {
   const [roundedYear, setRoundedYear] = useState(1500);
   const [previousYear, setPreviousYear] = useState(null);
-
   /* From this infosection we want the HomeMap to update after the slides has arived at it's final location, 
   since requesting it during the sliding process for each change in current Year is to memory intensive.
   For this reason, a variables previousYear is created which is equal to value of the currentYear a small time ago.
@@ -116,3 +162,4 @@ const InfoSection = ({ currentYear }) => {
     </div>
   );
 };
+

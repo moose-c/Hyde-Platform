@@ -1,5 +1,5 @@
 import { React, useEffect, useRef, useState } from "react"
-import { indicatorNcOrder } from "../../util/createData"  /* as ind.type : {ind -> Indicator Name} */
+import { rangeValues, styleValues } from "../../util/createData"  /* as ind.type : {ind -> Indicator Name} */
 
 
 export default function Legend({ currentYear, ovIndicator }) {
@@ -7,8 +7,8 @@ export default function Legend({ currentYear, ovIndicator }) {
     var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
     year += `${currentYear.split('_')[1]}`
     var time = `${year}-05-01`
-    const style = 'seq-YlOrRd'
-    const minmax = useRef()
+    const style = ['population', 'population_density', 'urban_population', 'rural_population'].includes(ovIndicator) ? styleValues['pop'] : styleValues['lu']
+    const range = ['population', 'urban_population', 'rural_population'].includes(ovIndicator) ? rangeValues['popAbs'] : 'population_density' === ovIndicator ? rangeValues['popDens'] : rangeValues['lu']  
     const scale = useRef()
 
     useEffect(() => {
@@ -21,28 +21,22 @@ export default function Legend({ currentYear, ovIndicator }) {
                 scale.current = '[km2'
             }
             scale.current += '/cell]'
-            const layer = window.apiUrl === 'localhost' ? 'cropland/cropland' : `${ovIndicator}/${ovIndicator}`
             var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8080`
-            fetch(`${domainName}/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&
-            TIME=${time}&
-            LAYERS=${layer}`)
-                .then((response) => response.json())
-                .then(respJs => {
-                    minmax.current = respJs
-                    const legendUrl = `${domainName}/ncWMS/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0
-                    &COLORBARONLY=TRUE
-                    &HEIGHT=200&WIDTH=50
-                    &PALETTE=${style}
-                    &NUMCOLORBANDS=6
-                    `
-                    fetch(legendUrl)
-                        .then(response => response.blob())
-                        .then(blob => {
-                            const legendFigure = URL.createObjectURL(blob)
-                            setLegend(legendFigure)
-                        })
-                })
-        } else {
+            const legendUrl = `${domainName}/ncWMS/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0
+                &COLORBARONLY=TRUE
+                &HEIGHT=200&WIDTH=50
+                &COLORSCALERANGE=${range}
+                &PALETTE=${style}
+                &NUMCOLORBANDS=8
+                `
+                fetch(legendUrl)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const legendFigure = URL.createObjectURL(blob)
+                        setLegend(legendFigure)
+                    })
+            }
+        else {
             scale.current = null
             setLegend(null)
         } // eslint-disable-next-line
@@ -52,9 +46,9 @@ export default function Legend({ currentYear, ovIndicator }) {
         {legend && <>
             <div style={{ width: 70, fontWeight: 'bold', backgroundColor: 'white', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <div>
-                    <span>{minmax.current.max}</span>
+                    <span>{range.split(',')[1]}</span>
                     <img src={legend} alt="Legend" />
-                    <span>{minmax.current.min + 0.0001}</span>
+                    <span>{range.split(',')[0]}</span>
                 </div>
                 {/* scale potitioning is not correct yet */}
                 <span style={{ transform: 'rotate(90deg)', transformOrigin: 'bottom left', whiteSpace: 'nowrap' }}>{scale.current}</span>
