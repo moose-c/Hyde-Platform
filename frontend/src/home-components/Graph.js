@@ -23,71 +23,105 @@ export default function Graph({ roundedYear }) {
     } */
   const labels = yearNbList;
 
-  useEffect(() => {
+  useEffect(async () => {
     if (roundedYear) {
       /* Fetched data is an array of numbers corresponding to float values for the population index, from 10000 BCE until 2023 */
       var domainName =
         window.apiUrl === "" ? window.apiUrl : `${window.apiUrl}:8000`;
-      fetch(
+
+      const cropland_json = await fetch(
+        `${domainName}/api/txt/cropland/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
+      ).then((response) => response.json());
+
+      const population_json = await fetch(
         `${domainName}/api/txt/popc/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
-      )
-        .then((response) => response.json())
-        .then((r_json) => {
-          const newData = [];
-          r_json[0].forEach((value, index) => {
-            newData.push({
-              x: yearNbList[index],
-              y: value,
-            });
-          });
-          data.current = {
-            labels: labels,
-            datasets: [
-              {
-                label: "Population",
-                data: newData,
-                fill: false,
-              },
-            ],
-          };
-          setOptions({
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                title: {
-                  display: true,
-                  text: "[individuals]",
-                },
-              },
-              x: {
-                title: {
-                  display: true,
-                  text: "[year]",
-                },
-              },
-            },
-            plugins: {
-              title: {
-                display: true,
-                text: "Global population development",
-              },
-              annotation: {
-                annotations: {
-                  point1: {
-                    type: "point",
-                    radius: 5,
-                    xValue: yearNbList.indexOf(roundedYear),
-                    yValue:
-                      data.current.datasets[0].data[
-                        yearNbList.indexOf(roundedYear)
-                      ].y,
-                    backgroundColor: "rgba(255, 99, 132, 0.25)",
-                  },
-                },
-              },
-            },
-          });
+      ).then((response) => response.json());
+
+      const populationData = [];
+      population_json[0].forEach((value, index) => {
+        populationData.push({
+          x: yearNbList[index],
+          y1: value,
+          y2: cropland_json[0][index],
         });
+      });
+      data.current = {
+        labels: labels,
+        interaction: {
+          mode: "index",
+          intersect: false,
+        },
+        datasets: [
+          {
+            label: "Population",
+            data: population_json[0],
+            fill: false,
+            borderColor: "rgba(255, 99, 132, 1)",
+            yAxisID: "y1",
+          },
+          {
+            label: "Cropland area",
+            data: cropland_json[0],
+            fill: false,
+            borderColor: "rgba(54, 162, 235, 1)",
+            yAxisID: "y2",
+          },
+        ],
+      };
+      console.log(
+        data.current.datasets[1].data[yearNbList.indexOf(roundedYear)]
+      );
+      setOptions({
+        interaction: {
+          intersect: false,
+          mode: "index",
+        },
+        stacked: false,
+        maintainAspectRatio: false,
+        scales: {
+          y1: {
+            type: "linear",
+            position: "left",
+            display: true,
+            title: {
+              display: true,
+              text: "[individuals]",
+            },
+          },
+          y2: {
+            type: "linear",
+            position: "right",
+            display: true,
+            title: {
+              display: true,
+              text: "[cropland area]",
+            },
+          },
+          x: {
+            title: {
+              display: true,
+              text: "[year]",
+            },
+          },
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: "Global population development",
+          },
+          annotation: {
+            annotations: {
+              line1: {
+                type: "line",
+                scaleID: "x",
+                value: yearNbList.indexOf(roundedYear),
+                borderColor: "blue",
+                borderWidth: 2,
+              },
+            },
+          },
+        },
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -96,10 +130,8 @@ export default function Graph({ roundedYear }) {
     if (options !== null) {
       setOptions((prevOptions) => {
         const updatedOptions = { ...prevOptions };
-        updatedOptions.plugins.annotation.annotations.point1.xValue =
+        updatedOptions.plugins.annotation.annotations.line1.value =
           yearNbList.indexOf(roundedYear);
-        updatedOptions.plugins.annotation.annotations.point1.yValue =
-          data.current.datasets[0].data[yearNbList.indexOf(roundedYear)].y;
         return updatedOptions;
       });
     }
@@ -109,7 +141,7 @@ export default function Graph({ roundedYear }) {
   return (
     <>
       {data.current ? (
-        <div style={{}}>
+        <div style={{ width: "100%", height: "100%" }}>
           <Line data={data.current} options={options} />
         </div>
       ) : (
