@@ -38,7 +38,7 @@ const Jumbotron = () => {
         Through this portal, data from the <strong>HYDE model</strong> can be
         accessed <br />
         The HYDE model is a mathematical model calculating change in <strong>Demographic</strong>, <strong>Land Use</strong> and <strong>Agricultural</strong> indicators, starting from the rise of
-        humanity in 10000 B.C. untril our current time. <br />
+        humanity in 10000 B.C.E. untril our current time. <br />
         These indicators are calculated within each of the current national
         borders, generating timeseries and within 30kmx30km pixels for the globe generating maps.
       </p>
@@ -94,7 +94,7 @@ const InfoSection = ({ currentYear }) => {
     (timelineObject) => timelineObject.endYear >= currentYear
   );
   return (
-    <div className="infosection" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <div className="infosection" style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
       <div>
         <h1 style={{ color: currentTimeLineObject.color }}>
           {currentTimeLineObject.title}
@@ -102,11 +102,12 @@ const InfoSection = ({ currentYear }) => {
         <h3 style={{ fontWeight: 300 }}>{yearIndexToYear(currentYear)}</h3>
       </div>
       <div className="periodText" >
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex",  }}>
           <div style={{ flex: 1 }}>
             {currentTimeLineObject.periodText}
           </div>
           <div style={{ flex: 1 }}>
+            <h2>Some Title</h2>
             <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} />
           </div>
         </div>
