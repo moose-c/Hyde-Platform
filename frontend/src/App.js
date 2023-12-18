@@ -13,8 +13,8 @@ const router = createBrowserRouter([
 
 // Usefull in development, allows to quickly use local or remote APIs. !!Clean When Done!!
 
-window.apiUrl = 'http://localhost'
-// window.apiUrl = 'http://hydeprod.geo.uu.nl'
+// window.apiUrl = 'http://localhost'
+window.apiUrl = 'http://hydeprod.geo.uu.nl'
 // window.apiUrl = ''
 
 // Return App, which has two pages: / (homepage) and /map (actual portal)
