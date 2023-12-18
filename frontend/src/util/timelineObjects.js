@@ -1,6 +1,5 @@
 import { yearIndexToYear } from "./yearIndexToYear";
 
-console.log(process.env.REACT_APP_END_YEAR);
 export const YEARS_FROM_1950_TO_NOW = process.env.REACT_APP_END_YEAR - 1950;
 export const CURR_YEAR_IN_YEARINDEX = 11950 + YEARS_FROM_1950_TO_NOW;
 
