@@ -50,7 +50,7 @@ The docker-compose.yml file creates 3 different containers from 3 different imag
 The first container uses an already defined postgres image, the other 2 use image manually defined within the mentioned Dockerfile's. 
 
 ### Container 1: Postgres database
-The first docker container created contains a postgres database called timeseries. Postgresql (postgres) is a relational database management system (rdbms), the reader can learn more about it using various online tutorials, the writer learned it through [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04) & [here](https://docs.qgis.org/3.28/en/docs/training_manual/). This database will contain data for each country, each indicator, from 12000 BC until 2017. All setup is done within the docker-compose.yml.
+The first docker container created contains a postgres database called timeseries. Postgresql (postgres) is a relational database management system (rdbms), the reader can learn more about it using various online tutorials, the writer learned it through [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04) & [here](https://docs.qgis.org/3.28/en/docs/training_manual/). This database will contain data for each country, each indicator, from 12000 BC until 2023. All setup is done within the docker-compose.yml.
 
 ### Container 2: Fill Database
 How to connect and execute postgres commands using python can be learned [here](https://pynative.com/python-postgresql-tutorial/).  
