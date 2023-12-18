@@ -7,8 +7,23 @@ import Chart from "chart.js/auto"; /* Required to mitigate some errors */
 import { Line } from "react-chartjs-2"; /* https://github.com/reactchartjs/react-chartjs-2 */
 import { yearNbList } from "../util/createData";
 import annotationPlugin from "chartjs-plugin-annotation";
+import { timelineObjects } from "../util/timelineObjects";
+import opaqueColor from "../util/opaqueColor";
 
 Chart.register(annotationPlugin);
+
+// here we create the rectangles to be added to the graph, such that the background color of the graph is changed
+// in accordance with the timeline objects
+// note that timelineObject ranges from 0 to 12023, while YearNBlist ranges from -10000 to 2023
+// so we need to substrac 10000 from the timelineObject years
+const createRectanglesForGraph = () => {
+  return timelineObjects.map((timelineObject, idx) => {
+    const xMin = yearNbList.indexOf(timelineObject.startYear - 10000);
+    const xMax = yearNbList.indexOf(timelineObject.endYear - 10000);
+    const color = timelineObject.color;
+    return { idx, xMin, xMax, color };
+  });
+};
 
 export default function Graph({ roundedYear }) {
   const data = useRef(null);
@@ -68,9 +83,27 @@ export default function Graph({ roundedYear }) {
           },
         ],
       };
-      console.log(
-        data.current.datasets[1].data[yearNbList.indexOf(roundedYear)]
-      );
+
+      const newAnnotations = {
+        line1: {
+          type: "line",
+          scaleID: "x",
+          value: yearNbList.indexOf(roundedYear),
+          borderColor: "blue",
+          borderWidth: 2,
+        },
+      };
+      const rectangles = createRectanglesForGraph();
+      for (const rectangle of rectangles) {
+        newAnnotations[`rectangle${rectangle.idx}`] = {
+          type: "box",
+          xMin: rectangle.xMin,
+          xMax: rectangle.xMax,
+          yMin: 0,
+          yMax: 100000000000,
+          backgroundColor: opaqueColor(rectangle.color, 0.2),
+        };
+      }
       setOptions({
         interaction: {
           intersect: false,
@@ -110,15 +143,7 @@ export default function Graph({ roundedYear }) {
             text: "Global population development",
           },
           annotation: {
-            annotations: {
-              line1: {
-                type: "line",
-                scaleID: "x",
-                value: yearNbList.indexOf(roundedYear),
-                borderColor: "blue",
-                borderWidth: 2,
-              },
-            },
+            annotations: newAnnotations,
           },
         },
       });
