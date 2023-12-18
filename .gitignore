@@ -11,7 +11,6 @@ data/
 certificaten/
 
 package-lock.json
-TODO.md
 .env
 External-communication.md
 *.nc 
