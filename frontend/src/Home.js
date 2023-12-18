@@ -30,7 +30,6 @@ export default function Home() {
     </div>
   );
 }
-}
 
 const Jumbotron = () => {
   return (
@@ -41,8 +40,8 @@ const Jumbotron = () => {
         accessed <br />
         The HYDE model is a mathematical model calculating change in{" "}
         <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
-        <strong>Agricultural</strong> indicators, starting from the rise of
-        The HYDE model is a mathematical model calculating change in{" "}
+        <strong>Agricultural</strong> indicators, starting from the rise of The
+        HYDE model is a mathematical model calculating change in{" "}
         <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
         <strong>Agricultural</strong> indicators, starting from the rise of
         humanity in 10000 B.C. untril our current time. <br />
@@ -162,4 +161,3 @@ const InfoSection = ({ currentYear }) => {
     </div>
   );
 };
-
