@@ -24,6 +24,7 @@ export const yearsObject = Object.fromEntries(
     yearValueList.map((element, index) => [element, yearNameList[index]])
 )
 
+
 // indicator object, popc : Population Count
 export const indicatorTxtObj = {
     demographic: {
@@ -50,6 +51,7 @@ export const indicatorTxtObj = {
         tot_rainfed: 'Total Rainfed'
     }
 }
+console.log(Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj))))
 
 // indicator object, popc : Population Count
 export const indicatorNcObj = {
@@ -81,71 +83,3 @@ export const indicatorNcOrder = ['urban_area', 'total_rice', 'urban_population',
 
 export const rangeValues = {popAbs: '0.0001,3200', popDens:'0.0001,500', lu: '0.0001,70'}
 export const styleValues = {pop: 'x-Rainbow', lu: 'div-Spectral-inv'}
-
-
-export const indicatorAxis = {
-    population: {
-        style: styleValues['pop'],
-        range: rangeValues['absPop']
-    },
-    population_density: {
-        style: '',
-        values: []
-    },
-    urban_population: {
-        style: '',
-        values: []
-    },
-    rural_population: {
-        style: '',
-        values: []
-    },
-    urban_area: {
-        style: '',
-        values: []
-    },
-    cropland: {
-        style: '',
-        values: []
-    },
-    grazing_land: {
-        style: '',
-        values: []
-    },
-    pasture: {
-        style: '',
-        values: []
-    },
-    rangeland: {
-        style: '',
-        values: []
-    },
-    irrigated_rice: {
-        style: '',
-        values: []
-    },
-    rainfed_rice: {
-        style: '',
-        values: []
-    },
-    total_rice: {
-        style: '',
-        values: []
-    },
-    rainfed_not_rice: {
-        style: '',
-        values: []
-    },
-    irrigated_not_rice: {
-        style: '',
-        values: []
-    },
-    total_irrigated: {
-        style: '',
-        values: []
-    },
-    total_rainfed: {
-        style: '',
-        values: []
-    }
-};

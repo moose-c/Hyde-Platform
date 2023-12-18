@@ -96,6 +96,9 @@ services:
     environment:
       DEBUG: 0
       POSTGRES_DB: timeseries
+    
+    ports:
+      - 2019:2019
 
     healthcheck:
       # Check PostgreSQL availability

@@ -27,17 +27,23 @@ column_names = [desc[0] for desc in cur.description]
 # query and return timeseries of interest
 class Timeseries(Resource):
   def get(self, indicator, isocode, start, end):
-    try: 
+    try:
       # select columns = years in the correct format, including the endpoint. 
       # start end year within the url are the same format as the year columns within the database, this makes the following possible
       columns = ", ".join(column_names[column_names.index(start):column_names.index(end)+1])
       
       # select desired columns
-      cur.execute(f'SELECT {columns} FROM {indicator} WHERE iso_code={isocode}')
-      ts = cur.fetchall()
-      return ts
-    except (psycopg2.Error, TypeError) as err:
-      print(err)
+      cur.execute(f"SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name='{indicator}');")
+      tableExists = cur.fetchone()[0]
+      
+      if tableExists:
+        cur.execute(f'SELECT {columns} FROM {indicator} WHERE iso_code={isocode};')
+        ts = cur.fetchall()
+        return ts
+      else:
+        return 'indicator doesnt exist'
+    except: 
+      return 'incorrect parameters'
     
 
 # test class to see whether the api is setup correctly
