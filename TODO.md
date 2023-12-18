@@ -45,9 +45,6 @@ Structure:
 Map jump around depending on amt of text lines
 Agriculture & Demographic dev kopjes
 Round functie anders, nu eerste waarde die groter is.
-BC --> BCE
-AD --> CE
-Gebruiksvriendelijk, stress testen
 Nicer op andere zooms (laptop en monitor heel groot verschil)
 
 Tabel:

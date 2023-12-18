@@ -1,6 +1,17 @@
 import React from 'react'
 
+// Used to see continents
+import country from 'country-list-js';
+
+// Used to get isocodes
+import countries from "i18n-iso-countries";
+import language from "i18n-iso-countries/langs/en.json";
+countries.registerLocale(language); 
+
+
+
 export default function Table() {
+  var continentData = createContinentData()
   return (
     <div>
       <table>
@@ -46,4 +57,11 @@ export default function Table() {
       </table>
     </div>
   )
+}
+
+function createContinentData() {
+  const continentData = {}
+  for (const [isoCode, iso2] of Object.entries(countries.getNumericCodes())) {
+    console.log(country.findByIso2(iso2)['continent'])
+  }
 }
