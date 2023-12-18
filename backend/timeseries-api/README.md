@@ -15,7 +15,7 @@ After this, the database is populated, and FLASK API launched.
 ### Test
 To test whether everything is setup correctly, the following tests can be run from a terminal in a linux system.
 1) `curl http://127.0.0.1:8000/test` Should display "FLASK API functions correclty" 
-2) `curl http://127.0.0.1:8000/[indicator]/[isocode]/[start]/[stop]` gives data
+2) `curl http://127.0.0.1:8000/api/txt/[indicator]/[isocode]/[start]/[stop]` gives data
 example: `curl http://127.0.0.1:8000/uopp/4/bce_1000/ce_700`. If this returns an array the database is populated as desired.
 3) To test remote connection, do the following from external linux system `curl http://[ip]:8000/test`
 where ip can be found using: `hostname -I`
@@ -63,4 +63,4 @@ Basics of Flask API development can be learned [here](https://pythonbasics.org/f
 All code for this section is contained within the api folder.
 An API is created through which data can be extracted from the database. Possible api endpoints are: 
 1) `http://127.0.0.1:8000/test`
-2) Requests of the form: `http://127.0.0.1:8000/[indicator]/[isocode]/[start]/[stop]`, such as `http://127.0.0.1:8000/uopp/4/bce_1000/ce_700`
+2) Requests of the form: `http://127.0.0.1:8000/api/txt/[indicator]/[isocode]/[start]/[stop]`, such as `http://127.0.0.1:8000/api/txt/uopp/4/bce_1000/ce_700`

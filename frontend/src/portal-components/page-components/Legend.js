@@ -22,13 +22,13 @@ export default function Legend({ currentYear, ovIndicator }) {
             }
             scale.current += '/cell]'
             const layer = window.apiUrl === 'localhost' ? 'cropland/cropland' : `${ovIndicator}/${ovIndicator}`
-            fetch(`/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&
+            fetch(`${window.apiUrl}/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&
             TIME=${time}&
             LAYERS=${layer}`)
                 .then((response) => response.json())
                 .then(respJs => {
                     minmax.current = respJs
-                    const legendUrl = `/ncWMS/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0
+                    const legendUrl = `${window.apiUrl}/ncWMS/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0
                     &COLORBARONLY=TRUE
                     &HEIGHT=200&WIDTH=50
                     &PALETTE=${style}

@@ -94,14 +94,14 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
       var time = `${year}-05-01`
       const style = 'seq-YlOrRd'
       const layer = window.apiUrl === 'localhost' ? 'cropland/cropland' : `${ovIndicator}/${ovIndicator}`
-      const url = `/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
+      const url = `${window.apiUrl}/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
       fetch(url)
         .then((response) => response.json())
         .then(minmax => {
           const fill = new TileLayer({
             className: 'overlay',
             source: new TileWMS({
-              url: `/ncWMS/wms`,
+              url: `${window.apiUrl}/ncWMS/wms`,
               params: {
                 'LAYERS': layer,
                 'STYLES': `default-scalar/${style}`,

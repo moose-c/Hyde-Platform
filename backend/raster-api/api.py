@@ -9,7 +9,7 @@ pngDir = "/data/png"
 
 ### Function to publish .asc data. ###
 # .route(...) specifies the URL through which the API can be accessed
-@api.route("/asc/<indicator>/<year>")
+@api.route("/api/raster/asc/<indicator>/<year>")
 def get_asc(indicator, year):
   parsedYear = parseYear(year, 'asc')
   indicatorType = 'pop' if indicator in ['popc', 'popd', 'urbc', 'rurc', 'uopp'] else 'lu'
@@ -35,7 +35,7 @@ def get_asc(indicator, year):
         headers={'Content-Disposition': 'attachment', 'filename': fileName, 'Access-Control-Allow-Origin' : '*'}
     )
   
-@api.route("/png/<indicator>/<year>")
+@api.route("/api/raster/png/<indicator>/<year>")
 def get_png(indicator, year):
   # Parse Data
   parsedYear = parseYear(year, 'png')

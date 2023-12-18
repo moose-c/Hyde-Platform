@@ -44,6 +44,6 @@ class Test(Resource):
 
 
 api.add_resource(Test, '/test')
-api.add_resource(Timeseries, '/<indicator>/<isocode>/<start>/<end>')
+api.add_resource(Timeseries, '/api/txt/<indicator>/<isocode>/<start>/<end>')
 
 # Serving this database is handles by Gunicorn.
