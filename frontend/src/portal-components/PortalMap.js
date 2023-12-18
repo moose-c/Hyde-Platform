@@ -14,7 +14,7 @@ import { TileWMS } from 'ol/source';
 // Borders
 import Borders from "../data/countries.geojson"
 
-import { indicatorNcOrder } from "../util/createData"
+import { rangeValues, styleValues } from "../util/createData"
 
 
 export default function PortalMap({ currentlySelecting, setSelection, ovIndicator, setOvIndicator, currentYear }) {
@@ -88,43 +88,41 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
   // Overlay raster
   useEffect(() => {
     if (ovIndicator !== null) {
-      console.log()
       var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
       year += `${currentYear.split('_')[1]}`
       var time = `${year}-05-01`
-      const style = 'seq-YlOrRd'
+      console.log(ovIndicator)
+      const style = ['population', 'population_density', 'urban_population', 'rural_population'].includes(ovIndicator) ? styleValues['pop'] : styleValues['lu']
+      const range = ['population', 'urban_population', 'rural_population'].includes(ovIndicator) ? rangeValues['popAbs'] : 'population_density' === ovIndicator ? rangeValues['popDens'] : rangeValues['lu']
       const layer = window.apiUrl === 'localhost' ? 'cropland/cropland' : `${ovIndicator}/${ovIndicator}`
       var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8080`
-      const url = `${domainName}/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
-      fetch(url)
-        .then((response) => response.json())
-        .then(minmax => {
-          const fill = new TileLayer({
-            className: 'overlay',
-            source: new TileWMS({
-              url: `${domainName}/ncWMS/wms`,
-              params: {
-                'LAYERS': layer,
-                'STYLES': `default-scalar/${style}`,
-                'TIME': time,
-                'COLORSCALERANGE': `${minmax.min + 0.0001},${minmax.max}`,
-                'BELOWMINCOLOR': 'transparent',
-                'NUMCOLORBANDS': 6,
-                'LOGSCALE': false
-              },
-              projection: 'EPSG:3857',
-            }),
-            opacity: 0.8
-          })
+      const fill = new TileLayer({
+        className: 'overlay',
+        source: new TileWMS({
+          url: `${domainName}/ncWMS/wms`,
+          params: {
+            'LAYERS': layer,
+            'STYLES': `default-scalar/${style}`,
+            'TIME': time,
+            'COLORSCALERANGE': range,
+            'BELOWMINCOLOR': 'transparent',   
+            'ABOVEMAXCOLOR': 'extend',
+            'NUMCOLORBANDS': 8,
+            'LOGSCALE': false
+          },
+          projection: 'EPSG:3857',
+          }),
+          opacity: 0.8
+        })
           map.current.addLayer(fill)
           overlay.current = [fill]
-        })
-    } else if (map.current) {
-      setSelection([])
-      overlay.current.forEach(layer => {
-        map.current.removeLayer(layer)
-      });
-      overlay.current = []
+        } 
+        else if (map.current) {
+          setSelection([])
+          overlay.current.forEach(layer => {
+            map.current.removeLayer(layer)
+          });
+          overlay.current = []
     }
     // eslint-disable-next-line
   }, [ovIndicator, currentYear])

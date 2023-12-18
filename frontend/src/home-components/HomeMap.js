@@ -8,6 +8,8 @@ import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ.js";
 import { TileWMS } from "ol/source";
 
+import { rangeValues, styleValues } from "../util/createData";
+
 export default function HomeMap({
   roundedYear = 0,
   mapId = 0,
@@ -49,60 +51,42 @@ export default function HomeMap({
     // add raster to only render after scrolling has stopped
     if (map && netCDF) {
       var time = `${roundedYear}-05-01`;
-      const style = "seq-YlOrRd";
+      const style = styleValues["lu"];
       const layer = "cropland/cropland";
       // uses the ncWMS backend
       var domainName =
         window.apiUrl === "" ? window.apiUrl : `${window.apiUrl}:8080`;
-      const url = `${domainName}/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`;
-      fetch(url)
-        .then((response) => response.json())
-        .then((minmax) => {
-          const fill = new TileLayer({
-            source: new TileWMS({
-              url: `${domainName}/ncWMS/wms`,
-              params: {
-                LAYERS: layer,
-                STYLES: `default-scalar/${style}`,
-                TIME: time,
-                COLORSCALERANGE: `${minmax.min + 0.00000001},${minmax.max}`,
-                BELOWMINCOLOR: "transparent",
-                NUMCOLORBANDS: 6,
-                LOGSCALE: false,
-              },
-              projection: "EPSG:4326",
-            }),
-            opacity: 0.8,
+      const fill = new TileLayer({
+        source: new TileWMS({
+          url: `${domainName}/ncWMS/wms`,
+          params: {
+            LAYERS: layer,
+            STYLES: `default-scalar/${style}`,
+            TIME: time,
+            COLORSCALERANGE: rangeValues["lu"],
+            BELOWMINCOLOR: "transparent",
+            ABOVEMAXCOLOR: "extend",
+            NUMCOLORBANDS: 8,
+            LOGSCALE: false,
+          },
+          projection: "EPSG:4326",
+        }),
+        opacity: 0.8,
+      });
+      /* Change the previous Map */
+      setMap((previousMap) => {
+        const newMap = previousMap;
+        if (overlay.length > 0) {
+          overlay.forEach((layer) => {
+            newMap.removeLayer(layer);
           });
-          const contour = new TileLayer({
-            source: new TileWMS({
-              url: `${domainName}/ncWMS/wms`,
-              params: {
-                LAYERS: layer,
-                STYLES: `colored_contours/${style}`,
-                TIME: time,
-                NUMCOLORBANDS: 6,
-                LOGSCALE: false,
-              },
-              projection: "EPSG:4326",
-            }),
-            opacity: 0.8,
-          });
-          /* Change the previous Map */
-          setMap((previousMap) => {
-            const newMap = previousMap;
-            if (overlay.length > 0) {
-              overlay.forEach((layer) => {
-                newMap.removeLayer(layer);
-              });
-            }
-            newMap.addLayer(fill);
-            newMap.addLayer(contour);
-            return newMap;
-          });
-          setOverlay([fill, contour]);
-        });
-    } /* roundedYear updates only if currentYear == previousYear */
+        }
+        newMap.addLayer(fill);
+        return newMap;
+      });
+      setOverlay([fill]);
+    }
+    /* roundedYear updates only if currentYear == previousYear */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, roundedYear]);
 
