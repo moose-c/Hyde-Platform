@@ -34,7 +34,8 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
 
     async function exportAsc() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
-        const fetchUrl = `${window.apiUrl}/api/raster/asc/${uglyInd}/${currentYear}`
+        var domainName = window.apiUrl ? window.apiUrl === ''  : `${window.apiUrl}:8100`
+        const fetchUrl = `${domainName}/api/raster/asc/${uglyInd}/${currentYear}`
         fetch(fetchUrl).then(response => response.blob())
             .then(blob => {
                 const url = window.URL.createObjectURL(new Blob([blob]))
@@ -47,7 +48,8 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
 
     async function exportPNG() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
-        const fetchUrl = `${window.apiUrl}/api/raster/png/${uglyInd}/${currentYear}`
+        var domainName = window.apiUrl ? window.apiUrl === ''  : `${window.apiUrl}:8100`
+        const fetchUrl = `${domainName}/api/raster/png/${uglyInd}/${currentYear}`
         fetch(fetchUrl).then(response => response.blob())
             .then(image => {
                 const url = window.URL.createObjectURL(image)

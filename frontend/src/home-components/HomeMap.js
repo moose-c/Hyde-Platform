@@ -44,13 +44,14 @@ export default function HomeMap({ roundedYear = 0, mapId = 0, width = 400, heigh
       const style = 'seq-YlOrRd'
       const layer = 'cropland/cropland'
       // uses the ncWMS backend
-      const url = `${window.apiUrl}ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
+      var domainName = window.apiUrl ? window.apiUrl === ''  : `${window.apiUrl}:8080`
+      const url = `${domainName}/ncWMS/wms?REQUEST=GetMetadata&ITEM=minmax&VERSION=1.3.0&STYLES=&CRS=CRS:84&WIDTH=1000&HEIGHT=900&BBOX=-180,-90,179.9,89.9&TIME=${time}&LAYERS=${layer}`
       fetch(url)
         .then((response) => response.json())
         .then(minmax => {
           const fill = new TileLayer({
             source: new TileWMS({
-              url: `${window.apiUrl}/ncWMS/wms`,
+              url: `${domainName}/ncWMS/wms`,
               params: {
                 'LAYERS': layer,
                 'STYLES': `default-scalar/${style}`,
@@ -66,7 +67,7 @@ export default function HomeMap({ roundedYear = 0, mapId = 0, width = 400, heigh
           })
           const contour = new TileLayer({
             source: new TileWMS({
-              url: `${window.apiUrl}/ncWMS/wms`,
+              url: `${domainName}/ncWMS/wms`,
               params: {
                 'LAYERS': layer,
                 'STYLES': `colored_contours/${style}`,
