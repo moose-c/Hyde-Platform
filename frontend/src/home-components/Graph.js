@@ -100,7 +100,7 @@ export default function Graph({ roundedYear }) {
           xMin: rectangle.xMin,
           xMax: rectangle.xMax,
           yMin: 0,
-          yMax: 100000000000,
+          yMax: 8000000000,
           backgroundColor: opaqueColor(rectangle.color, 0.2),
         };
       }
