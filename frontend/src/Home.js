@@ -159,8 +159,7 @@ const InfoSection = ({ currentYear }) => {
         </div>
       </div>
       <div className="infosection-graph">
-        <div>Henk</div>
-        {/* <Graph roundedYear={roundYear(currentYear)} /> */}
+        <Graph roundedYear={roundYear(currentYear)} />
       </div>
     </div>
   );
