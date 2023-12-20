@@ -91,7 +91,6 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
       var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
       year += `${currentYear.split('_')[1]}`
       var time = `${year}-05-01`
-      console.log(ovIndicator)
       const style = ['population', 'population_density', 'urban_population', 'rural_population'].includes(ovIndicator) ? styleValues['pop'] : styleValues['lu']
       const range = ['population', 'urban_population', 'rural_population'].includes(ovIndicator) ? rangeValues['popAbs'] : 'population_density' === ovIndicator ? rangeValues['popDens'] : rangeValues['lu']
       const layer = window.apiUrl === 'localhost' ? 'cropland/cropland' : `${ovIndicator}/${ovIndicator}`
@@ -161,7 +160,6 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
         const view = map.current.values_.view
         const viewRes = view.getResolution()
         const projection = view.values_.projection
-        console.log(pixel)
         const url = overlayLayer.getFeatureInfoUrl(
           map.current.getCoordinateFromPixel(pixel),
           viewRes,

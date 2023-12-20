@@ -142,6 +142,7 @@ export default function Graph({ roundedYear }) {
             title: {
               display: true,
               text: "[year]",
+              padding:0
             },
           },
         },

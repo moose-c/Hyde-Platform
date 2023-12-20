@@ -97,7 +97,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     if (plotOptions.plotting) {
       var fetchPromises = [];
       for (const country of selection) {
-        console.log(country)
         // Do something slighly different if selected country is South Sudan
         allData[country.values_.ISO_A3] = {};
         allData[country.values_.ISO_A3].all = [];
@@ -118,7 +117,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           ];
           var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8000`
           const url = `${domainName}/api/txt/${indicator}/${isoCode}/${startYear}/${endYear}`
-          console.log(url)
           const fetchPromise = fetch(url)
             .then((response) => response.json())
             .then((r_json) => {

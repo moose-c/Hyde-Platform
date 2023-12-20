@@ -51,7 +51,7 @@ export const indicatorTxtObj = {
         tot_rainfed: 'Total Rainfed'
     }
 }
-console.log(Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj))))
+// console.log(Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj))))
 
 // indicator object, popc : Population Count
 export const indicatorNcObj = {

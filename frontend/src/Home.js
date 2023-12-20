@@ -151,7 +151,7 @@ const InfoSection = ({ currentYear }) => {
           </div>
           <div style={{display: 'flex', flexDirection: 'column'}}>
             <h2 style={{textAlign: 'center'}}>Cropland Area</h2>
-            <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} />
+            <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} width={600} height={400} />
             {/* <Table roundedYear={roundYear(currentYear)} /> */}
           </div>
         </div>
