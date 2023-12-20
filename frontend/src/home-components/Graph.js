@@ -29,14 +29,14 @@ export default function Graph({ roundedYear }) {
   const data = useRef(null);
   const [options, setOptions] = useState(null);
 
-  /*     var labels = []
-    var position = yearNbList[0]
-    var minInterval = yearNbList[yearNbList.length - 1] - yearNbList[yearNbList.length - 2]
-    while (position <= yearNbList[yearNbList.length - 1]) {
-        labels.push(position)
-        position += minInterval
-    } */
-  const labels = yearNbList;
+  var labels = []
+  var position = yearNbList[0]
+  var minInterval = yearNbList[yearNbList.length - 1] - yearNbList[yearNbList.length - 2]
+  while (position <= yearNbList[yearNbList.length - 1]) {
+      labels.push(position)
+      position += minInterval
+  }
+  // const labels = yearNbList;
 
   useEffect(async () => {
     if (roundedYear) {
@@ -53,13 +53,21 @@ export default function Graph({ roundedYear }) {
       ).then((response) => response.json());
 
       const populationData = [];
+      const croplandData = []
       population_json[0].forEach((value, index) => {
         populationData.push({
           x: yearNbList[index],
-          y1: value,
-          y2: cropland_json[0][index],
+          y: value,
         });
       });
+
+      cropland_json[0].forEach((value, index) => {
+        croplandData.push({
+          x: yearNbList[index],
+          y: value,
+        });
+      });
+
       data.current = {
         labels: labels,
         interaction: {
@@ -69,14 +77,14 @@ export default function Graph({ roundedYear }) {
         datasets: [
           {
             label: "Population",
-            data: population_json[0],
+            data: populationData,
             fill: false,
             borderColor: "rgba(255, 99, 132, 1)",
             yAxisID: "y1",
           },
           {
             label: "Cropland area",
-            data: cropland_json[0],
+            data: croplandData,
             fill: false,
             borderColor: "rgba(54, 162, 235, 1)",
             yAxisID: "y2",
@@ -100,7 +108,7 @@ export default function Graph({ roundedYear }) {
           xMin: rectangle.xMin,
           xMax: rectangle.xMax,
           yMin: 0,
-          yMax: 100000000000,
+          yMax: 8000000000,
           backgroundColor: opaqueColor(rectangle.color, 0.2),
         };
       }

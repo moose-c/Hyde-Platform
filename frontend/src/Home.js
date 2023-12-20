@@ -8,7 +8,6 @@ import HomeMap from "./home-components/HomeMap";
 import Graph from "./home-components/Graph";
 import Timeline from "./home-components/Timeline";
 import Table from "./home-components/Table";
-import Table from "./home-components/Table";
 
 import { yearIndexToYear } from "./util/yearIndexToYear";
 import { timelineObjects } from "./util/timelineObjects";

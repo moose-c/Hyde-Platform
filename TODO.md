@@ -15,43 +15,8 @@ COULD HAVE
 - [] Database contains also totals for the whole world, allow these also to be plotted -> wait until potetial regions are chosen
 - [] logarthmic y axis
 
-Graph:
-On load timeseries dot not in the correct spot
-To 2023! 
-2 lijntjes in Grafiek (Demographic & Agriculture )
-Liever iets grotere grafiek (En landbouw erin)
-duidelijker puntje
-Hockeystick (relative)
-Idee, misschien bij X-as op frontpage by total population graph -> tickmarks represent the different time periods?
-10000, 3000, 1300, 6000 BCE, 600 BCE, 476 CE (why that particular year?), 1459, 1750, etc etc
-
-Timeline:
-To 2023! 
-Until --> Before 10.000 BCE
-
-Map:
-Legend van .nc vaste (grootste) waarden & Titel (Groter?)
-Ook, voor jaar = -10000 geeft geen waarden. (of wel stipjes?)
-
-
-Jumbotron:
-HYDE portal more inviting, Main Event!
-smallere jumbotron
-
 Text:
 linken naar wikipedia
-
-Structure:
-Map jump around depending on amt of text lines
-Agriculture & Demographic dev kopjes
-Round functie anders, nu eerste waarde die groter is.
-BC --> BCE
-AD --> CE
-Gebruiksvriendelijk, stress testen
-Nicer op andere zooms (laptop en monitor heel groot verschil)
-
-Tabel:
-Uitwerken
 
 
 Overdracht:
