@@ -39,6 +39,9 @@ const Jumbotron = () => {
         accessed <br />
         The HYDE model is a mathematical model calculating change in{" "}
         <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
+        <strong>Agricultural</strong> indicators, starting from the rise of The
+        HYDE model is a mathematical model calculating change in{" "}
+        <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
         <strong>Agricultural</strong> indicators, starting from the rise of
         humanity in 10000 B.C. untril our current time. <br />
         These indicators are calculated within each of the current national
@@ -83,8 +86,14 @@ const Jumbotron = () => {
             overflow: "hidden",
           }}
         >
-          <div style={{ fontWeight: 800, fontSize: 20, paddingBottom: 5 }}>
-            Go to HYDE Portal
+          <div
+            style={{
+              fontWeight: 600,
+              fontSize: 20,
+              paddingBottom: 5,
+            }}
+          >
+            Explore HYDE Portal and time travel through the ages
           </div>
           <img
             src="/hyde-portal.png"
@@ -133,31 +142,26 @@ const InfoSection = ({ currentYear }) => {
     (timelineObject) => timelineObject.endYear >= currentYear
   );
   return (
-    <div
-      className="infosection"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
-      <div>
-        <h1 style={{ color: currentTimeLineObject.color }}>
-          {currentTimeLineObject.title}
-        </h1>
-        <h3 style={{ fontWeight: 300 }}>{yearIndexToYear(currentYear)}</h3>
-      </div>
-      <div className="periodText">
-        <div style={{ display: "flex" }}>
-          <div style={{ flex: 1 }}>{currentTimeLineObject.periodText}</div>
-          <div style={{ flex: 1 }}>
-            <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} />
+    <div className="infosection-wrapper">
+      <div className="infosection-text">
+        <div>
+          <h1 style={{ color: currentTimeLineObject.color }}>
+            {currentTimeLineObject.title}
+          </h1>
+          <h3 style={{ fontWeight: 300 }}>{yearIndexToYear(currentYear)}</h3>
+        </div>
+        <div className="periodText">
+          <div style={{ display: "flex", gap: 20 }}>
+            <div>{currentTimeLineObject.periodText}</div>
+            <div style={{}}>
+              <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} />
+              {/* <Table roundedYear={roundYear(currentYear)} /> */}
+            </div>
           </div>
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 10 }}>
+      <div className="infosection-graph">
         <Graph roundedYear={roundYear(currentYear)} />
-        <Table roundedYear={roundYear(currentYear)} />
       </div>
     </div>
   );
