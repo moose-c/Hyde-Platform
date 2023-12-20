@@ -33,6 +33,9 @@ export const timelineObjects = [
           structures, indicating a burgeoning understanding of architecture and
           craftsmanship.
         </p>
+        <p>
+        For more information see <a href="https://www.britannica.com/event/Neolithic">Britannica</a>, <a href="https://pressbooks.bccampus.ca/cavestocathedrals/chapter/neolithic/">Pressbooks</a> or <a href="https://en.wikipedia.org/wiki/Stone_Age">Wikipedia</a>.
+        </p>
       </>
     ),
   },
@@ -61,6 +64,9 @@ export const timelineObjects = [
           expertise and cultural achievements. Writing systems, including
           cuneiform and hieroglyphics, facilitated record-keeping and cultural
           exchange, enhancing communication and trade among early civilizations.
+        </p>
+        <p>
+          For more information see <a href="https://www.britannica.com/event/Bronze-Age">Britannica</a>, <a href="https://pressbooks.nscc.ca/worldhistory/chapter/chapter-3-the-bronze-age-and-the-iron-age/">Pressbooks</a> or <a href="https://en.wikipedia.org/wiki/Bronze_Age">Wikipedia</a>. 
         </p>
       </>
     ),
@@ -93,20 +99,23 @@ export const timelineObjects = [
           civilizations, facilitating economic growth and technological
           dissemination.
         </p>
+        <p>
+          For more information see <a href="https://www.britannica.com/event/Iron-Age">Britannica</a>, <a href="https://pressbooks.nscc.ca/worldhistory/chapter/chapter-3-the-bronze-age-and-the-iron-age/">Pressbooks</a> or <a href="https://en.wikipedia.org/wiki/Bronze_Age">Wikipedia</a>. 
+        </p>
       </>
     ),
   },
   {
-    periodTag: "600 B.C.E. - 476 C.E.",
+    periodTag: "600 B.C.E. - 500 C.E.",
     startYear: 9400,
-    endYear: 10476,
+    endYear: 10500,
     color: "#719c33",
     title: "The Classical Era",
     iconLink: "/icons/roman.svg",
     periodText: (
       <>
         <p>
-          <strong>Classical Era (600 B.C.E. - C.E. 476)</strong> is renowned for
+          <strong>Classical Era (600 B.C.E. - C.E. 500)</strong> is renowned for
           the intellectual, artistic, and philosophical advancements that
           profoundly shaped Western civilization. Greece and Rome emerged as
           epicenters of cultural flourishing. This period saw the birth of
@@ -124,12 +133,15 @@ export const timelineObjects = [
           during this epoch, leaving a lasting legacy on subsequent artistic
           expression.
         </p>
+        <p>
+          For more information see <a href="https://www.britannica.com/event/Classical-antiquity">Britannica</a> or <a href="https://en.wikipedia.org/wiki/Classical_antiquity">Wikipedia</a>. 
+        </p>
       </>
     ),
   },
   {
-    periodTag: "476 C.E. - 1450 C.E.",
-    startYear: 10476,
+    periodTag: "500 C.E. - 1450 C.E.",
+    startYear: 10500,
     endYear: 11450,
     title: "The Middle Ages",
     iconLink: "/icons/castle.svg",
@@ -137,7 +149,7 @@ export const timelineObjects = [
     periodText: (
       <>
         <p>
-          <strong>The Middle Ages (C.E. 476 - C.E. 1450)</strong> encompass a
+          <strong>The Middle Ages (C.E. 500 - C.E. 1450)</strong> encompass a
           period characterized by socio-political changes, religious influence,
           and technological advancements. Following the fall of the Western
           Roman Empire, Europe experienced a period of decentralized governance,
@@ -153,6 +165,9 @@ export const timelineObjects = [
           Crusades, the Black Death, and the early signs of the Renaissance,
           with increased trade, urbanization, and a revival in arts and
           learning.
+        </p>
+        <p>
+          For more information see <a href="https://www.britannica.com/topic/history-of-Europe/The-Middle-Ages">Britannica</a> or <a href="https://en.wikipedia.org/wiki/Middle_Ages">Wikipedia</a>. 
         </p>
       </>
     ),
@@ -188,6 +203,9 @@ export const timelineObjects = [
           civilizations expanded, the impact on ecosystems became more
           pronounced, leading to changes in land use and resource exploitation.
         </p>
+        <p>
+          For more information see <a href="https://history.ceu.edu/early-modern-studies/about">Central European University</a> or <a href="https://en.wikipedia.org/wiki/Early_modern_period">Wikipedia</a>. 
+        </p>
       </>
     ),
   },
@@ -216,6 +234,9 @@ export const timelineObjects = [
           machinery, and steel production propelled the Industrial Revolution,
           altering human labor and living standards.
         </p>
+        <p>
+          For more information see <a href="https://www.britannica.com/topic/modernity">Britannica</a> or <a href="https://en.wikipedia.org/wiki/Modernity">Wikipedia</a>. 
+        </p>
       </>
     ),
   },
@@ -224,12 +245,12 @@ export const timelineObjects = [
     startYear: 11950,
     endYear: CURR_YEAR_IN_YEARINDEX,
     color: "#ca4c57",
-    title: "Late Modernity",
+    title: "Postmodernity",
     iconLink: "/icons/television.svg",
     periodText: (
       <>
         <p>
-          <strong>Late Modernity (1900 - now)</strong> witnesses rapid
+          <strong>Postmodernity (1900 - now)</strong> witnesses rapid
           advancements across various domains, shaping contemporary society. The
           period began with the First and Second World Wars, profoundly altering
           global politics, economies, and social structures. The aftermath of
@@ -241,9 +262,12 @@ export const timelineObjects = [
           Earth's boundaries, with space travel and satellite technology
           revolutionizing communication and scientific exploration. The Cold War
           tensions, followed by the collapse of the Soviet Union, reshaped
-          geopolitical dynamics. Late Modernity also witnessed societal changes,
+          geopolitical dynamics. Postmodernity also witnessed societal changes,
           including civil rights movements, gender equality advocacy, and
           environmental awareness, influencing cultural norms and policies.
+        </p>
+        <p>
+          For more information see <a href="https://www.britannica.com/topic/postmodernism-philosophy">Britannica</a> or <a href="https://en.wikipedia.org/wiki/Postmodernity">Wikipedia</a>. 
         </p>
       </>
     ),

@@ -21,13 +21,13 @@ const calculateScrollOffsetBasedOnYearIndex = (yearIndex) => {
     return (
       2 * TIMELINEBLOCKWIDTH + ((yearIndex - 8700) / 700) * TIMELINEBLOCKWIDTH
     );
-  } else if (yearIndex <= 10476) {
+  } else if (yearIndex <= 10500) {
     return (
-      3 * TIMELINEBLOCKWIDTH + ((yearIndex - 9400) / 1076) * TIMELINEBLOCKWIDTH
+      3 * TIMELINEBLOCKWIDTH + ((yearIndex - 9400) / 1100) * TIMELINEBLOCKWIDTH
     );
   } else if (yearIndex <= 11450) {
     return (
-      4 * TIMELINEBLOCKWIDTH + ((yearIndex - 10476) / 974) * TIMELINEBLOCKWIDTH
+      4 * TIMELINEBLOCKWIDTH + ((yearIndex - 10500) / 950) * TIMELINEBLOCKWIDTH
     );
   } else if (yearIndex <= 11750) {
     return (
@@ -71,13 +71,13 @@ const calculateCurrentYearBasedOnScroll = (scrollLeft) => {
   // if ScrollLet is inside the FOURTH timeblock, then every pixel is 350/600
   if (scrollLeft <= TIMELINEBLOCKWIDTH * 4) {
     return (
-      9400 + ((scrollLeft - TIMELINEBLOCKWIDTH * 3) / TIMELINEBLOCKWIDTH) * 1076
+      9400 + ((scrollLeft - TIMELINEBLOCKWIDTH * 3) / TIMELINEBLOCKWIDTH) * 1100
     );
   }
   // if ScrollLet is inside the FIFTH timeblock, then every pixel is 200/600
   if (scrollLeft <= TIMELINEBLOCKWIDTH * 5) {
     return (
-      10476 + ((scrollLeft - TIMELINEBLOCKWIDTH * 4) / TIMELINEBLOCKWIDTH) * 974
+      10500 + ((scrollLeft - TIMELINEBLOCKWIDTH * 4) / TIMELINEBLOCKWIDTH) * 950
     );
   }
   // if ScrollLet is inside the SIXTH timeblock, then every pixel is 67/600

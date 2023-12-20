@@ -40,9 +40,6 @@ const Jumbotron = () => {
         accessed <br />
         The HYDE model is a mathematical model calculating change in{" "}
         <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
-        <strong>Agricultural</strong> indicators, starting from the rise of The
-        HYDE model is a mathematical model calculating change in{" "}
-        <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
         <strong>Agricultural</strong> indicators, starting from the rise of
         humanity in 10000 B.C. untril our current time. <br />
         These indicators are calculated within each of the current national
@@ -152,7 +149,8 @@ const InfoSection = ({ currentYear }) => {
           >
             {currentTimeLineObject.periodText}
           </div>
-          <div style={{}}>
+          <div style={{display: 'flex', flexDirection: 'column'}}>
+            <h2 style={{textAlign: 'center'}}>Cropland Area</h2>
             <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} />
             {/* <Table roundedYear={roundYear(currentYear)} /> */}
           </div>

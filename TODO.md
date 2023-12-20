@@ -19,8 +19,8 @@ COULD HAVE
 graph:
 x not relative/not absolute
 
-Text:
-linken naar wikipedia
+structure:
+Things should nnot overflow at the bottom
 
 
 Overdracht:

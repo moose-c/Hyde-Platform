@@ -29,23 +29,23 @@ export default function Graph({ roundedYear }) {
   const data = useRef(null);
   const [options, setOptions] = useState(null);
 
-  var labels = []
-  var position = yearNbList[0]
-  var minInterval = yearNbList[yearNbList.length - 1] - yearNbList[yearNbList.length - 2]
-  while (position <= yearNbList[yearNbList.length - 1]) {
+  /*   var labels = []
+    var position = yearNbList[0]
+    var minInterval = yearNbList[yearNbList.length - 1] - yearNbList[yearNbList.length - 2]
+    while (position <= yearNbList[yearNbList.length - 1]) {
       labels.push(position)
       position += minInterval
-  }
-  // const labels = yearNbList;
+    } */
+  const labels = yearNbList;
 
-  useEffect(async () => {
-    if (roundedYear) {
-      /* Fetched data is an array of numbers corresponding to float values for the population index, from 10000 BCE until 2023 */
+  useEffect(() => {
+    async function createFigure() {
+      //  Fetched data is an array of numbers corresponding to float values for the population index, from 10000 BCE until 2023 
       var domainName =
         window.apiUrl === "" ? window.apiUrl : `${window.apiUrl}:8000`;
 
       const cropland_json = await fetch(
-        `${domainName}/api/txt/cropland/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
+        `${domainName}/api/txt/uopp/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
       ).then((response) => response.json());
 
       const population_json = await fetch(
@@ -83,7 +83,7 @@ export default function Graph({ roundedYear }) {
             yAxisID: "y1",
           },
           {
-            label: "Cropland area",
+            label: "Urban area",
             data: croplandData,
             fill: false,
             borderColor: "rgba(54, 162, 235, 1)",
@@ -101,17 +101,17 @@ export default function Graph({ roundedYear }) {
           borderWidth: 2,
         },
       };
-      const rectangles = createRectanglesForGraph();
+      /*       const rectangles = createRectanglesForGraph();
       for (const rectangle of rectangles) {
-        newAnnotations[`rectangle${rectangle.idx}`] = {
-          type: "box",
-          xMin: rectangle.xMin,
-          xMax: rectangle.xMax,
-          yMin: 0,
-          yMax: 8000000000,
-          backgroundColor: opaqueColor(rectangle.color, 0.2),
-        };
-      }
+      newAnnotations[`rectangle${rectangle.idx}`] = {
+        type: "box",
+        xMin: rectangle.xMin,
+        xMax: rectangle.xMax,
+        yMin: 0,
+        yMax: 8000000000,
+        backgroundColor: opaqueColor(rectangle.color, 0.2),
+      };
+      } */
       setOptions({
         interaction: {
           intersect: false,
@@ -135,7 +135,7 @@ export default function Graph({ roundedYear }) {
             display: true,
             title: {
               display: true,
-              text: "[cropland area]",
+              text: "[km\u00b2]",
             },
           },
           x: {
@@ -148,13 +148,16 @@ export default function Graph({ roundedYear }) {
         plugins: {
           title: {
             display: true,
-            text: "Global population development",
+            text: "Population and Urban Area development",
           },
           annotation: {
             annotations: newAnnotations,
           },
         },
       });
+    }
+    if (roundedYear) {
+      createFigure()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
