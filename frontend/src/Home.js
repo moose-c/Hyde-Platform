@@ -12,6 +12,7 @@ import Table from "./home-components/Table";
 import { yearIndexToYear } from "./util/yearIndexToYear";
 import { timelineObjects } from "./util/timelineObjects";
 import { roundYear } from "./util/roundYear";
+import opaqueColor from "./util/opaqueColor";
 
 export default function Home() {
   /* The year 10000 bc is assigned 0, and start increasing from there  */
@@ -103,14 +104,6 @@ const Jumbotron = () => {
           />
         </div>
       </Link>
-      {/* <Link to="/https://landuse.sites.uu.nl/hyde-project/">
-        <button
-          className="btn btn-secondary btn-lg"
-          style={{ fontWeight: 800 }}
-        >
-          Learn more about the HYDE model
-        </button>
-      </Link> */}
     </div>
   );
 };
@@ -150,13 +143,18 @@ const InfoSection = ({ currentYear }) => {
           </h1>
           <h3 style={{ fontWeight: 300 }}>{yearIndexToYear(currentYear)}</h3>
         </div>
-        <div className="periodText">
-          <div style={{ display: "flex", gap: 20 }}>
-            <div>{currentTimeLineObject.periodText}</div>
-            <div style={{}}>
-              <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} />
-              {/* <Table roundedYear={roundYear(currentYear)} /> */}
-            </div>
+        <div className="textMapCombo" style={{ display: "flex", gap: 20 }}>
+          <div
+            className="periodText"
+            style={{
+              backgroundColor: opaqueColor(currentTimeLineObject.color, 0.2),
+            }}
+          >
+            {currentTimeLineObject.periodText}
+          </div>
+          <div style={{}}>
+            <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} />
+            {/* <Table roundedYear={roundYear(currentYear)} /> */}
           </div>
         </div>
       </div>

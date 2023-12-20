@@ -17,9 +17,21 @@
 .infosection-wrapper {
   margin: 28px;
   width: 70%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
 }
-.infosection-text {
-  /* background-color: red; */
+
+.textMapCombo {
+  height: calc(35vh);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.periodText {
+  padding: 10px 16px;
+  border-radius: 4px;
+  overflow: scroll;
 }
 
 .infosection-graph {
