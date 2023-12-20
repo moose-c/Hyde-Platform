@@ -16,6 +16,9 @@ COULD HAVE
 - [] Database contains also totals for the whole world, allow these also to be plotted -> wait until potetial regions are chosen
 - [] logarthmic y axis
 
+graph:
+x not relative/not absolute
+
 Text:
 linken naar wikipedia
 
