@@ -87,11 +87,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     } else {
       labels.current = [];
       var position = yearNbList[startIndex]; /* Counter for the yearsObject */
-      var minInterval =
-        yearNbList[endIndex] -
-        yearNbList[
-        endIndex - 1
-        ]; /* Smallest interval between 2 adjacent datapoints always at the end */
+      var minInterval = yearNbList[endIndex] - yearNbList[endIndex - 1]; /* Smallest interval between 2 adjacent datapoints always at the end */
       while (position <= yearNbList[endIndex]) {
         labels.current.push(position);
         position += minInterval;
