@@ -140,7 +140,7 @@ export default function Timeline({ currentYear, setCurrentYear }) {
               No data available
             </div>
             <div style={{ fontWeight: 300, fontSize: 12 }}>
-              Before 10.000 B.C.
+              Before 10.000 B.C.E.
             </div>
           </div>
         </div>

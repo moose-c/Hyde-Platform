@@ -5,7 +5,7 @@ export const CURR_YEAR_IN_YEARINDEX = 11950 + YEARS_FROM_1950_TO_NOW;
 
 export const timelineObjects = [
   {
-    periodTag: "10000 B.C. - 3000 B.C.",
+    periodTag: "10000 B.C.E. - 3000 B.C.E.",
     startYear: 0,
     endYear: 7000,
     title: "New Stone Age",
@@ -15,7 +15,7 @@ export const timelineObjects = [
       <>
         <p>
           {" "}
-          The <strong>Neolithic era (10000 B.C. - 3000 B.C.)</strong> marked
+          The <strong>Neolithic era (10000 B.C.E. - 3000 B.C.E.)</strong> marked
           humanity's transition from a nomadic hunter-gatherer lifestyle to
           settled agricultural communities. Agricultural practices emerged
           independently in various regions, including the Fertile Crescent,
@@ -37,7 +37,7 @@ export const timelineObjects = [
     ),
   },
   {
-    periodTag: "3000 B.C. - 1300 B.C.",
+    periodTag: "3000 B.C.E. - 1300 B.C.E.",
     startYear: 7000,
     endYear: 8700,
     title: "The Bronze Age",
@@ -46,7 +46,7 @@ export const timelineObjects = [
     periodText: (
       <>
         <p>
-          <strong>The Bronze Age (3000 B.C. to 1300 B.C.)</strong> marked by the
+          <strong>The Bronze Age (3000 B.C.E. to 1300 B.C.E.)</strong> marked by the
           use of bronze— an alloy of copper and tin— in tool and weapon
           production. Civilizations in Mesopotamia, Egypt, the Indus Valley, and
           China flourished, contributing to remarkable achievements in urban
@@ -67,7 +67,7 @@ export const timelineObjects = [
   },
 
   {
-    periodTag: "1300 B.C. - 600 B.C.",
+    periodTag: "1300 B.C.E. - 600 B.C.E.",
     startYear: 8700,
     endYear: 9400,
     color: "#2a8983",
@@ -76,7 +76,7 @@ export const timelineObjects = [
     periodText: (
       <>
         <p>
-          <strong>The Iron Age (1300 B.C. to 600 B.C.)</strong> The Iron Age
+          <strong>The Iron Age (1300 B.C.E. to 600 B.C.E.)</strong> The Iron Age
           marked a pivotal technological leap with the widespread adoption of
           iron tools and weaponry. The development and smelting of iron ore led
           to durable implements that revolutionized agriculture, warfare, and
@@ -97,7 +97,7 @@ export const timelineObjects = [
     ),
   },
   {
-    periodTag: "600 B.C. - 476 A.D.",
+    periodTag: "600 B.C.E. - 476 C.E.",
     startYear: 9400,
     endYear: 10476,
     color: "#719c33",
@@ -106,7 +106,7 @@ export const timelineObjects = [
     periodText: (
       <>
         <p>
-          <strong>Classical Era (600 B.C. - A.D. 476)</strong> is renowned for
+          <strong>Classical Era (600 B.C.E. - C.E. 476)</strong> is renowned for
           the intellectual, artistic, and philosophical advancements that
           profoundly shaped Western civilization. Greece and Rome emerged as
           epicenters of cultural flourishing. This period saw the birth of
@@ -128,7 +128,7 @@ export const timelineObjects = [
     ),
   },
   {
-    periodTag: "476 A.D. - 1450 A.D.",
+    periodTag: "476 C.E. - 1450 C.E.",
     startYear: 10476,
     endYear: 11450,
     title: "The Middle Ages",
@@ -137,7 +137,7 @@ export const timelineObjects = [
     periodText: (
       <>
         <p>
-          <strong>The Middle Ages (A.D. 476 - A.D. 1450)</strong> encompass a
+          <strong>The Middle Ages (C.E. 476 - C.E. 1450)</strong> encompass a
           period characterized by socio-political changes, religious influence,
           and technological advancements. Following the fall of the Western
           Roman Empire, Europe experienced a period of decentralized governance,
@@ -158,7 +158,7 @@ export const timelineObjects = [
     ),
   },
   {
-    periodTag: "1450 A.D. - 1750 A.D.",
+    periodTag: "1450 C.E. - 1750 C.E.",
     startYear: 11450,
     endYear: 11750,
     color: "#f7941d",
@@ -167,7 +167,7 @@ export const timelineObjects = [
     periodText: (
       <>
         <p>
-          The period from 1450 A.D. to 1750 A.D., known as the{" "}
+          The period from 1450 C.E. to 1750 C.E., known as the{" "}
           <strong>Early Modern Era</strong>, witnessed profound changes in both
           human civilization and the surrounding environments. As societies
           transitioned from medieval to early modern times, a wave of cultural,
@@ -192,7 +192,7 @@ export const timelineObjects = [
     ),
   },
   {
-    periodTag: "1750 A.D. - 1950 A.D.",
+    periodTag: "1750 C.E. - 1950 C.E.",
     startYear: 11750,
     endYear: 11950,
     color: "#f36523",
@@ -220,7 +220,7 @@ export const timelineObjects = [
     ),
   },
   {
-    periodTag: `1950 A.D. - ${yearIndexToYear(CURR_YEAR_IN_YEARINDEX)}`,
+    periodTag: `1950 C.E. - ${yearIndexToYear(CURR_YEAR_IN_YEARINDEX)}`,
     startYear: 11950,
     endYear: CURR_YEAR_IN_YEARINDEX,
     color: "#ca4c57",
