@@ -64,7 +64,6 @@ npm run build
 To load to server:
 `scp -r .\build caste001@hydeprod.geo.uu.nl:/data/caste001/Hyde-Portal/frontend`
 docker-compose down
-docker system prune -f
 docker rmi hyde-platform-frontend-map-website
 
 How to run a build:

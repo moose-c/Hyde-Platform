@@ -11,11 +11,11 @@ const router = createBrowserRouter([
   { path: "/portal", Component: Portal },
 ]);
 
-// Usefull in development, allows to quickly use local or remote APIs. !!Clean When Done!!
+// Usefull in development, allows to quickly use local or remote APIs. 
 
 // window.apiUrl = 'http://localhost'
-window.apiUrl = 'http://hydeprod.geo.uu.nl'
-// window.apiUrl = ''
+// window.apiUrl = 'http://hydeprod.geo.uu.nl'
+window.apiUrl = ''
 
 // Return App, which has two pages: / (homepage) and /map (actual portal)
 export default function App() {

@@ -51,7 +51,7 @@ export default function Portal() {
         {[1, 2, 3, 4, 5].includes(modalPage) && (
           <Modal.Body style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Image
-              src={process.env.PUBLIC_URL + `/modal-images/M${modalPage}.png`}
+              src={process.env.PUBLIC_URL + `/modal-images/M${modalPage}.PNG`}
               style={{ height: 420, objectFit: 'contain' }}
             />
           </Modal.Body>
