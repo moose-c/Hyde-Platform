@@ -34,7 +34,7 @@ export default function Home() {
 const Jumbotron = () => {
   return (
     <div className="jumbotron">
-      <h1 style={{ fontSize: 80 }}>Hyde Portal</h1>
+      <h1>Hyde Portal</h1>
       <p>
         Through this portal, data from the <strong>HYDE model</strong> can be
         accessed <br />
