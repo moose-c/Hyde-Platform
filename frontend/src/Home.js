@@ -38,32 +38,36 @@ const Jumbotron = () => {
           <h1>Hyde Portal</h1>
           <p>
             Through this portal, data from the <strong>Hyde model</strong> can
-            be accessed. The HYDE model is a mathematical model created by
-            Utrecht University, that calculates change in{" "}
-            <strong>demographic</strong>, <strong>land use</strong> and{" "}
+            be accessed. The Hyde model is a mathematical model created by
+            Utrecht University that calculates changes in{" "}
+            <strong>demographic</strong>, <strong>land use</strong>, and{" "}
             <strong>agricultural</strong> indicators, starting from the rise of
-            humanity in 10000 B.C. untril our current time. These indicators are
+            humanity in 10,000 B.C. until our current time. These indicators are
             calculated within each of the current national borders, generating
-            timeseries and within 30kmx30km pixels for the globe generating
+            time series and within 30km x 30km pixels for the globe, generating
             maps.
           </p>
           <p>
             We have created a <strong>timeline</strong> showing an example of
-            what can be done with the Hyde model. This tiemline can be found at
-            the bottom of this page. The timeline shows the change in{" "}
+            what can be done with the Hyde model. This timeline can be found at
+            the bottom of this page. It illustrates the change in{" "}
             <strong>cropland area</strong> and <strong>population</strong> over
             time.
           </p>
           <p>
-            If you want to explore the data yourself you can directly go to the{" "}
+            If you want to explore the data yourself, you can directly go to the{" "}
             <strong>Hyde portal</strong> by clicking on the globe on the right
             or by clicking <Link to="/portal">this link</Link>.
           </p>
-          <h4> Repository </h4>
-          The github repository can be entered{" "}
-          <a href="https://github.com/UtrechtUniversity/Hyde-Platform">here</a>.
-          This includes a booklet on how one can create such a webapplication
-          themselves.
+          <h4>Repository</h4>
+          <p>
+            The GitHub repository can be accessed{" "}
+            <a href="https://github.com/UtrechtUniversity/Hyde-Platform">
+              here
+            </a>
+            . This includes a booklet on how one can create such a web
+            application themselves.
+          </p>
         </div>
         <div className="right-content">
           <div className="hydeportal-wrapper relative">
