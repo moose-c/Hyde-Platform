@@ -25,9 +25,9 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
 
     return (
         <>
-            <div style={{ position: 'fixed', top: 0, margin: 5, backgroundColor: 'white' }}>
+            <div style={{ position: 'fixed', top: 0, backgroundColor: 'white' }}>
                 {/* The first two tabs are for selecting countries, the last is for laying raster over the map. This changes regime according to which tab is selected */}
-                <Tabs transition={false} style={{ fontWeight: 'bold' }} onSelect={(e) => {if (e === 'mapsForm') {setCurrentlySelecting(false)} else {setCurrentlySelecting(true)}}}>
+{                <Tabs transition={false} style={{ fontWeight: 'bold' }} onSelect={(e) => {if (e === 'mapsForm') {setCurrentlySelecting(false)} else {setCurrentlySelecting(true)}}}>
                     <Tab eventKey="selection" title="Selected Countries" >
                         <Selection selection={selection} setSelection={setSelection}/>
                     </Tab>
@@ -37,14 +37,14 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
                     <Tab eventKey="mapsForm" title="Maps">
                         <OverlayForm map={map} setMap={setMap} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator}/>
                     </Tab>
-                </Tabs>
+                </Tabs>}
             </div>
 
-            <div style={{ position: 'fixed', bottom: 0 }}>
+            <div style={{ position: 'fixed', bottom: 0, left: 0}}>
                 <Charts selection={selection} startYear={startYear} endYear={endYear} tsIndicators={tsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
             </div>
 
-            <div style={{ position: 'fixed', right: 0, top: 0, margin: 5 }}>
+            <div style={{ position: 'fixed', right: 0, top: 0}}>
                 <Legend currentYear={currentYear} ovIndicator={ovIndicator} />
             </div>
 

@@ -72,7 +72,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
                 <Row>
                     <Form.Label style={{}}>Indicator
                         <div style={{ width: 200, margin: '0 auto' }}>
-                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} placeholder="None Selected" onChange={(e) => handleSelect(e)} />
+                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} onChange={(e) => handleSelect(e)} />
                         </div>
                     </Form.Label>
                 </Row>

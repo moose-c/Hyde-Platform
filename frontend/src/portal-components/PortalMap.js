@@ -94,7 +94,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
       const style = ['population', 'population_density', 'urban_population', 'rural_population'].includes(ovIndicator) ? styleValues['pop'] : styleValues['lu']
       const range = ['population', 'urban_population', 'rural_population'].includes(ovIndicator) ? rangeValues['popAbs'] : 'population_density' === ovIndicator ? rangeValues['popDens'] : rangeValues['lu']
       const layer = window.apiUrl === 'localhost' ? 'cropland/cropland' : `${ovIndicator}/${ovIndicator}`
-      var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8080`
+      var domainName = window.apiUrl === '' ? window.apiUrl : `${window.apiUrl}:8080`
       const fill = new TileLayer({
         className: 'overlay',
         source: new TileWMS({
@@ -104,24 +104,29 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
             'STYLES': `default-scalar/${style}`,
             'TIME': time,
             'COLORSCALERANGE': range,
-            'BELOWMINCOLOR': 'transparent',   
+            'BELOWMINCOLOR': 'transparent',
             'ABOVEMAXCOLOR': 'extend',
             'NUMCOLORBANDS': 8,
             'LOGSCALE': false
           },
           projection: 'EPSG:3857',
-          }),
-          opacity: 0.8
-        })
-          map.current.addLayer(fill)
-          overlay.current = [fill]
-        } 
-        else if (map.current) {
-          setSelection([])
-          overlay.current.forEach(layer => {
-            map.current.removeLayer(layer)
-          });
-          overlay.current = []
+        }),
+        opacity: 0.8
+      })
+      setSelection([])
+      overlay.current.forEach(layer => {
+        map.current.removeLayer(layer)
+      });
+      overlay.current = []
+      map.current.addLayer(fill)
+      overlay.current = [fill]
+    } else if (map.current) {
+      setSelection([])
+      setOvIndicator(null)
+      overlay.current.forEach(layer => {
+        map.current.removeLayer(layer)
+      });
+      overlay.current = []
     }
     // eslint-disable-next-line
   }, [ovIndicator, currentYear])

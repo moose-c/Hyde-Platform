@@ -1,11 +1,7 @@
 MUST HAVE
 - [] raster-api & ncWMS documentation (beter) schrijven 
-- [] update Modal
-- [] FF kijkenn naar ncwms requests, verwijdert nu niet de map als je n andere indicator selecteerd.
 
 SHOULD HAVE
-- [] change pixel values --> LU: div-Spectral-inv (blue low, red high), POP: x-Rainbow (blue row, red high)
-- [] fix flask txt
 
 WANT HAVE
 - [] Smaller laptops, overlay timeseries  form with chart
@@ -19,8 +15,7 @@ COULD HAVE
 
 Overdracht:
 Changing Backend:
-[wat veranderen om apis te laten werken]
-
+Within the 'docker-compose.yml', change the volume locations (It is clearly stated where a change might be necessary)
 Changing the Frontend:
 - To change a year, change the value in .env
 - To change homepage content:

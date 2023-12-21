@@ -1,4 +1,5 @@
-
+// Import css
+import './styles/Portal.css'
 /* Importing CSS styles and React components from the react-bootstrap library. */
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import Modal from "react-bootstrap/Modal";
@@ -10,6 +11,8 @@ import { React, useState } from "react";
 // Two main components, the map and the things lying on top of the map
 import PortalMap from "./portal-components/PortalMap";
 import Page from "./portal-components/Page";
+
+
 
 export default function Portal() {
   // There are two seperate ways the map can be used:
@@ -33,11 +36,11 @@ export default function Portal() {
   return (
     <>
       {/* Modal is the popup which shows when you enter the website, this contains information about how to use the webpage */}
-      <Modal show={show} onHide={() => setShow(false)} centered={true}>
+      <Modal show={show} onHide={() => setShow(false)} centered={true} size='lg'>
         <Modal.Header closeButton>
           <Modal.Title>Instructions HYDE Portal</Modal.Title>
         </Modal.Header>
-          {/* Change page content depending on page number, change content and change arrows dynamically */}
+        {/* Change page content depending on page number, change content and change arrows dynamically */}
         {modalPage === 0 && (
           <Modal.Body>
             In this portal the data from the HYDE (History database of the
@@ -45,21 +48,14 @@ export default function Portal() {
             Here the user can learn how this portal should be used.
           </Modal.Body>
         )}
-        {[1, 2, 3, 4].includes(modalPage) && (
-          <Modal.Body>
+        {[1, 2, 3, 4, 5].includes(modalPage) && (
+          <Modal.Body style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Image
               src={process.env.PUBLIC_URL + `/modal-images/M${modalPage}.png`}
-              style={{ width: 450, height: 250 }}
+              style={{ height: 420, objectFit: 'contain' }}
             />
           </Modal.Body>
-        )}
-        {modalPage === 5 && (
-          <Modal.Body>
-            <Image
-              src={process.env.PUBLIC_URL + `/modal-images/M${modalPage}.png`}
-              style={{ width: 450, height: 150 }}
-            />
-          </Modal.Body>
+
         )}
         <Modal.Footer>
           {modalPage > 0 && (
