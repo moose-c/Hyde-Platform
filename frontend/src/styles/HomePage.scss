@@ -14,7 +14,7 @@ html {
 
 .jumbotron .content {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -66,6 +66,14 @@ $globe-dimension: 300px;
   padding: 24px 96px 0px 48px;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
   background-color: variables.$primary-color;
+}
+.click-for-portal {
+  position: absolute;
+  font-size: 20px;
+  font-weight: 600;
+  bottom: 50%;
+  left: -150px;
+  transform: rotate(-90deg);
 }
 .call-to-scroll {
   font-size: 20px;
