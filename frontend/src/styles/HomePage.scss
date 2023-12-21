@@ -1,0 +1,169 @@
+@use "variables";
+
+html {
+  overflow-x: hidden;
+  // overflow-y: hidden;
+}
+
+.homepage {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.jumbotron .content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left-content {
+  max-width: 700px;
+}
+.top-section {
+  width: 100%;
+  height: 80vh;
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+$globe-dimension: 300px;
+
+.hydeportal-globe {
+  width: $globe-dimension;
+  height: $globe-dimension;
+  overflow: hidden;
+  border-radius: 100%;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  }
+}
+
+.click-me-globe {
+  position: absolute;
+  bottom: -30;
+  color: black;
+  font-size: 12px;
+}
+.relative {
+  position: relative;
+}
+.hydeportal-globe img {
+  transform: translateX(-45%);
+  transition: all 0.2s ease-in-out;
+  height: calc(2 * $globe-dimension);
+  &:hover {
+    height: calc(2.5 * $globe-dimension);
+  }
+}
+
+.jumbotron {
+  padding: 24px 96px 0px 48px;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
+  background-color: variables.$primary-color;
+}
+.click-for-portal {
+  position: absolute;
+  font-size: 20px;
+  font-weight: 600;
+  bottom: 50%;
+  left: -150px;
+  transform: rotate(-90deg);
+}
+.call-to-scroll {
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px 0px 10px 0px;
+}
+
+.infosection-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.infosection-top-content {
+  padding: 10px 48px;
+}
+
+.textMapCombo {
+  height: calc(35vh);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.periodText {
+  padding: 10px 16px;
+  border-radius: 4px;
+  overflow-y: scroll;
+}
+
+.infosection-graph {
+  width: 100%;
+  min-height: 200px;
+}
+
+.timeline-overlay {
+  position: relative;
+}
+
+.infosection-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.explore-button {
+  margin: 10px 0px 10px 0px;
+  padding: 10px 20px 10px 20px;
+  border-radius: 4px;
+  background-color: #8eb8e3;
+  color: black;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    background-color: #6c9bd1;
+  }
+  border: none;
+}
+
+// table {
+//   border-collapse: collapse;
+//   margin: 10px 0;
+//   font-size: 0.9em;
+//   min-width: 300px;
+//   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+//   border-radius: 5px;
+//   overflow: hidden;
+// }
+
+// table thead tr {
+//   background-color: #009879;
+//   color: #ffffff;
+//   text-align: left;
+// }
+
+// table th,
+// table td {
+//   padding: 4px 8px;
+// }
+
+// table tbody tr {
+//   border-bottom: thin solid #dddddd;
+// }
+
+// table tbody tr:nth-of-type(even) {
+//   background-color: #f3f3f3;
+// }
