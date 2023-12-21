@@ -1,5 +1,5 @@
 .timeline {
-  border-top: 1px solid black;
+  border-top: 10px solid #3f66a8;
   display: inline-flex;
   width: 100%;
   overflow-x: scroll;
@@ -10,7 +10,6 @@
 .icon {
   width: 48px;
   height: 48px;
-  
 }
 
 .timelineObject {
