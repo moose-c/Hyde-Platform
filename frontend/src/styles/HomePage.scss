@@ -1,3 +1,5 @@
+@use "variables";
+
 html {
   overflow-x: hidden;
   overflow-y: hidden;
@@ -48,6 +50,7 @@ html {
   padding: 15px;
   width: 50%;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
+  background-color: variables.$primary-color;
 }
 
 #gotohydeportal:hover {
@@ -89,8 +92,4 @@ table tbody tr {
 
 table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
-}
-
-.jumbotron a {
-  color: #fff;
 }

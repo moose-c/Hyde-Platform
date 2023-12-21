@@ -1,6 +1,6 @@
 /* Homepage of the HYDE portal.
 Components used by this Homepage are stored within `homepage-components` folder */
-import "./styles/HomePage.css";
+import "./styles/HomePage.scss";
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -33,7 +33,7 @@ export default function Home() {
 
 const Jumbotron = () => {
   return (
-    <div className="jumbotron bg-primary text-white">
+    <div className="jumbotron">
       <h1 style={{ fontSize: 80 }}>Hyde Portal</h1>
       <p>
         Through this portal, data from the <strong>HYDE model</strong> can be
@@ -149,9 +149,15 @@ const InfoSection = ({ currentYear }) => {
           >
             {currentTimeLineObject.periodText}
           </div>
-          <div style={{display: 'flex', flexDirection: 'column'}}>
-            <h2 style={{textAlign: 'center'}}>Cropland Area</h2>
-            <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} width={600} height={400} />
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <h2 style={{ textAlign: "center" }}>Cropland Area</h2>
+            <HomeMap
+              roundedYear={roundedYear}
+              mapId={2}
+              netCDF={true}
+              width={600}
+              height={400}
+            />
             {/* <Table roundedYear={roundYear(currentYear)} /> */}
           </div>
         </div>
