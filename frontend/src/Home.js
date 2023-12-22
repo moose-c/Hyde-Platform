@@ -1,6 +1,6 @@
 /* Homepage of the HYDE portal.
 Components used by this Homepage are stored within `homepage-components` folder */
-import "./styles/HomePage.css";
+import "./styles/HomePage.scss";
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -71,36 +71,26 @@ const Jumbotron = () => {
       This includes a booklet on how one can create such a webapplication
       themselves
       <p></p>
-      {/* Link from react-router-dom, allows changing webpages  */}
-      <Link to="/portal">
-        {/* <button className="btn btn-success btn-lg" style={{ fontWeight: 800 }}>
-          Go to HYDE Portal
-        </button> */}
-        <div
-          className="bg-success text-white btn"
-          style={{
-            borderRadius: "5px",
-            padding: "10px 20px 20px 20px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              fontWeight: 600,
-              fontSize: 20,
-              paddingBottom: 5,
-            }}
+      <div className="hydeportal-wrapper relative">
+        {/* Link from react-router-dom, allows changing webpages  */}
+        <div className="click-for-portal">
+          go to the Hyde portal
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
           >
-            Explore HYDE Portal and time travel through the ages
-          </div>
-          <img
-            src="/hyde-portal.png"
-            style={{
-              width: "100%",
-            }}
-          />
+            <path d="m12 15.586-4.293-4.293-1.414 1.414L12 18.414l5.707-5.707-1.414-1.414z"></path>
+            <path d="m17.707 7.707-1.414-1.414L12 10.586 7.707 6.293 6.293 7.707 12 13.414z"></path>
+          </svg>
         </div>
-      </Link>
+        <Link to="/portal">
+          <div className="hydeportal-globe">
+            <img src="hyde-portal.png" />
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };
@@ -149,8 +139,8 @@ const InfoSection = ({ currentYear }) => {
           >
             {currentTimeLineObject.periodText}
           </div>
-          <div style={{display: 'flex', flexDirection: 'column'}}>
-            <h2 style={{textAlign: 'center'}}>Cropland Area</h2>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h2 style={{ textAlign: 'center' }}>Cropland Area</h2>
             <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} width={600} height={400} />
             {/* <Table roundedYear={roundYear(currentYear)} /> */}
           </div>

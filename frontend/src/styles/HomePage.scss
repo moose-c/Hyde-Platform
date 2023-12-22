@@ -46,7 +46,7 @@ html {
 
 .jumbotron {
   padding: 15px;
-  width: 50%;
+  width: 30%;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -93,4 +93,48 @@ table tbody tr:nth-of-type(even) {
 
 .jumbotron a {
   color: #fff;
+}
+
+
+$globe-dimension: 300px;
+
+.hydeportal-globe {
+  width: $globe-dimension;
+  height: $globe-dimension;
+  overflow: hidden;
+  border-radius: 100%;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  }
+}
+
+.click-me-globe {
+  position: absolute;
+  bottom: -30;
+  color: black;
+  font-size: 12px;
+}
+.relative {
+  position: relative;
+}
+.hydeportal-globe img {
+  transform: translateX(-45%);
+  transition: all 0.2s ease-in-out;
+  height: calc(2 * $globe-dimension);
+  &:hover {
+    height: calc(2.5 * $globe-dimension);
+  }
+}
+
+.click-for-portal {
+  position: absolute;
+  font-size: 20px;
+  font-weight: 600;
+  bottom: 50%;
+  left: -150px;
+  // transform: rotate(-90deg);
 }
