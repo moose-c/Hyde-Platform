@@ -131,10 +131,15 @@ $globe-dimension: 300px;
 }
 
 .click-for-portal {
-  position: absolute;
   font-size: 20px;
   font-weight: 600;
-  bottom: 50%;
-  left: -150px;
+  height: 30px;
+  margin-bottom: 10px;
   // transform: rotate(-90deg);
+}
+
+.hydeportal-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

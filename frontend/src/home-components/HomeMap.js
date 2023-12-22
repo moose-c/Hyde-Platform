@@ -90,5 +90,5 @@ export default function HomeMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, roundedYear]);
 
-  return <div style={{ width: width, height: height }} id={idTag}></div>;
+  return <div style={{ aspectRatio:false, width: width, height: height }} id={idTag}></div>;
 }
