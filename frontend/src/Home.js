@@ -36,45 +36,33 @@ const Jumbotron = () => {
     <div className="jumbotron bg-primary text-white">
       <h1 style={{ fontSize: 80 }}>Hyde Portal</h1>
       <p>
-        Through this portal, data from the <strong>HYDE model</strong> can be
-        accessed <br />
-        The HYDE model is a mathematical model calculating change in{" "}
-        <strong>Demographic</strong>, <strong>Land Use</strong> and{" "}
-        <strong>Agricultural</strong> indicators, starting from the rise of
-        humanity in 10000 B.C. untril our current time. <br />
-        These indicators are calculated within each of the current national
-        borders, generating timeseries and within 30kmx30km pixels for the globe
-        generating maps.
+        Welcome to the HYDE model data and visualization portal. <br />
+        The HYDE model offers data about the quantitative and spatial distribution of the human population,
+        land use and agricultural practice (and more) over time, dating back from the first emergence of agriculture until now!
+        <br />
+        Here you can interact with the data through visualizations or download the data on your own computer to use as you wish.
+        You may view these indicators within current national borders, generating time-series and generating global scale maps (5 arcmin ~9.21 x 9.21km spatial resolution).
+        Enjoy your experience viewing how we humans have interacted with our environment over time.
       </p>
-      {/* <h4>Indicators</h4>
-      <p>
-        There are three main categories of indicators that can be retrieved
-        through this portal:
-        <ul>
-          <li>
-            Demographic: Population, Population Density, Urban Population and
-            Rural Population
-          </li>
-          <li>
-            Land use: Urban Area, Cropland, Pasture, Rangeland and Converted
-            Rangeland
-          </li>
-          <li>
-            Agricultural: Irrigated Rice, Rainfed Rice, Total Rice, Irrigated
-            Other, Rainfed Other, Total Irrigated and Total Rainfed
-          </li>
-        </ul>
-      </p> */}
       <h4> Repository </h4>
       The github repository can be entered{" "}
       <a href="https://github.com/UtrechtUniversity/Hyde-Platform">here</a>.
       This includes a booklet on how one can create such a webapplication
-      themselves
+      themselves. Here the developer of this portal can also be contacted for improvements or other projects.
       <p></p>
       <div className="hydeportal-wrapper relative">
         {/* Link from react-router-dom, allows changing webpages  */}
         <div className="click-for-portal">
-          go to the Hyde portal
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+          >
+            <path d="m12 15.586-4.293-4.293-1.414 1.414L12 18.414l5.707-5.707-1.414-1.414z"></path>
+            <path d="m17.707 7.707-1.414-1.414L12 10.586 7.707 6.293 6.293 7.707 12 13.414z"></path>
+          </svg>
+          Click the globe to enter the Hyde portal!
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"

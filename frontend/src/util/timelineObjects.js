@@ -214,12 +214,12 @@ export const timelineObjects = [
     startYear: 11750,
     endYear: 11950,
     color: "#f36523",
-    title: "Classical Modernity",
+    title: "Industrial Revolution",
     iconLink: "/icons/locomotive.svg",
     periodText: (
       <>
         <p>
-          <strong>Classical Modernity (1750 - 1900)</strong> witnessed profound
+          <strong>Industrial Revolution (1750 - 1900)</strong> witnessed profound
           transformations in socio-economic, political, and technological
           spheres. The Industrial Revolution, characterized by mechanization and
           mass production, revolutionized manufacturing, transportation, and
@@ -245,12 +245,12 @@ export const timelineObjects = [
     startYear: 11950,
     endYear: CURR_YEAR_IN_YEARINDEX,
     color: "#ca4c57",
-    title: "Postmodernity",
+    title: "The Great Acceleration",
     iconLink: "/icons/television.svg",
     periodText: (
       <>
         <p>
-          <strong>Postmodernity (1900 - now)</strong> witnesses rapid
+          <strong>The Great Acceleration (1900 - now)</strong> witnesses rapid
           advancements across various domains, shaping contemporary society. The
           period began with the First and Second World Wars, profoundly altering
           global politics, economies, and social structures. The aftermath of
@@ -262,7 +262,7 @@ export const timelineObjects = [
           Earth's boundaries, with space travel and satellite technology
           revolutionizing communication and scientific exploration. The Cold War
           tensions, followed by the collapse of the Soviet Union, reshaped
-          geopolitical dynamics. Postmodernity also witnessed societal changes,
+          geopolitical dynamics. The Great Acceleration also witnessed societal changes,
           including civil rights movements, gender equality advocacy, and
           environmental awareness, influencing cultural norms and policies.
         </p>

@@ -1,16 +1,17 @@
 MUST HAVE
 - [] raster-api & ncWMS documentation (beter) schrijven 
+- [] not clear you can click on pixels or select countries, make more explicit
+- [] Button should be screaming!
+
 
 SHOULD HAVE
+- [] change hyde portal and hyde portal homepage? or something?
 
 WANT HAVE
-- [] Smaller laptops, overlay timeseries  form with chart
-- [] loading icon (callback)
-
+- [] Smaller laptops, overlay timeseries form with chart
 
 COULD HAVE
 - [] Database contains also totals for the whole world, allow these also to be plotted -> wait until potetial regions are chosen
-- [] logarthmic y axis
 
 
 Overdracht:
