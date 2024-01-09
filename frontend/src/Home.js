@@ -39,8 +39,9 @@ const Jumbotron = () => {
         Welcome to the HYDE model data and visualization portal. <br />
         The HYDE model offers data about the quantitative and spatial distribution of the human population,
         land use and agricultural practice (and more) over time, dating back from the first emergence of agriculture until now!
+        To learn more about the model, click <a href="https://landuse.sites.uu.nl/hyde-project/">HERE</a>
         <br />
-        Here you can interact with the data through visualizations or download the data on your own computer to use as you wish.
+        In this portal you can interact with the model data through visualizations or download the data on your own computer to use as you wish.
         You may view these indicators within current national borders, generating time-series and generating global scale maps (5 arcmin ~9.21 x 9.21km spatial resolution).
         Enjoy your experience viewing how we humans have interacted with our environment over time.
       </p>

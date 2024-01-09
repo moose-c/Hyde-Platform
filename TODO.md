@@ -22,3 +22,7 @@ Changing the Frontend:
 - To change homepage content:
     - To change the Left (blue) part: change Jubmotron within src/Home.js 
     - To change the Right (Era Text): change the periodText from desired period 
+
+# Usability test
+- Who? Create assignment based on the portal?
+- 
