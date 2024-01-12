@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import HomeMap from "./home-components/HomeMap";
 import Graph from "./home-components/Graph";
 import Timeline from "./home-components/Timeline";
-import Table from "./home-components/Table";
 
 import { yearIndexToYear } from "./util/yearIndexToYear";
 import { timelineObjects } from "./util/timelineObjects";
@@ -34,12 +33,12 @@ export default function Home() {
 const Jumbotron = () => {
   return (
     <div className="jumbotron bg-primary text-white">
-      <h1 style={{ fontSize: 80 }}>Hyde Portal</h1>
+      <h1 style={{ fontSize: 80 }}>Hyde Portal Homepage</h1>
       <p>
         Welcome to the HYDE model data and visualization portal. <br />
         The HYDE model offers data about the quantitative and spatial distribution of the human population,
         land use and agricultural practice (and more) over time, dating back from the first emergence of agriculture until now!
-        To learn more about the model, click <a href="https://landuse.sites.uu.nl/hyde-project/">HERE</a>
+        To learn more about the Hyde Database, click <a href="https://landuse.sites.uu.nl/hyde-project/">HERE</a>.
         <br />
         In this portal you can interact with the model data through visualizations or download the data on your own computer to use as you wish.
         You may view these indicators within current national borders, generating time-series and generating global scale maps (5 arcmin ~9.21 x 9.21km spatial resolution).
@@ -63,7 +62,7 @@ const Jumbotron = () => {
             <path d="m12 15.586-4.293-4.293-1.414 1.414L12 18.414l5.707-5.707-1.414-1.414z"></path>
             <path d="m17.707 7.707-1.414-1.414L12 10.586 7.707 6.293 6.293 7.707 12 13.414z"></path>
           </svg>
-          Click the globe to enter the Hyde portal!
+          Click the globe to enter the Hyde Portal!
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"

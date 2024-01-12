@@ -44,12 +44,49 @@ export default function Portal() {
         {modalPage === 0 && (
           <Modal.Body>
             In this portal the data from the HYDE (History database of the
-            Global Environment) is made visable and extractable. <br />
+            Global Environment) model can be visualized and downloaded in an interactive display. <br />
             Here the user can learn how this portal should be used.
           </Modal.Body>
         )}
         {[1, 2, 3, 4, 5].includes(modalPage) && (
-          <Modal.Body style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Modal.Body style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ textAlign: 'center' }}>
+              {modalPage === 1 && (
+                <>
+                  <h2>Overview</h2>
+                  <p>When the first two tabs are selected: Click the map to <u>select countries</u><br />
+                    When the final tab is selected: Click the map to <u>learn pixel value</u></p>
+                </>
+              )}
+              {modalPage === 2 && (
+                <>
+                  <h2>Selecting Countries Tab</h2>
+                  <p>Click the map to <u>select countries</u> <br />
+                    Reclick country or click the cross in the list to deselect a country</p>
+                </>
+              )}
+              {modalPage === 3 && (
+                <>
+                  <h2>Timeseries Tab</h2>
+                  <p>Click the map to <u>select countries</u> <br />
+                    Use the form to request figures</p>
+                </>
+              )}
+              {modalPage === 4 && (
+                <>
+                  <h2>Example Graph</h2>
+                  <p>Click the map to <u>select countries</u> <br />
+                  After requesting an image, view resulting image in the bottom left</p>
+                </>
+              )}
+              {modalPage === 5 && (
+                <>
+                  <h2>Maps Tab</h2>
+                  Use form to request global rasters for the selected year and indicator
+                  <p>Click the map to <u>learn pixel value</u> <br /></p>
+                </>
+              )}
+            </div>
             <Image
               src={process.env.PUBLIC_URL + `/modal-images/M${modalPage}.PNG`}
               style={{ height: 420, objectFit: 'contain' }}
@@ -71,6 +108,9 @@ export default function Portal() {
             >
               Next
             </Button>
+          )}
+          {modalPage === 5 && (
+            <Button onClick={() => setShow(false)}>Start Exploring</Button>
           )}
         </Modal.Footer>
       </Modal>
