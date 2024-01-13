@@ -4,7 +4,6 @@ __pycache__
 *.DS_STORE
 
 node_modules/
-build/
 data/
 certificates/
 old/
