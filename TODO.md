@@ -1,7 +1,9 @@
+- [] Doe gewoon git repo op de server!!!
+hiervoor: docker-compose lokaal moet gewoon perfect zijn.
+
 BUGS!: 
 - [] clicking the cross no longer removes selection from country!!
-- []
-
+- [] Encountered improvement, email developer button
 
 MUST HAVE
 - [] raster-api & ncWMS documentation (beter) schrijven 
@@ -11,8 +13,7 @@ MUST HAVE
 - [] Zoom is not easy, there are options available.
 - [] TV -> Satellite.
 - [] Cropland & Pasture in graph, Population Density in the Map
-- [] Graph as long as the jumbotron?
-- [] Doe gewoon git repo op de server!!!
+
 
 - [] WHY homepage information?
 
@@ -35,6 +36,7 @@ WANT HAVE
 
 COULD HAVE
 - [] Database contains also totals for the whole world, allow these also to be plotted -> wait until potetial regions are chosen
+- [] Graph as long as the jumbotron?
 
 
 Overdracht:

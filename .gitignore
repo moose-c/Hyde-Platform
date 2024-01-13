@@ -1,18 +1,14 @@
 __pycache__
 .venv/
 .vscode/
+*.DS_STORE
 
 node_modules/
-dist/
-backend/api-data/*/
-old/
 build/
 data/
-certificaten/
+certificates/
+old/
 
 package-lock.json
 .env
 External-communication.md
-*.nc 
-
-*.DS_STORE

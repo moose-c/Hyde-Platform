@@ -11,7 +11,7 @@ services:
       - 80:80 # HTTP port
       - 443:443 # HTTPS port
     volumes:
-      - ./frontend/certificaten:/etc/nginx/certificaten:ro
+      - ./frontend/certificates:/etc/nginx/certificates:ro
       - ./frontend/nginx.conf:/etc/nginx/nginx.conf:ro
 
     depends_on:
@@ -28,7 +28,7 @@ services:
     volumes:
       - ./backend/ncWMS/config.xml:/usr/local/tomcat/.ncWMS2/config.xml # Configuration file for ncWMS
       - ./backend/ncWMS/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml # User file for Tomcat
-      - ./data/netCDF:/data/netCDF # Directory for netCDF data. CHANGE TO POINT TO CURRENT LOCATION
+      - ${NETCDF_PATH}:/data/netCDF # Directory for netCDF data. CHANGE TO POINT TO CURRENT LOCATION
 
     ports:
       - 8080:8080 # Expose port 8080 for external access
@@ -64,7 +64,7 @@ services:
         condition: service_healthy
 
     volumes:
-      - ./data/netCDF:/data/netCDF # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
+      - ${NETCDF_PATH}:/data/netCDF # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
 
   # Service for the raster API, serving png and asc files
   raster-api:
@@ -76,8 +76,8 @@ services:
       DEBUG: 0
 
     volumes:
-      - ./data/asc:/data/asc # Volume for ASC data. CHANGE TO POINT TO CURRENT LOCATION
-      - ./data/png:/data/png # Volume for PNG data. CHANGE TO POINT TO CURRENT LOCATION
+      - ${ASC_PATH}:/data/asc # Volume for ASC data. CHANGE TO POINT TO CURRENT LOCATION
+      - ${PNG_PATH}:/data/png # Volume for PNG data. CHANGE TO POINT TO CURRENT LOCATION
 
     ports:
       - 8100:8100 # Expose port 8100 for external access
@@ -120,7 +120,7 @@ services:
         condition: service_healthy
 
     volumes:
-      - ./data/txt:/data/txt # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
+      - ${TXT_PATH}:/data/txt # Copy data into the container. CHANGE TO POINT TO CURRENT LOCATION
 
   # Service for the timeseries API
   timeseries-api:

@@ -68,7 +68,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
         center: [0, 0],
         zoom: 2
       }),
-      controls: []
+      // controls: []
     })
   }, [])
 
