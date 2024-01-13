@@ -3,10 +3,12 @@ import { rangeValues, styleValues } from "../../util/createData"  /* as ind.type
 
 
 export default function Legend({ currentYear, ovIndicator }) {
+    /* Creates the Legend within the top right corner. 
+    Makes use of ncWMS.
+    Different values and colours based on certain hardcoded indicators.*/
     const [legend, setLegend] = useState(null)
     var year = currentYear.split('_')[0] === 'ce' ? '' : '-'
     year += `${currentYear.split('_')[1]}`
-    var time = `${year}-05-01`
     const style = ['population', 'population_density', 'urban_population', 'rural_population'].includes(ovIndicator) ? styleValues['pop'] : styleValues['lu']
     const range = ['population', 'urban_population', 'rural_population'].includes(ovIndicator) ? rangeValues['popAbs'] : 'population_density' === ovIndicator ? rangeValues['popDens'] : rangeValues['lu']  
     const scale = useRef()

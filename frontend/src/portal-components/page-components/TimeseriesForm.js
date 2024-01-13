@@ -10,14 +10,14 @@ import { React, useEffect, useRef } from "react";
 import Select from "react-select"
 
 export default function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, setTsIndicators, plotOptions, setPlotOptions }) {
+    /* Form to request timeseries. */
     const optionsYears = Object.entries(yearsObject).map(([key, value]) => (
         { value: key, label: value }
     ))
-    const optionsStartYear = useRef()
-    optionsStartYear.current = JSON.parse(JSON.stringify(optionsYears));
-    const optionsEndYear = useRef()
-    optionsEndYear.current = JSON.parse(JSON.stringify(optionsYears));
+    const optionsStartYear = useRef(JSON.parse(JSON.stringify(optionsYears)))
+    const optionsEndYear = useRef(JSON.parse(JSON.stringify(optionsYears)))
 
+    // create options object for the indicators
     const optionsIndicators = Object.entries(indicatorTxtObj).map(([category, categorizedIndicators]) => ({
         label: category,
         options: Object.entries(categorizedIndicators).map(([indicatorValue, indicatorName]) => ({
@@ -32,6 +32,7 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
             optionsEndYear.current[i].isDisabled = true
         }
     }, [startYear])
+
     useEffect(() => {
         for (let i = Object.keys(yearsObject).indexOf(endYear)+1; i < Object.keys(yearsObject).length; i++) {
             optionsStartYear.current[i].isDisabled = true

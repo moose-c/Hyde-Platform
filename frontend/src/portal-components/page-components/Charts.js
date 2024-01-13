@@ -23,10 +23,17 @@ import language from "i18n-iso-countries/langs/en.json";
 countries.registerLocale(language);
 
 export default function Charts({ selection, startYear, endYear, tsIndicators, plotOptions, setPlotOptions, }) {
+  /* Creates the Charts within the lower left corner. 
+    Makes use of timeseries-api.
+    There are 2 options for the user to keep in mind: 
+    - relative/absolute ploting (different x axis --> different labels)
+    - single/multiple plots per country
+    */
   const allDataRef = useRef(false);
   const currentCountry = useRef(false);
   const currentIndicator = useRef(false);
 
+  // labels are the x axis
   const labels = useRef([]);
   const chartRef = useRef(null);
   const chartFinishedRendering = useRef(false);
@@ -65,48 +72,49 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     },
   });
 
+  /* Eventual structure of data is: data = {country : { indicator1: [{label: label1, data: values1}], indicator:[{label: label2, data: values2}], all: [{label: label1, data: values1}, {label: label2, data: values2}]}} */
   const allData =
-    {}; /* Structure is: data = {country : { indicator1: [{label: lbl, data: values1}], indicator:[{label: lbl, data: values2}], all: [{label: lbl, data: values1}, {label: lbl, data: values2}]}} */
+    {};
 
   const nbCharts = plotOptions.combined
     ? selection.length
     : tsIndicators.length * selection.length;
 
-  // Reflect on necessity later
+  
   const startIndex = Object.keys(yearsObject).indexOf(startYear);
   const endIndex = Object.keys(yearsObject).indexOf(endYear);
   const measurementPoints = yearNbList.slice(startIndex, endIndex + 1);
-
-  // obtain names, again, necessary?
   const startName = Object.values(yearsObject)[startIndex];
   const endName = Object.values(yearsObject)[endIndex];
 
+  /* Start plot when button is clicked
+  Update plot when different country selected, indicators changed or start/end year changed
+  Uses timeseries-api*/
   useEffect(() => {
     if (!plotOptions.absolute) {
       labels.current = measurementPoints;
     } else {
       labels.current = [];
-      var position = yearNbList[startIndex]; /* Counter for the yearsObject */
-      var minInterval = yearNbList[endIndex] - yearNbList[endIndex - 1]; /* Smallest interval between 2 adjacent datapoints always at the end */
+      var position = yearNbList[startIndex]; 
+      var minInterval = yearNbList[endIndex] - yearNbList[endIndex - 1]; /* Smallest interval between 2 adjacent datapoints in timeseries always at the end */
       while (position <= yearNbList[endIndex]) {
         labels.current.push(position);
         position += minInterval;
       }
     }
     // Create data, values of the form [[{x: val, y:val}, {x: val, y: val}], [{x: val, y:val}, {x: val, y: val}]]
+    // to easily utilize Chart.js
     if (plotOptions.plotting) {
       var fetchPromises = [];
       for (const country of selection) {
-        // Do something slighly different if selected country is South Sudan
         allData[country.values_.ISO_A3] = {};
         allData[country.values_.ISO_A3].all = [];
         var isoCode = parseInt(
           countries.alpha3ToNumeric(country.values_.ISO_A3),
           10
         ).toString(); /* Retrieve isoCode, without leading 0's */
-        if (['728', '729'].includes(isoCode)) {isoCode = '736'}   /* Fix the Sudan case manually */
+        if (['728', '729'].includes(isoCode)) { isoCode = '736' }   /* Fix the Sudan case manually */
         tsIndicators.forEach((indicator) => {
-
           allData[country.values_.ISO_A3][indicator] = [
             {
               label: Object.assign({}, ...Object.values(indicatorTxtObj))[
@@ -115,7 +123,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
               data: [],
             },
           ];
-          var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8000`
+          var domainName = window.apiUrl === '' ? window.apiUrl : `${window.apiUrl}:8000`
           const url = `${domainName}/api/txt/${indicator}/${isoCode}/${startYear}/${endYear}`
           const fetchPromise = fetch(url)
             .then((response) => response.json())
@@ -154,7 +162,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
       var datasets = plotOptions.combined ? allDataRef.current[currentCountry.current.values_.ISO_A3].all : allDataRef.current[currentCountry.current.values_.ISO_A3][currentIndicator.current];
       const newOptions = options;
       newOptions.plugins.title.text = [`${currentCountry.current.values_.ADMIN}, ${startName} - ${endName}`];
-      if (['Sudan', 'South Sudan'].includes(currentCountry.current.values_.ADMIN)) { newOptions.plugins.title.text.push(`Sudan and South Sudan have the same grouped values!`)}
+      if (['Sudan', 'South Sudan'].includes(currentCountry.current.values_.ADMIN)) { newOptions.plugins.title.text.push(`Sudan and South Sudan have the same grouped values!`) }
       newOptions.scales.y.title.text = chooseYLabel(
         currentIndicator.current,
         plotOptions.combined,

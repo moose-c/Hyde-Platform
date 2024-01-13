@@ -10,7 +10,8 @@ import RangeSlider from 'react-bootstrap-range-slider';
 import Select from "react-select"
 
 export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, setOvIndicator }) {
-    // Changing currentYear causes retrieval of netcdf. To do this continuously is to intensive, therefore sliderYear changes continuosly but currentYear only after sliding has finished
+    /* Form to request timeseries. */
+    // Changing currentYear causes retrieval of netcdf. To do this continuously is to intensive, therefore sliderYear changes continuously but currentYear only after sliding has finished
     const [sliderYear, setSliderYear] = useState(currentYear)
 
     // Create options for Select
@@ -22,8 +23,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
         }))
     }))
 
-    // interesting code no longer used: Object.assign({}, ...Object.values(tsIndicatorsObj)) // Remove the categorization
-
+    // Strange because one can select a new indicator, or click the x removing the indicator.
     function handleSelect(e) {
         if (e) {
             setOvIndicator(e.value)

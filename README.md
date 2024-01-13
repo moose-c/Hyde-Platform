@@ -7,20 +7,28 @@ This markdown has the following sections:
 4) [Development process](#4-development-process): contains an overview of thoughts behind how this application was developed.
 
 ## 1) Setup
-1) Install docker and docker compose 
-2) from ./frontend, run `npm run build`
+1) Clone git repository
+2) Install docker and docker compose 
 3) Optionally, obtain data from [YODA](https://landuse.sites.uu.nl/datasets/)
 4) Supply HTTPS certificates to ./frontend/certificates
-4) Write .env file as indicated in .env-template file
-5) Execute `docker-compose up` from application directory
-    - website:
-        - is accessible at http://localhost:3000
-    - NCWMS
-        - can be viewed in browser at http://localhost:8080/ncWMS
-    - raster-backend:
-        - An API for png or asc, data can be accesesed for example as: http://localhost:8100/api/raster/png/pasture/ce_0 or http://localhost:8100/api/raster/asc/popc/ce_0
-    - timeseries-backend 
-        - Accessed at for instance: http://localhost:8000/api/txt/uopp/4/ce_600/ce_700
+5) Write .env file as indicated in .env-template file
+6) Execute `docker-compose up -d` from application directory
+7) Optionally, to make the website available outside your own network: 
+- sudo firewall-cmd --zone=dmz --add-service=http --permanent
+- sudo firewall-cmd --zone=dmz --add-service=https --permanent
+- sudo firewall-cmd --reload
+The website and backend components can now be tested and accessed as follows:
+#### timeseries-api
+- Test FLASK locally: `curl 127.0.0.1:8000/test` should give "FLASK API setup correct!"
+- Test Database locally: `curl 127.0.0.1:8000/api/txt/uopp/4/ce_600/ce_700` should give "[[6.344291354067953e-06, 1.846188784028077e-05]]" 
+#### ncWMS
+- Get password from .env file
+- Test Server setup: `curl -H "Accept: text/plain" -u ncwms:trompetboom -X GET localhost:8080/ncWMS/admin/datasetStatus?dataset=0` SHould give: "Dataset: 0 not found on this server" 
+- Test Data setup: `curl -H "Accept: text/plain" -u ncwms:[password] -X GET localhost:8080/ncWMS/admin/datasetStatus?dataset=irrigated_rice` Should give: "Dataset 16: (....): READY"
+#### raster-api
+- Test png retrieval: `curl http://localhost:8100/api/raster/png/pasture/ce_0` 
+- Test ascii retrieval: `curl http://localhost:8100/api/raster/asc/popc/bce_10000`
+
 
 ### Restart
 - from root: `docker-compose down` ... `docker-compose up`

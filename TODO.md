@@ -1,16 +1,9 @@
-- [] Doe gewoon git repo op de server!!!
-hiervoor: docker-compose lokaal moet gewoon perfect zijn.
-
 BUGS!: 
-- [] clicking the cross no longer removes selection from country!!
 - [] Encountered improvement, email developer button
 
 MUST HAVE
-- [] raster-api & ncWMS documentation (beter) schrijven 
-- [] not clear you can click on pixels or select countries, make more explicit
     - [] 'drag this bar to change the year'
 - [] map now europe cut off. 
-- [] Zoom is not easy, there are options available.
 - [] TV -> Satellite.
 - [] Cropland & Pasture in graph, Population Density in the Map
 

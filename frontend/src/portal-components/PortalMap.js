@@ -10,6 +10,7 @@ import VectorSource from 'ol/source/Vector.js'
 import XYZ from 'ol/source/XYZ.js';
 import GeoJSON from 'ol/format/GeoJSON.js'
 import { TileWMS } from 'ol/source';
+import { Zoom } from 'ol/control';
 
 // Borders
 import Borders from "../data/countries.geojson"
@@ -23,6 +24,10 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
   const overlay = useRef([])
 
   const [popoverInfo, setPopoverInfo] = useState(null)
+
+  // Display message for 5 seconds at the mouse when changing between selecting countries and clicking pixels
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [tooltipMessage, setTooltipMessage] = useState('');
 
   // border style of the selected countries
   const highlightStyle = new Style({
@@ -68,20 +73,31 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
         center: [0, 0],
         zoom: 2
       }),
-      // controls: []
+      controls: [new Zoom()]
     })
   }, [])
+
+  const displayMessage = (message) => {
+    setTooltipMessage(message);
+    setTimeout(() => setTooltipMessage(''), 10000); // Clear message after 10 seconds
+  };
+
+  window.addEventListener('mousemove', (event) => {
+    setMousePosition({ x: event.clientX+15, y: event.clientY });
+  });
 
   // Change between selecting and overlay regime
   useEffect(() => {
     if (currentlySelecting) {
       setOvIndicator(null)
       setPopoverInfo(null)
+      displayMessage('Click on Countries to select them'); // Message when starting selection
     } else {
       setSelection((previousSelection) => {
         previousSelection.forEach((feature) => feature.setStyle(undefined))
         return ([])
       })
+      displayMessage('After Indicator selected, click a pixel to learn its value'); // Message when starting selection
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentlySelecting])
 
@@ -131,8 +147,6 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
     // eslint-disable-next-line
   }, [ovIndicator, currentYear])
 
-
-
   // If clicked on map, do one of two things
   function handleClick(e) {
     if (currentlySelecting) {
@@ -154,7 +168,6 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
       }
     } else {
       if (ovIndicator !== null) {
-        // BETA If there is an overlay: when a pixel is selected display the value at that pixel
         var pixel = [e.pageX, e.pageY]
         for (let layer of map.current.values_.layergroup.values_.layers.array_) {
           if (layer.className_ === 'overlay') {
@@ -202,6 +215,19 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
             {popoverInfo.value !== null && (<span style={{ fontWeight: 'bold' }}>Pixel Value = {popoverInfo.value.toFixed(3)}<br /></span>)}
             {popoverInfo.value === null && (<span style={{ fontWeight: 'bold' }}>No Pixel Value<br /></span>)}
           </div>
+        </div>
+      )}
+      {tooltipMessage && (
+        <div
+        className='styled-div'
+          style={{
+            position: 'absolute',
+            left: mousePosition.x,
+            top: mousePosition.y,
+            pointerEvents: 'none', // To not interfere with mouse events
+          }}
+        >
+          {tooltipMessage}
         </div>
       )}
     </>

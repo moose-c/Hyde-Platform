@@ -117,6 +117,7 @@ export default function Portal() {
       <div className="App">
         <PortalMap
           currentlySelecting={currentlySelecting}
+          selection={selection}
           setSelection={setSelection}
           ovIndicator={ovIndicator}
           setOvIndicator={setOvIndicator}
