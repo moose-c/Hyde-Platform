@@ -126,7 +126,7 @@ export default function Graph({ roundedYear }) {
         plugins: {
           title: {
             display: true,
-            text: "Population and Urban Area development",
+            text: "Cropland and Pasture development",
           },
           annotation: {
             annotations: newAnnotations,
