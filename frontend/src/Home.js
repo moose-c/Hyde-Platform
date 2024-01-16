@@ -26,6 +26,11 @@ export default function Home() {
       <div className="timeline-overlay">
         <Timeline currentYear={currentYear} setCurrentYear={setCurrentYear} />
       </div>
+      {/* Temporary div! Remove on release */}
+      <div style={{position: "fixed", top: 0, right: 0, border: 'red solid 3px', backgroundColor: 'red'}}>
+        <h5>BETA VERSION</h5>
+        Encountered a problem or noticed an improvement? <a styles={{color: 'black'}} href="mailto: hydeportal.info@gmail.com">Email Developer</a>
+      </div>
     </div>
   );
 }
@@ -33,23 +38,25 @@ export default function Home() {
 const Jumbotron = () => {
   return (
     <div className="jumbotron bg-primary text-white">
-      <h1 style={{ fontSize: 80 }}>Hyde Portal Homepage</h1>
-      <p>
-        Welcome to the HYDE model data and visualization portal. <br />
-        The HYDE model offers data about the quantitative and spatial distribution of the human population,
-        land use and agricultural practice (and more) over time, dating back from the first emergence of agriculture until now!
-        To learn more about the Hyde Database, click <a href="https://landuse.sites.uu.nl/hyde-project/">HERE</a>.
-        <br />
-        In this portal you can interact with the model data through visualizations or download the data on your own computer to use as you wish.
-        You may view these indicators within current national borders, generating time-series and generating global scale maps (5 arcmin ~9.21 x 9.21km spatial resolution).
-        Enjoy your experience viewing how we humans have interacted with our environment over time.
-      </p>
-      <h4> Repository </h4>
-      The github repository can be entered{" "}
-      <a href="https://github.com/UtrechtUniversity/Hyde-Platform">here</a>.
-      This includes a booklet on how one can create such a webapplication
-      themselves. Here the developer of this portal can also be contacted for improvements or other projects.
-      <p></p>
+      <h1 style={{ fontSize: '9vh' }}>Hyde Portal Homepage</h1>
+      <div style={{ maxHeight: '20vh', overflowY: 'scroll' }}>
+        <p>
+          Welcome to the HYDE model data and visualization portal. <br />
+          The HYDE model offers data about the quantitative and spatial distribution of the human population,
+          land use and agricultural practice (and more) over time, dating back from the first emergence of agriculture until now!
+          To learn more about the Hyde Database, click <a href="https://landuse.sites.uu.nl/hyde-project/">HERE</a>. The visualized data is from HYDE 3.3, the full data including netCDF and zipped files for each indicator can be accessed <a href="bla">HERE</a>
+          <br />
+          In this portal you can interact with the model data through visualizations or download the data on your own computer to use as you wish.
+          You may view these indicators within current national borders, generating time-series and generating global scale maps (5 arcmin ~9.21 x 9.21km spatial resolution).
+          Enjoy your experience viewing how we humans have interacted with our environment over time.
+        </p>
+        <h4> Repository </h4>
+        The github repository can be entered{" "}
+        <a href="https://github.com/UtrechtUniversity/Hyde-Platform">here</a>.
+        This includes a booklet on how one can create such a webapplication
+        themselves. Here the developer of this portal can also be contacted for improvements or other projects.
+        <p></p>
+      </div>
       <div className="hydeportal-wrapper relative">
         {/* Link from react-router-dom, allows changing webpages  */}
         <div className="click-for-portal">
@@ -128,9 +135,8 @@ const InfoSection = ({ currentYear }) => {
             {currentTimeLineObject.periodText}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h2>Cropland Area</h2>
+            <h2>Population Density</h2>
             <HomeMap roundedYear={roundedYear} mapId={2} netCDF={true} width={600} height={400} />
-            {/* <Table roundedYear={roundYear(currentYear)} /> */}
           </div>
         </div>
       </div>

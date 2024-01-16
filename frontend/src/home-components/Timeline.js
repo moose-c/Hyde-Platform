@@ -95,7 +95,7 @@ const calculateCurrentYearBasedOnScroll = (scrollLeft) => {
     return (
       11950 +
       ((scrollLeft - TIMELINEBLOCKWIDTH * 7) / TIMELINEBLOCKWIDTH) *
-        YEARS_FROM_1950_TO_NOW
+      YEARS_FROM_1950_TO_NOW
     );
   }
 
@@ -111,10 +111,18 @@ export default function Timeline({ currentYear, setCurrentYear }) {
   const { onMouseDown } = useDraggableScroll(ref);
 
   const [screenWidth, setScreenWidth] = useState(0);
+  const [notDragged, setNotDragged] = useState(true)
 
   useEffect(() => {
     setScreenWidth(window.innerWidth);
   }, []);
+
+  const handleMouseDown = (e) => {
+    if (notDragged) {
+      setNotDragged(false);
+    }
+    onMouseDown(e);
+  };
 
   useEffect(() => {
     ref.current.scrollLeft = calculateScrollOffsetBasedOnYearIndex(currentYear);
@@ -126,9 +134,10 @@ export default function Timeline({ currentYear, setCurrentYear }) {
       <div
         className="timeline"
         ref={ref}
-        onMouseDown={onMouseDown}
-        onScroll={(e) =>
+        onMouseDown={handleMouseDown}
+        onScroll={(e) => {
           setCurrentYear(calculateCurrentYearBasedOnScroll(e.target.scrollLeft))
+        }
         }
       >
         <div
@@ -172,6 +181,12 @@ export default function Timeline({ currentYear, setCurrentYear }) {
           </div>
         </div>
         <img src="/pointer.png" id="pin" alt="pointer" />
+        {notDragged && (
+          <div className='bg-primary' style={{ position: "absolute", left: 'calc(50% + 20px)', top: -20, borderRadius: '10px', padding: '10px', color: 'white', fontWeight: 'bold', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
+            Drag the Timeline to explore different years and eras!
+          </div>
+        )}
+
       </div>
     </>
   );

@@ -52,7 +52,7 @@ export default function HomeMap({
     if (map && netCDF) {
       var time = `${roundedYear}-05-01`;
       const style = styleValues["lu"];
-      const layer = "cropland/cropland";
+      const layer = "population_density/population_density";
       // uses the ncWMS backend
       var domainName =
         window.apiUrl === "" ? window.apiUrl : `${window.apiUrl}:8080`;
@@ -90,5 +90,5 @@ export default function HomeMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, roundedYear]);
 
-  return <div style={{ aspectRatio:false, width: width, height: height }} id={idTag}></div>;
+  return <div style={{ aspectRatio:true, width: width, height: height }} id={idTag}></div>;
 }

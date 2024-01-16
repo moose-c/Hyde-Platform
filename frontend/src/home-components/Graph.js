@@ -44,30 +44,29 @@ export default function Graph({ roundedYear }) {
       var domainName =
         window.apiUrl === "" ? window.apiUrl : `${window.apiUrl}:8000`;
 
+      // these variables are of the form: .._json = [[1,3,2,3]]
       const cropland_json = await fetch(
-        `${domainName}/api/txt/uopp/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
+        `${domainName}/api/txt/cropland/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
       ).then((response) => response.json());
 
-      const population_json = await fetch(
-        `${domainName}/api/txt/popc/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
+      const pasture_json = await fetch(
+        `${domainName}/api/txt/pasture/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
       ).then((response) => response.json());
 
-      const populationData = [];
+      const pastureData = [];
       const croplandData = []
-      population_json[0].forEach((value, index) => {
-        populationData.push({
-          x: yearNbList[index],
-          y: value,
+      console.log(pasture_json[0].length)
+      for (var i = 0; i < pasture_json[0].length; i++){
+        pastureData.push({
+          x: yearNbList[i],
+          y: pasture_json[0][i],
         });
-      });
-
-      cropland_json[0].forEach((value, index) => {
         croplandData.push({
-          x: yearNbList[index],
-          y: value,
+          x: yearNbList[i],
+          y: cropland_json[0][i],
         });
-      });
-
+      }
+      
       data.current = {
         labels: labels,
         interaction: {
@@ -76,18 +75,16 @@ export default function Graph({ roundedYear }) {
         },
         datasets: [
           {
-            label: "Population",
-            data: populationData,
+            label: "Pasture",
+            data: pastureData,
             fill: false,
             borderColor: "rgba(255, 99, 132, 1)",
-            yAxisID: "y1",
           },
           {
-            label: "Urban area",
+            label: "Cropland",
             data: croplandData,
             fill: false,
             borderColor: "rgba(54, 162, 235, 1)",
-            yAxisID: "y2",
           },
         ],
       };
@@ -101,17 +98,6 @@ export default function Graph({ roundedYear }) {
           borderWidth: 2,
         },
       };
-      /*       const rectangles = createRectanglesForGraph();
-      for (const rectangle of rectangles) {
-      newAnnotations[`rectangle${rectangle.idx}`] = {
-        type: "box",
-        xMin: rectangle.xMin,
-        xMax: rectangle.xMax,
-        yMin: 0,
-        yMax: 8000000000,
-        backgroundColor: opaqueColor(rectangle.color, 0.2),
-      };
-      } */
       setOptions({
         interaction: {
           intersect: false,
@@ -120,16 +106,7 @@ export default function Graph({ roundedYear }) {
         stacked: false,
         maintainAspectRatio: false,
         scales: {
-          y1: {
-            type: "linear",
-            position: "left",
-            display: true,
-            title: {
-              display: true,
-              text: "[individuals]",
-            },
-          },
-          y2: {
+          y: {
             type: "linear",
             position: "right",
             display: true,

@@ -1,6 +1,6 @@
-import { React, useState} from "react"
+import { React, useState } from "react"
 
-import { yearsObject, yearValueList, indicatorNcObj, indicatorTxtObj} from "../../util/createData"  /* as ind.type : {ind -> Indicator Name} */
+import { yearsObject, yearValueList, indicatorNcObj, indicatorTxtObj } from "../../util/createData"  /* as ind.type : {ind -> Indicator Name} */
 
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
@@ -14,7 +14,12 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
     // Changing currentYear causes retrieval of netcdf. To do this continuously is to intensive, therefore sliderYear changes continuously but currentYear only after sliding has finished
     const [sliderYear, setSliderYear] = useState(currentYear)
 
-    // Create options for Select
+    // Create options for the years
+    const optionsYears = Object.entries(yearsObject).map(([key, value]) => (
+        { value: key, label: value }
+    ))
+    
+    // Create options for indicators
     const overlayOptions = Object.entries(indicatorNcObj).map(([category, categorizedIndicators]) => ({
         label: category,
         options: Object.entries(categorizedIndicators).map(([indicatorValue, indicatorName]) => ({
@@ -22,6 +27,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
             label: indicatorName
         }))
     }))
+    console.log(overlayOptions)
 
     // Strange because one can select a new indicator, or click the x removing the indicator.
     function handleSelect(e) {
@@ -34,7 +40,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
 
     async function exportAsc() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
-        var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8100`
+        var domainName = window.apiUrl === '' ? window.apiUrl : `${window.apiUrl}:8100`
         const fetchUrl = `${domainName}/api/raster/asc/${uglyInd}/${currentYear}`
         fetch(fetchUrl).then(response => response.blob())
             .then(blob => {
@@ -48,7 +54,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
 
     async function exportPNG() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
-        var domainName = window.apiUrl === '' ? window.apiUrl  : `${window.apiUrl}:8100`
+        var domainName = window.apiUrl === '' ? window.apiUrl : `${window.apiUrl}:8100`
         const fetchUrl = `${domainName}/api/raster/png/${uglyInd}/${currentYear}`
         fetch(fetchUrl).then(response => response.blob())
             .then(image => {
@@ -63,9 +69,12 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
         <>
             <Form>
                 <Row>
-                    <Form.Label style={{ marginTop: '3px' }}>Year {yearsObject[sliderYear]} <br />
+                    <Form.Label style={{ marginTop: '3px' }}>Year  <br />
+                        <div style={{ margin: '0 auto', width: 200 }}>
+                            <Select menuPortalTarget={document.body} options={optionsYears} value={optionsYears[yearValueList.indexOf(sliderYear)]} onChange={(e) => setSliderYear(yearValueList[e.value])}></Select>
+                        </div>
                         <div style={{ display: 'flex', justifyContent: "center" }}>
-                            <RangeSlider type="range" min={0} max={yearValueList.length - 1} step={1} value={yearValueList.indexOf(sliderYear)} onChange={(e) => setSliderYear(yearValueList[e.target.value])} tooltipStyle={{ display: "none" }} style={{ width: 200 }} onAfterChange={(e) => setCurrentYear(yearValueList[e.target.value])}  />
+                            <RangeSlider type="range" min={0} max={yearValueList.length - 1} step={1} value={yearValueList.indexOf(sliderYear)} onChange={(e) => setSliderYear(yearValueList[e.target.value])} tooltipStyle={{ display: "none" }} style={{ width: 200 }} onAfterChange={(e) => setCurrentYear(yearValueList[e.target.value])} />
                         </div>
                     </Form.Label>
                 </Row>
@@ -76,7 +85,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
                         </div>
                     </Form.Label>
                 </Row>
-            
+
                 <Row>
                     <Dropdown drop="down">
                         <Dropdown.Toggle>

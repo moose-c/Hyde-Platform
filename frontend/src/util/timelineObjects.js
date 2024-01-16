@@ -246,7 +246,7 @@ export const timelineObjects = [
     endYear: CURR_YEAR_IN_YEARINDEX,
     color: "#ca4c57",
     title: "The Great Acceleration",
-    iconLink: "/icons/television.svg",
+    iconLink: "/icons/satellite.svg",
     periodText: (
       <>
         <p>
