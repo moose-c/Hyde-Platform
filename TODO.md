@@ -1,36 +1,20 @@
-BUGS!: 
-- [] Encountered improvement, email developer button
-
 MUST HAVE
-    - [] 'drag this bar to change the year'
-- [] map now europe cut off. 
-- [] TV -> Satellite.
-- [] Cropland & Pasture in graph, Population Density in the Map
+- [] map now europe cut off. Iets met herhalende images?
 
+SHOULD HAVE
+- [] display current year indicator values
 
-- [] WHY homepage information?
-
-- [] Change (last) Modal Image
-- [] kan er op de Frontpage een verwijzing komen welke versie precies van HYDE er nu in het portal staat? Bijv HYDE 3.3 (en dan link naar de desbetreffende Yoda versie?)
-- [] manual year entry next to the slider
-- [] Britta wants geotiff export
-
+WANT HAVE
 Modal Changes:
 - which ind available?
 -  ‘Using this portal you can select countries,
 download raw data for a time series, and export maps for specific
 years”
-
-SHOULD HAVE
-- [] change hyde portal and hyde portal homepage? or something?
-
-WANT HAVE
-- [] Smaller laptops, overlay timeseries form with chart
+- [] Britta wants geotiff export
+- [] Change (last) Modal Image
 
 COULD HAVE
 - [] Database contains also totals for the whole world, allow these also to be plotted -> wait until potetial regions are chosen
-- [] Graph as long as the jumbotron?
-
 
 Overdracht:
 Changing Backend:
