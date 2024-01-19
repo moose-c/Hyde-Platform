@@ -1,5 +1,7 @@
 MUST HAVE
 - [] map now europe cut off. Iets met herhalende images?
+- [] text bij tip is wel prima, maar kan wel weg nadat er eenmail een land is geselecteerd
+- [] ‘Grazing land’ in de grafiek op de frontpage laten zien, samen met Cropland.
 
 SHOULD HAVE
 - [] display current year indicator values

@@ -1,12 +1,13 @@
 # Hyde Platform
 This repository contains the code that was used to create the Hyde Platform, a platform which displays the data from the HYDE model (History Database of the Global Environment).  
 This markdown has the following sections:
-1) [Setup](#1-setup): here a user can learn how to run this application easily on any system, and how to make changes and restart the application.
+1) [Setup](#1-use): here a user can learn how to run this application easily on any system, how to make changes and restart the application.
 2) [Structure](#2-structure): The subcomponents of the application are explained.
 3) [Stack](#3-stack): contains an overview the tools, languages and libaries used to create this application.
 4) [Development process](#4-development-process): contains an overview of thoughts behind how this application was developed.
 
-## 1) Setup
+## 1) Use
+### Setup
 1) Clone git repository
 2) Install docker and docker compose 
 3) Optionally, obtain data from [YODA](https://landuse.sites.uu.nl/datasets/)
@@ -29,16 +30,18 @@ The website and backend components can now be tested and accessed as follows:
 - Test png retrieval: `curl http://localhost:8100/api/raster/png/pasture/ce_0` 
 - Test ascii retrieval: `curl http://localhost:8100/api/raster/asc/popc/bce_10000`
 
-
 ### Restart
-- from root: `docker-compose down` ... `docker-compose up`
-### Changes/Relocate
-1) from root: `docker-compose down`
-2) remove the image from the component that was changed:
+- from application root: `docker-compose down` [wait] `docker-compose up`
+
+### Change Website
+1) Change content:
+    - Website is stored in ./frontend/src. If you open this directory in a code editor, search within all subfile the existing text you want to change, and insert the new text. 
+2) Execute `npm run buid` from ./frontend, if npm not available, execute `sudo dnf install nodejs` first.
+3) Execute `docker-compose down` from ./
+4) remove the image from the component that was changed:
     - `docker system prune`
-    - `docker image list`
-    - `docker rmi [image]`, for instance `docker rmi hyde-platform-map-website`
-3) `docker-compose up`
+    - `docker rmi hyde-platform-map-website`
+4) `docker-compose up`
 
 ## 2) Structure
 This project is split into two components:
