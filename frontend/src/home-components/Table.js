@@ -58,10 +58,3 @@ export default function Table() {
     </div>
   )
 }
-
-function createContinentData() {
-  const continentData = {}
-  for (const [isoCode, iso2] of Object.entries(countries.getNumericCodes())) {
-    // console.log(country.findByIso2(iso2)['continent'])
-  }
-}

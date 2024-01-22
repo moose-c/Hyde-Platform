@@ -55,7 +55,6 @@ export default function Graph({ roundedYear }) {
 
       const pastureData = [];
       const croplandData = []
-      console.log(pasture_json[0].length)
       for (var i = 0; i < pasture_json[0].length; i++){
         pastureData.push({
           x: yearNbList[i],

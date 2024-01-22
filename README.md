@@ -31,11 +31,19 @@ The website and backend components can now be tested and accessed as follows:
 - Test ascii retrieval: `curl http://localhost:8100/api/raster/asc/popc/bce_10000`
 
 ### Restart
-- from application root: `docker-compose down` [wait] `docker-compose up`
+- from application root: `docker-compose down`, `docker system prune -f`, `docker-compose up`
+
+### Change data locations
+- change data locations within .env file.
+- restart as above
 
 ### Change Website
 1) Change content:
     - Website is stored in ./frontend/src. If you open this directory in a code editor, search within all subfile the existing text you want to change, and insert the new text. 
+    - To change final year, change the value in .env
+    - To change homepage content:
+        - To change the Left (blue) part: change Jubmotron within ./frontend/src/Home.js 
+        - To change the Right (Era Text): change the periodText from ./frontend/src/util/timelineObjects.js
 2) Execute `npm run buid` from ./frontend, if npm not available, execute `sudo dnf install nodejs` first.
 3) Execute `docker-compose down` from ./
 4) remove the image from the component that was changed:

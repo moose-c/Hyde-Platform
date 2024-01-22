@@ -20,8 +20,10 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
     const [plotOptions, setPlotOptions] = useState({
         plotting: false,
         absolute: true,
-        combine: false
+        indicatorsCombined: false,
+        countriesCombined: false
     })
+    const [displayChart, setDisplayChart] = useState(false)
 
     return (
         <>
@@ -32,7 +34,7 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
                         <Selection selection={selection} setSelection={setSelection}/>
                     </Tab>
                     <Tab eventKey="tsForm" title="Timeseries">
-                        <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+                        <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} setDisplayChart={setDisplayChart} />
                     </Tab>
                     <Tab eventKey="mapsForm" title="Maps">
                         <OverlayForm map={map} setMap={setMap} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator}/>
@@ -41,7 +43,7 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
             </div>
 
             <div style={{ position: 'fixed', bottom: 0, left: 0}}>
-                <Charts selection={selection} startYear={startYear} endYear={endYear} tsIndicators={tsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+                <Charts selection={selection} startYear={startYear} endYear={endYear} tsIndicators={tsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} displayChart={displayChart} setDisplayChart={setDisplayChart}/>
             </div>
 
             <div style={{ position: 'fixed', right: 0, top: 0}}>
