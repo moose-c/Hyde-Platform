@@ -27,7 +27,6 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
             label: indicatorName
         }))
     }))
-    console.log(overlayOptions)
 
     // Strange because one can select a new indicator, or click the x removing the indicator.
     function handleSelect(e) {

@@ -20,7 +20,8 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
     const [plotOptions, setPlotOptions] = useState({
         plotting: false,
         absolute: true,
-        combine: false
+        combinedCountries: false,
+        combinedIndicators: false
     })
 
     return (

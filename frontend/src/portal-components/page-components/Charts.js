@@ -73,14 +73,11 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
   });
 
   /* Eventual structure of data is: data = {country : { indicator1: [{label: label1, data: values1}], indicator:[{label: label2, data: values2}], all: [{label: label1, data: values1}, {label: label2, data: values2}]}} */
-  const allData =
-    {};
+  const allData = {};
 
-  const nbCharts = plotOptions.combined
-    ? selection.length
-    : tsIndicators.length * selection.length;
+  const nbCharts = useRef(tsIndicators.length * selection.length)
 
-  
+  const indicatorValueName = Object.assign({}, ...Object.values(indicatorTxtObj))
   const startIndex = Object.keys(yearsObject).indexOf(startYear);
   const endIndex = Object.keys(yearsObject).indexOf(endYear);
   const measurementPoints = yearNbList.slice(startIndex, endIndex + 1);
@@ -90,21 +87,23 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
   /* Start plot when button is clicked
   Update plot when different country selected, indicators changed or start/end year changed
   Uses timeseries-api*/
+  // Fetch data for countries, indicators and start and end points selected
+  // Create data, allDataRef = {CAN: {ind1: [ar1], ind2: [ar2]}} 
+  // ar1 = [{label: 'indicator', data: [{x: x1, y: y1}, {x: x2, y: y2}]}]
   useEffect(() => {
     if (!plotOptions.absolute) {
       labels.current = measurementPoints;
     } else {
       labels.current = [];
-      var position = yearNbList[startIndex]; 
+      var position = yearNbList[startIndex];
       var minInterval = yearNbList[endIndex] - yearNbList[endIndex - 1]; /* Smallest interval between 2 adjacent datapoints in timeseries always at the end */
       while (position <= yearNbList[endIndex]) {
         labels.current.push(position);
         position += minInterval;
       }
     }
-    // Create data, values of the form [[{x: val, y:val}, {x: val, y: val}], [{x: val, y:val}, {x: val, y: val}]]
-    // to easily utilize Chart.js
     if (plotOptions.plotting) {
+      nbCharts.current = calculateNbOfCharts(plotOptions, tsIndicators.length, selection.length)
       var fetchPromises = [];
       for (const country of selection) {
         allData[country.values_.ISO_A3] = {};
@@ -117,7 +116,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         tsIndicators.forEach((indicator) => {
           allData[country.values_.ISO_A3][indicator] = [
             {
-              label: Object.assign({}, ...Object.values(indicatorTxtObj))[
+              label: indicatorValueName[
                 indicator
               ],
               data: [],
@@ -157,17 +156,61 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
       tsIndicators.length > 0 &&
       Object.keys(allDataRef.current).length > 0
     ) {
-      currentCountry.current = plotOptions.combined ? selection[newChartNb] : selection[Math.floor(newChartNb / tsIndicators.length)];
-      currentIndicator.current = plotOptions.combined ? null : tsIndicators[newChartNb % tsIndicators.length];
-      var datasets = plotOptions.combined ? allDataRef.current[currentCountry.current.values_.ISO_A3].all : allDataRef.current[currentCountry.current.values_.ISO_A3][currentIndicator.current];
       const newOptions = options;
-      newOptions.plugins.title.text = [`${currentCountry.current.values_.ADMIN}, ${startName} - ${endName}`];
-      if (['Sudan', 'South Sudan'].includes(currentCountry.current.values_.ADMIN)) { newOptions.plugins.title.text.push(`Sudan and South Sudan have the same grouped values!`) }
+      var datasets;
+      var title;
+      // Case 1: seperate countries, seperate indicators
+      if (!plotOptions.combinedCountries && !plotOptions.combinedIndicators) {
+        currentCountry.current = selection[Math.floor(newChartNb / tsIndicators.length)];
+        currentIndicator.current = tsIndicators[newChartNb % tsIndicators.length];
+        datasets = allDataRef.current[currentCountry.current.values_.ISO_A3][currentIndicator.current];
+        title = `${currentCountry.current.values_.ADMIN}. ${startName} - ${endName}`;
+      }
+      // Case 2: seperate countries, joint indicators
+      // in an ideal world do i make this work without 'all'
+      else if (!plotOptions.combinedCountries && plotOptions.combinedIndicators) {
+        currentCountry.current = selection[newChartNb];
+        currentIndicator.current = null;
+        datasets = allDataRef.current[currentCountry.current.values_.ISO_A3].all;
+        title = `${currentCountry.current.values_.ADMIN}. ${startName} - ${endName}`;
+      }
+      // Case 3: joint countries, seperate indicators
+      else if (plotOptions.combinedCountries && !plotOptions.combinedIndicators) {
+        datasets = []
+        currentCountry.current = null
+        currentIndicator.current = tsIndicators[newChartNb % selection.length];
+        for (const country of selection) {
+          const newDataset = allDataRef.current[country.values_.ISO_A3][currentIndicator.current];
+          datasets.push({ ...newDataset[0], label: country.values_.ADMIN })
+        }
+        title = `${indicatorValueName[currentIndicator.current]}. ${startName} - ${endName}`
+      }
+      // Case 4: joint countries, joint indicators
+      else if (plotOptions.combinedCountries && plotOptions.combinedIndicators) {
+        datasets = [];
+        currentCountry.current = null;
+        currentIndicator.current = null;
+        var label = ''
+        
+        for (const country of selection) {
+          const newDataset = allDataRef.current[country.values_.ISO_A3].all
+          console.log('newDataset', newDataset)
+          for (var i = 0; i < tsIndicators.length; i++) {
+            datasets.push({...newDataset[i], label: newDataset[i].label + ` - ${country.values_.ADMIN}`})
+          }
+        }
+        title = `Combined indicators and combined countries. ${startName} - ${endName}`;
+      }
+
+      const titleList = [title]
+      if (title.includes('Sudan') || title.includes('South Sudan')) { titleList.push(`Sudan and South Sudan have the same grouped values!`) }
+      newOptions.plugins.title.text = titleList
       newOptions.scales.y.title.text = chooseYLabel(
         currentIndicator.current,
-        plotOptions.combined,
+        plotOptions.combinedIndicators,
         tsIndicators
       );
+      console.log(datasets)
       setOptions(newOptions);
       setData({ labels: labels.current, datasets: datasets });
       setCurrentChartNb(newChartNb);
@@ -181,17 +224,17 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     var title = "";
     var header = "Year";
     if (exportAmt === "displayed") {
-      if (plotOptions.combined) {
-        title = "combined";
+      if (plotOptions.combinedIndicators) {
+        title = "combined indicators";
         measurementPoints.forEach((value, i) => {
           var row = value;
           for (const indicator of tsIndicators) {
-            const newHeader = `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]
+            const newHeader = `,${currentCountry.current.values_.ADMIN} - ${indicatorValueName[indicator]
               } ${chooseYLabel(currentIndicator.current)}`;
             if (!header.includes(newHeader)) {
               header += newHeader;
             }
-            // titel += `, ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]}`
+            // titel += `, ${indicatorValueName[indicator]}`
             row +=
               "," +
               allDataRef.current[currentCountry.current.values_.ISO_A3][
@@ -201,12 +244,12 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           rowContent += `${row}\r\n`;
         });
       } else {
-        header += `,${currentCountry.current.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[
+        header += `,${currentCountry.current.values_.ADMIN} - ${indicatorValueName[
           currentIndicator.current
         ]
           } ${chooseYLabel(currentIndicator.current)}`;
         title = "single";
-        // titel += `${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[currentIndicator.current]}`
+        // titel += `${currentCountry.current.values_.ADMIN}, ${indicatorValueName[currentIndicator.current]}`
         measurementPoints.forEach((value, i) => {
           rowContent += `${value},${allDataRef.current[currentCountry.current.values_.ISO_A3][
             `${currentIndicator.current}_json`
@@ -220,7 +263,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         var row = value;
         for (const country of selection) {
           for (const indicator of tsIndicators) {
-            const newHeader = `,${country.values_.ADMIN} - ${Object.assign({}, ...Object.values(indicatorTxtObj))[indicator]
+            const newHeader = `,${country.values_.ADMIN} - ${indicatorValueName[indicator]
               } ${chooseYLabel(currentIndicator.current)}`;
             if (!header.includes(newHeader)) {
               header += newHeader;
@@ -246,9 +289,9 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
   function exportJpeg() {
     if (exportAmt === "displayed") {
       const link = document.createElement("a");
-      link.download = plotOptions.combined
+      link.download = plotOptions.combinedIndicators
         ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg`
-        : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[
+        : `Chart - ${currentCountry.current.values_.ADMIN}, ${indicatorValueName[
         currentIndicator.current
         ]
         }.jpeg`;
@@ -258,8 +301,8 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
       chartFinishedRendering.current = false;
       const startingChartNb = currentChartNb;
       const awaitChartRender = async () => {
-        for (let i = 0; i < nbCharts; i++) {
-          handleChangeChart((startingChartNb + i) % nbCharts);
+        for (let i = 0; i < nbCharts.current; i++) {
+          handleChangeChart((startingChartNb + i) % nbCharts.current);
           while (true) {
             await new Promise((resolve) => setTimeout(resolve, 10));
             if (chartFinishedRendering.current) {
@@ -268,9 +311,9 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           }
           chartFinishedRendering.current = false;
           const link = document.createElement("a");
-          link.download = plotOptions.combined
+          link.download = plotOptions.combinedIndicators
             ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg`
-            : `Chart - ${currentCountry.current.values_.ADMIN}, ${Object.assign({}, ...Object.values(indicatorTxtObj))[
+            : `Chart - ${currentCountry.current.values_.ADMIN}, ${indicatorValueName[
             currentIndicator.current
             ]
             }.jpeg`;
@@ -292,7 +335,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
             style={{ height: "300px", display: "flex", alignItems: "center" }}
           >
             <div>
-              <Button onClick={() => handleChangeChart(currentChartNb - 1 >= 0 ? currentChartNb - 1 : 0)} >
+              <Button onClick={() => handleChangeChart(Math.max(currentChartNb - 1, 0))} >
                 &#8249;
               </Button>
             </div>
@@ -304,7 +347,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
               />
             </div>
             <div>
-              <Button onClick={() => handleChangeChart(currentChartNb + 1 < nbCharts ? currentChartNb + 1 : nbCharts - 1)} >
+              <Button onClick={() => handleChangeChart(Math.min(currentChartNb + 1, nbCharts.current - 1))} >
                 &#8250;
               </Button>
             </div>
@@ -342,38 +385,32 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
                 </ToggleButtonGroup>
               </Form.Label>
             </Row>
-            <Form.Label>
-              {" "}
-              Change Graphs:
-              <ToggleButtonGroup
-                type="radio"
-                name="figures"
-                defaultValue={1}
-                onChange={() =>
-                  setPlotOptions({
-                    ...plotOptions,
-                    combined: !plotOptions.combined,
-                  })
-                }
-              >
-                <ToggleButton
-                  variant="outline-secondary"
-                  size="sm"
-                  id="tbg-figures-1"
-                  value={1}
-                >
-                  Seperate
-                </ToggleButton>
-                <ToggleButton
-                  variant="outline-secondary"
-                  size="sm"
-                  id="tbg-figures-2"
-                  value={2}
-                >
-                  Combined
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Form.Label>
+            <Row>
+              <Form.Label>
+                Combined Indicators:
+                <ToggleButtonGroup type="radio" name="combinedIndicators" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combinedIndicators: !plotOptions.combinedIndicators })}>
+                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedIndicators-1" value={1}>
+                    Seperate
+                  </ToggleButton>
+                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedIndicators-2" value={2}>
+                    Combined
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Form.Label>
+            </Row>
+            <Row>
+              <Form.Label>
+                Combined Countries:
+                <ToggleButtonGroup type="radio" name="combinedCountries" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combinedCountries: !plotOptions.combinedCountries })}>
+                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedCountries-1" value={1}>
+                    Seperate
+                  </ToggleButton>
+                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedCountries-2" value={2}>
+                    Combined
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Form.Label>
+            </Row>
           </Form>
         </div>
       )}
@@ -382,8 +419,8 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
 }
 
 // Little helper function
-function chooseYLabel(ind, combined = false, all_indicators = []) {
-  if (combined) {
+function chooseYLabel(ind, combinedIndicators = false, all_indicators = []) {
+  if (combinedIndicators) {
     if (
       all_indicators.every((val) => ["popc", "urbc", "rurc"].includes(val)) ||
       all_indicators.every((val) => ["popd"].includes(val)) ||
@@ -403,5 +440,17 @@ function chooseYLabel(ind, combined = false, all_indicators = []) {
     } else {
       return "[km\u00b2]";
     }
+  }
+}
+
+function calculateNbOfCharts(plotOptions, indLength, countriesLength) {
+  if (plotOptions.combinedCountries && plotOptions.combinedIndicators) {
+    return 1
+  } else if (plotOptions.combinedCountries && !plotOptions.combinedIndicators) {
+    return indLength
+  } else if (!plotOptions.combinedCountries && plotOptions.combinedIndicators) {
+    return countriesLength
+  } else if (!plotOptions.combinedCountries && !plotOptions.combinedIndicators) {
+    return indLength * countriesLength
   }
 }
