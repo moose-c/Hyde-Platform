@@ -33,7 +33,7 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
                         <Selection selection={selection} setSelection={setSelection}/>
                     </Tab>
                     <Tab eventKey="tsForm" title="Timeseries">
-                        <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} plotOptions={plotOptions} setPlotOptions={setPlotOptions} />
+                        <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} setPlotOptions={setPlotOptions} />
                     </Tab>
                     <Tab eventKey="mapsForm" title="Maps">
                         <OverlayForm map={map} setMap={setMap} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator}/>

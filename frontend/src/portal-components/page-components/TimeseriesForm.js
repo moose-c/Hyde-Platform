@@ -9,7 +9,7 @@ import { React, useEffect, useRef } from "react";
 
 import Select from "react-select"
 
-export default function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, setTsIndicators, setDisplayChart }) {
+export default function TimeseriesForm({ startYear, setStartYear, endYear, setEndYear, setTsIndicators, setPlotOptions }) {
     /* Form to request timeseries. */
     const optionsYears = Object.entries(yearsObject).map(([key, value]) => (
         { value: key, label: value }
@@ -34,11 +34,11 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
     }, [startYear])
 
     useEffect(() => {
-        for (let i = Object.keys(yearsObject).indexOf(endYear)+1; i < Object.keys(yearsObject).length; i++) {
+        for (let i = Object.keys(yearsObject).indexOf(endYear) + 1; i < Object.keys(yearsObject).length; i++) {
             optionsStartYear.current[i].isDisabled = true
         }
     }, [endYear])
-    
+
     return (
         <>
             <Form>
@@ -62,7 +62,7 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
                     </Form.Label>
                 </Row>
                 <Row className="justify-content-center">
-                    <Button style={{ width: 200 }} variant="primary" onClick={() => setDisplayChart(prevDisplay => !prevDisplay)}>Request Figures</Button>
+                    <Button style={{ width: 200 }} variant="primary" onClick={() => setPlotOptions(prevOptions => ({ ...prevOptions, plotting: !prevOptions.plotting }))}>Request Figures</Button>
                 </Row>
             </Form>
         </>

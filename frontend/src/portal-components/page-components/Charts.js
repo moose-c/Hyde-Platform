@@ -178,7 +178,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
       else if (plotOptions.combinedCountries && !plotOptions.combinedIndicators) {
         datasets = []
         currentCountry.current = null
-        currentIndicator.current = tsIndicators[newChartNb % selection.length];
+        currentIndicator.current = tsIndicators[newChartNb % tsIndicators.length];
         for (const country of selection) {
           const newDataset = allDataRef.current[country.values_.ISO_A3][currentIndicator.current];
           datasets.push({ ...newDataset[0], label: country.values_.ADMIN })
@@ -190,8 +190,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         datasets = [];
         currentCountry.current = null;
         currentIndicator.current = null;
-        var label = ''
-        
         for (const country of selection) {
           const newDataset = allDataRef.current[country.values_.ISO_A3].all
           console.log('newDataset', newDataset)
@@ -201,7 +199,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         }
         title = `Combined indicators and combined countries. ${startName} - ${endName}`;
       }
-
       const titleList = [title]
       if (title.includes('Sudan') || title.includes('South Sudan')) { titleList.push(`Sudan and South Sudan have the same grouped values!`) }
       newOptions.plugins.title.text = titleList
