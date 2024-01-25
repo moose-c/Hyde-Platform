@@ -9,7 +9,7 @@ This markdown has the following sections:
 ## 1) Use
 ### Setup
 1) Clone git repository
-2) Install docker and docker compose 
+2) Install docker and docker compose (zet verwijzingen hier)
 3) Optionally, obtain data from [YODA](https://landuse.sites.uu.nl/datasets/)
 4) Supply HTTPS certificates to ./frontend/certificates
 5) Write .env file as indicated in .env-template file
@@ -31,7 +31,7 @@ The website and backend components can now be tested and accessed as follows:
 - Test ascii retrieval: `curl http://localhost:8100/api/raster/asc/popc/bce_10000`
 
 ### Restart
-- from application root: `docker-compose down`, `docker system prune -f`, `docker-compose up`
+- from application root: `docker-compose down`, `docker system prune -f`, `docker-compose up -d`
 
 ### Change data locations
 - change data locations within .env file.
@@ -47,12 +47,12 @@ The website and backend components can now be tested and accessed as follows:
     - To add remove indicators:
         - change indicatorTxtObj & indicatorNcObj within ./frontend/src/util/createData.js. Add indicator file name and the pretty name for on the website to both of the objects. 
         - place the data files for the new indicators within the same directory as where the old indicators are.
-2) Execute `npm run buid` from ./frontend, if npm not available, execute `sudo dnf install nodejs` first.
+2) Execute `npm run build` from ./frontend, if npm not available, execute `sudo dnf install nodejs` first.
 3) Execute `docker-compose down` from ./
 4) remove the image from the component that was changed:
     - `docker system prune`
     - `docker rmi $(docker image list -aq)`
-4) `docker-compose up`
+4) `docker-compose up -d`
 
 ## 2) Structure
 This project is split into two components:

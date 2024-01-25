@@ -1,6 +1,7 @@
 MUST HAVE 
 - [] Full name on homepage!  
 - [] Initial text more clearly explain what the purposes of the homepage and the portal is.
+- [] Remove 'Beta, email dev' Button.
 
 SHOULD HAVE
 - [] Britta wants geotiff export. Difficult I think
