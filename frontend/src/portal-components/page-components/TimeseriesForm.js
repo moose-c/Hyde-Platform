@@ -45,12 +45,12 @@ export default function TimeseriesForm({ startYear, setStartYear, endYear, setEn
                 <Row>
                     <Col>
                         <Form.Label> Start year
-                            <Select maxMenuHeight={200} required options={optionsStartYear.current} value={optionsStartYear.current[Object.keys(yearsObject).indexOf(startYear)]} onChange={(e) => setStartYear(e.value)} />
+                            <Select menuPortalTarget={document.body} maxMenuHeight={200} required options={optionsStartYear.current} value={optionsStartYear.current[Object.keys(yearsObject).indexOf(startYear)]} onChange={(e) => setStartYear(e.value)} />
                         </Form.Label>
                     </Col>
                     <Col>
                         <Form.Label> End year
-                            <Select maxMenuHeight={200} required options={optionsEndYear.current} value={optionsEndYear.current[Object.keys(yearsObject).indexOf(endYear)]} onChange={(e) => setEndYear(e.value)} />
+                            <Select menuPortalTarget={document.body} maxMenuHeight={200} required options={optionsEndYear.current} value={optionsEndYear.current[Object.keys(yearsObject).indexOf(endYear)]} onChange={(e) => setEndYear(e.value)} />
                         </Form.Label>
                     </Col>
                 </Row>

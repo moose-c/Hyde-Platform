@@ -1,13 +1,11 @@
 MUST HAVE
-- [] vgm werkt exporteren van graphs nu helemaal niet meer. sti
-- [] Britta wants geotiff export. Difficult I think
-- [] Select box does not change global year value!!
+- [] vgm werkt exporteren van graphs nu helemaal niet meer. 
 - [] pixel value box doesn't disappear when selecing new year/indicator
 - [] Full name on homepage!  
 - [] Initial text more clearly explain what the purposes of the homepage and the portal is.
-- [] years is behind the old graph
 
 SHOULD HAVE
+- [] Britta wants geotiff export. Difficult I think
 - [] clear graph, X button
 - [] display current year indicator values
 - [] 'tick marks to distinguish time periods'. 'line of years, and the below all of the eras'
@@ -15,6 +13,7 @@ SHOULD HAVE
 - [] Box stays in the same place on draging the map
 - [] Why is timeseries a seperate tab?
 - [] misschien niet verschillende yas diingen in 1 
+- [] Start & End year begin bij huidige waarde
 
 WANT HAVE
 /// nieuwe indicator
