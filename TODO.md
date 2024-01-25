@@ -7,8 +7,6 @@ SHOULD HAVE
 - [] clear graph, X button
 - [] display current year indicator values
 - [] 'tick marks to distinguish time periods'. 'line of years, and the below all of the eras'
-- [] On moving the map, selected a country
-- [] Box stays in the same place on draging the map
 - [] Why is timeseries a seperate tab?
 - [] misschien niet verschillende yas diingen in 1 
 - [] Start & End year begin bij huidige waarde
