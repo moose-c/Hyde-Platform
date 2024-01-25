@@ -1,18 +1,16 @@
 MUST HAVE
-- [] Britta wants geotiff export
-- [] Displayed, or All option. Make 1 grey!
+- [] vgm werkt exporteren van graphs nu helemaal niet meer. sti
+- [] Britta wants geotiff export. Difficult I think
 - [] Select box does not change global year value!!
-- [] ‘Grazing land’ in de grafiek op de frontpage laten zien, samen met Cropland.
 - [] pixel value box doesn't disappear when selecing new year/indicator
 - [] Full name on homepage!  
 - [] Initial text more clearly explain what the purposes of the homepage and the portal is.
 - [] years is behind the old graph
-- [] Mask for each country (is supposed to be on Yoda)?
 
 SHOULD HAVE
 - [] clear graph, X button
 - [] display current year indicator values
-- [] 'tick marks to distinguish ttime periods'. 'line of years, and the below all of the eras'
+- [] 'tick marks to distinguish time periods'. 'line of years, and the below all of the eras'
 - [] On moving the map, selected a country
 - [] Box stays in the same place on draging the map
 - [] Why is timeseries a seperate tab?

@@ -1,5 +1,6 @@
 from flask import Flask, send_from_directory, make_response
 import zipfile
+import rasterio
 import os
 
 api = Flask(__name__)
@@ -11,6 +12,7 @@ pngDir = "/data/png"
 # .route(...) specifies the URL through which the API can be accessed
 @api.route("/api/raster/asc/<indicator>/<year>")
 def get_asc(indicator, year):
+  # Initially just get asc from zip file as before
   parsedYear = parseYear(year, 'asc')
   indicatorType = 'pop' if indicator in ['popc', 'popd', 'urbc', 'rurc', 'uopp'] else 'lu'
   zipName = f'{parsedYear}_{indicatorType}.zip' 
@@ -34,7 +36,48 @@ def get_asc(indicator, year):
         stream_and_remove_file(),
         headers={'Content-Disposition': 'attachment', 'filename': fileName, 'Access-Control-Allow-Origin' : '*'}
     )
+
+# Assuming parseYear and ascDir are defined elsewhere in your code
+
+@api.route("/api/raster/tif/<indicator>/<year>")
+def get_tif(indicator, year):
+    parsedYear = parseYear(year, 'tif')
+    indicatorType = 'pop' if indicator in ['popc', 'popd', 'urbc', 'rurc', 'uopp'] else 'lu'
+    zipName = f'{parsedYear}_{indicatorType}.zip' 
+    pathName = os.path.join(ascDir, zipName)
+    fileNameAsc = f'{indicator}_{parsedYear}.asc' if indicatorType == 'pop' else f'{indicator}{parsedYear}.asc'
+    fileNameTif = f'{indicator}_{parsedYear}.tif' if indicatorType == 'pop' else f'{indicator}{parsedYear}.tif'
+
+    # Extract and create the .asc file
+    with zipfile.ZipFile(pathName) as z:
+        with open(fileNameAsc, 'wb') as f:
+            f.write(z.read(fileNameAsc))
+      
+    # Convert to .tif
+    with rasterio.open(fileNameAsc) as src:
+        profile = src.profile
+        profile.update(
+            driver='GTiff',
+            dtype=rasterio.float32
+        )
+        
+        with rasterio.open(fileNameTif, 'w', **profile) as dst:
+            dst.write(src.read(1), 1)
+
+    # Stream the created .tiff file and then delete it
+    def stream_and_remove_file():
+        with open(fileNameTif, 'rb') as file:
+            yield from file
+        os.remove(fileNameTif)
+        os.remove(fileNameAsc)
+
+    return api.response_class(
+        stream_and_remove_file(),
+        headers={'Content-Disposition': 'attachment', 'filename': fileNameTif, 'Access-Control-Allow-Origin': '*'}
+    )
+
   
+#### Function to publish PNGs
 @api.route("/api/raster/png/<indicator>/<year>")
 def get_png(indicator, year):
   # Parse Data
@@ -52,7 +95,7 @@ def parseYear(year, type):
   
   Obtain in the following format: ce_1500, bce_10000"""
   
-  if type == 'asc':
+  if type == 'asc' or type == 'tif':
     yearEra, yearNb = year.split('_')
     parsedEra = 'AD' if yearEra == 'ce' else 'BE'
     return yearNb + parsedEra

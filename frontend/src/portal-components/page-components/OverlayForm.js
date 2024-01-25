@@ -51,6 +51,20 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
             })
     }
 
+    async function exportTif() {
+        const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
+        var domainName = window.apiUrl === '' ? window.apiUrl : `${window.apiUrl}:8100`
+        const fetchUrl = `${domainName}/api/raster/tif/${uglyInd}/${currentYear}`
+        fetch(fetchUrl).then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(new Blob([blob]))
+                const link = document.createElement('a');
+                link.href = url
+                link.setAttribute('download', `${ovIndicator}-${currentYear}.asc`)
+                link.click()
+            })
+    }
+
     async function exportPNG() {
         const uglyInd = Object.keys(Object.assign({}, ...Object.values(indicatorTxtObj)))[Object.keys(Object.assign({}, ...Object.values(indicatorNcObj))).indexOf(ovIndicator)]
         var domainName = window.apiUrl === '' ? window.apiUrl : `${window.apiUrl}:8100`
@@ -93,8 +107,10 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
 
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={() => exportPNG()}>PNG</Dropdown.Item>
-                            <Dropdown.Item onClick={() => exportAsc()}>asc</Dropdown.Item>
-                            <Dropdown.Header>Access <a href="https://landuse.sites.uu.nl/datasets/">YODA</a> for .nc and zipped .asc</Dropdown.Header>
+                            <Dropdown.Item onClick={() => exportAsc()}>Esri ASCII</Dropdown.Item>
+                            <Dropdown.Item onClick={() => exportTif()}>geoTIFF</Dropdown.Item>
+                            <Dropdown.Header>For <b>netCDF</b>, <b>Zipped ASCII</b> <br/> and <b>country/region masks</b> <br/> 
+                            Access <a href="https://landuse.sites.uu.nl/datasets/">YODA</a> </Dropdown.Header>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Row>

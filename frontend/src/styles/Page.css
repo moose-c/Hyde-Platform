@@ -2,3 +2,13 @@
 Button {
   margin: 5px;
 }
+
+.menu-section-header {
+  font-size: 1rem;         /* Adjust the font size as needed */
+  font-weight: bold;       /* Makes the text bold */
+  color: #333;             /* Sets the text color; choose a color that fits your design */
+  padding: 0.25rem 0;      /* Padding above and below the text */
+  background-color: #f8f9fa; /* Light background color for the header; adjust as needed */
+  border-radius: 5px;      /* Optional: Adds rounded corners if you prefer */
+  text-align: center;      /* Centers the text */
+}

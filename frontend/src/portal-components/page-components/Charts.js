@@ -164,7 +164,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         currentCountry.current = selection[Math.floor(newChartNb / tsIndicators.length)];
         currentIndicator.current = tsIndicators[newChartNb % tsIndicators.length];
         datasets = allDataRef.current[currentCountry.current.values_.ISO_A3][currentIndicator.current];
-        title = `${currentCountry.current.values_.ADMIN}. ${startName} - ${endName}`;
+        title = `${currentCountry.current.values_.ADMIN}, ${startName} - ${endName}`;
       }
       // Case 2: seperate countries, joint indicators
       // in an ideal world do i make this work without 'all'
@@ -172,7 +172,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         currentCountry.current = selection[newChartNb];
         currentIndicator.current = null;
         datasets = allDataRef.current[currentCountry.current.values_.ISO_A3].all;
-        title = `${currentCountry.current.values_.ADMIN}. ${startName} - ${endName}`;
+        title = `${currentCountry.current.values_.ADMIN}, ${startName} - ${endName}`;
       }
       // Case 3: joint countries, seperate indicators
       else if (plotOptions.combinedCountries && !plotOptions.combinedIndicators) {
@@ -183,7 +183,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           const newDataset = allDataRef.current[country.values_.ISO_A3][currentIndicator.current];
           datasets.push({ ...newDataset[0], label: country.values_.ADMIN })
         }
-        title = `${indicatorValueName[currentIndicator.current]}. ${startName} - ${endName}`
+        title = `${indicatorValueName[currentIndicator.current]}, ${startName} - ${endName}`
       }
       // Case 4: joint countries, joint indicators
       else if (plotOptions.combinedCountries && plotOptions.combinedIndicators) {
@@ -194,10 +194,10 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           const newDataset = allDataRef.current[country.values_.ISO_A3].all
           console.log('newDataset', newDataset)
           for (var i = 0; i < tsIndicators.length; i++) {
-            datasets.push({...newDataset[i], label: newDataset[i].label + ` - ${country.values_.ADMIN}`})
+            datasets.push({ ...newDataset[i], label: newDataset[i].label + ` - ${country.values_.ADMIN}` })
           }
         }
-        title = `Combined indicators and combined countries. ${startName} - ${endName}`;
+        title = `Combined indicators and combined countries, ${startName} - ${endName}`;
       }
       const titleList = [title]
       if (title.includes('Sudan') || title.includes('South Sudan')) { titleList.push(`Sudan and South Sudan have the same grouped values!`) }
@@ -352,21 +352,23 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           <Form>
             <Dropdown style={{ position: "absolute", right: 0, bottom: 0 }} drop="end" >
               <Dropdown.Toggle>Export</Dropdown.Toggle>
-              <Dropdown.Menu>
-                <ToggleButtonGroup type="radio" name="exportTs" defaultValue="displayed" onChange={(e) => setExportAmt(e)} >
-                  <ToggleButton size="sm" id="tbg-exportTs-1" value="displayed">
-                    Displayed
+              <Dropdown.Menu style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div className="menu-section-header">Which?</div>
+                <ToggleButtonGroup type="radio" name="exportTs" defaultValue="displayed" onChange={(e) => setExportAmt(e)}>
+                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-exportTs-1" value="displayed">
+                    Current Figure
                   </ToggleButton>
-                  <ToggleButton size="sm" id="tbg-exportTs-2" value="all">
-                    All
+                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-exportTs-2" value="all">
+                    All Figures
                   </ToggleButton>
                 </ToggleButtonGroup>
-                <Dropdown.Item onClick={() => exportCSV()}>
-                  CSV
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => exportJpeg()}>
-                  jpeg
-                </Dropdown.Item>
+                <div className="menu-section-header">Format?</div>
+                <Button onClick={() => exportCSV()}>
+                  Export CSV
+                </Button>
+                <Button onClick={() => exportJpeg()}>
+                  Export JPEG
+                </Button>
               </Dropdown.Menu>
             </Dropdown>
             <Row>
@@ -384,7 +386,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
             </Row>
             <Row>
               <Form.Label>
-                Combined Indicators:
+                Display Indicators:
                 <ToggleButtonGroup type="radio" name="combinedIndicators" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combinedIndicators: !plotOptions.combinedIndicators })}>
                   <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedIndicators-1" value={1}>
                     Seperate
@@ -397,7 +399,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
             </Row>
             <Row>
               <Form.Label>
-                Combined Countries:
+                Display Countries:
                 <ToggleButtonGroup type="radio" name="combinedCountries" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combinedCountries: !plotOptions.combinedCountries })}>
                   <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedCountries-1" value={1}>
                     Seperate

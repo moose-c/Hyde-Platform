@@ -49,16 +49,16 @@ export default function Graph({ roundedYear }) {
         `${domainName}/api/txt/cropland/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
       ).then((response) => response.json());
 
-      const pasture_json = await fetch(
-        `${domainName}/api/txt/pasture/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
+      const grazing_json = await fetch(
+        `${domainName}/api/txt/grazing/10000/bce_10000/ce_${process.env.REACT_APP_END_YEAR}`
       ).then((response) => response.json());
 
-      const pastureData = [];
+      const grazingData = [];
       const croplandData = []
-      for (var i = 0; i < pasture_json[0].length; i++){
-        pastureData.push({
+      for (var i = 0; i < grazing_json[0].length; i++){
+        grazingData.push({
           x: yearNbList[i],
-          y: pasture_json[0][i],
+          y: grazing_json[0][i],
         });
         croplandData.push({
           x: yearNbList[i],
@@ -75,12 +75,12 @@ export default function Graph({ roundedYear }) {
         datasets: [
           {
             label: "Pasture",
-            data: pastureData,
+            data: grazingData,
             fill: false,
             borderColor: "rgba(255, 99, 132, 1)",
           },
           {
-            label: "Cropland",
+            label: "Grazing Land",
             data: croplandData,
             fill: false,
             borderColor: "rgba(54, 162, 235, 1)",

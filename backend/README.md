@@ -9,5 +9,8 @@ Specification about the data that is produced by the HYDE model can be viewed in
 
 # Testing backend
 1) timeseries-api: `curl http://127.0.0.1:8000/api/txt/uopp/4/bce_1000/ce_700`
-2) raster-api: `curl http://localhost:8100/api/raster/png/pasture/ce_0`
+2) raster-api: 
+ - `curl http://localhost:8100/api/raster/png/pasture/ce_0`
+ - `curl http://localhost:8100/api/raster/tif/pasture/ce_0`
+ - `curl http://localhost:8100/api/raster/asc/pasture/ce_0`
 3) ncWMS: `http://localhost:8080/ncWMS`
