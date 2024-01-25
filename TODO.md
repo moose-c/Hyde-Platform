@@ -1,6 +1,5 @@
 MUST HAVE
 - [] vgm werkt exporteren van graphs nu helemaal niet meer. 
-- [] pixel value box doesn't disappear when selecing new year/indicator
 - [] Full name on homepage!  
 - [] Initial text more clearly explain what the purposes of the homepage and the portal is.
 
@@ -14,6 +13,7 @@ SHOULD HAVE
 - [] Why is timeseries a seperate tab?
 - [] misschien niet verschillende yas diingen in 1 
 - [] Start & End year begin bij huidige waarde
+- [] make zooming more clear
 
 WANT HAVE
 /// nieuwe indicator

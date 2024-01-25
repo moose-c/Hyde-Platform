@@ -9,7 +9,7 @@ import RangeSlider from 'react-bootstrap-range-slider';
 
 import Select from "react-select"
 
-export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, setOvIndicator }) {
+export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, setOvIndicator, setPopoverInfo }) {
     /* Form to request timeseries. */
     // Changing currentYear causes retrieval of netcdf. To do this continuously is to intensive, therefore sliderYear changes continuously but currentYear only after sliding has finished
     const [sliderYear, setSliderYear] = useState(currentYear)
@@ -94,7 +94,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
                 <Row>
                     <Form.Label style={{}}>Indicator
                         <div style={{ width: 200, margin: '0 auto' }}>
-                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} onChange={(e) => handleSelect(e)} />
+                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} onChange={(e) => {setPopoverInfo(null); handleSelect(e)}} />
                         </div>
                     </Form.Label>
                 </Row>

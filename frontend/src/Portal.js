@@ -28,6 +28,9 @@ export default function Portal() {
   const [ovIndicator, setOvIndicator] = useState(null);
   const [currentYear, setCurrentYear] = useState("ce_0");
 
+  // To print pixel info when clicking a pixel, in the Map state
+  const [popoverInfo, setPopoverInfo] = useState(null)
+
   // Hide modal after first show
   const [show, setShow] = useState(true);
 
@@ -122,6 +125,8 @@ export default function Portal() {
           ovIndicator={ovIndicator}
           setOvIndicator={setOvIndicator}
           currentYear={currentYear}
+          popoverInfo={popoverInfo}
+          setPopoverInfo={setPopoverInfo}
         />
         <Page
           setCurrentlySelecting={setCurrentlySelecting}
@@ -131,6 +136,7 @@ export default function Portal() {
           setOvIndicator={setOvIndicator}
           currentYear={currentYear}
           setCurrentYear={setCurrentYear}
+          setPopoverInfo={setPopoverInfo}
         />
       </div>
     </>

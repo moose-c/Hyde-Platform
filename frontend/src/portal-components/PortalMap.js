@@ -18,12 +18,13 @@ import Borders from "../data/countries.geojson"
 import { indicatorNcObj, rangeValues, styleValues } from "../util/createData"
 
 
-export default function PortalMap({ currentlySelecting, setSelection, ovIndicator, setOvIndicator, currentYear }) {
+export default function PortalMap({ currentlySelecting, setSelection, ovIndicator, setOvIndicator, currentYear, popoverInfo, setPopoverInfo }) {
   // Openlayers map element
   const map = useRef()
   const overlay = useRef([])
 
-  const [popoverInfo, setPopoverInfo] = useState(null)
+  // Only do something if people click, not if they drag
+  const [mouseDownPosition, setMouseDownPosition] = useState(null)
 
   // Display message for 5 seconds at the mouse when changing between selecting countries and clicking pixels
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -148,66 +149,73 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
   }, [ovIndicator, currentYear])
 
   // If clicked on map, do one of two things
-  function handleClick(e) {
-    if (currentlySelecting) {
-      // Only use first of the selected values, this way when you select precicely a border only 1 country is selected
-      const firstFeature = map.current.getFeaturesAtPixel([e.pageX, e.pageY])[0]
-      // doesn't exist if no country (i.e. sea) was selected
-      if (firstFeature) {
-        setSelection((previousSelection) => {
-          if (!previousSelection.includes(firstFeature)) {
-            firstFeature.setStyle(highlightStyle)
-            return ([...previousSelection, firstFeature])
-          } else {
-            firstFeature.setStyle(undefined)
-            const newSelection = [...previousSelection]
-            newSelection.splice(previousSelection.indexOf(firstFeature), 1)
-            return newSelection
-          }
-        })
-      }
-    } else {
-      if (ovIndicator !== null) {
-        var pixel = [e.pageX, e.pageY]
-        for (let layer of map.current.values_.layergroup.values_.layers.array_) {
-          if (layer.className_ === 'overlay') {
-            var overlayLayer = layer.values_.source
-            break
-          }
+  function handleMouseUp(e) {
+    if (mouseDownPosition[0] == e.clientX && mouseDownPosition[1] == e.clientY) {
+      if (currentlySelecting) {
+        // Only use first of the selected values, this way when you select precicely a border only 1 country is selected
+        const firstFeature = map.current.getFeaturesAtPixel([e.pageX, e.pageY])[0]
+        // doesn't exist if no country (i.e. sea) was selected
+        if (firstFeature) {
+          setSelection((previousSelection) => {
+            if (!previousSelection.includes(firstFeature)) {
+              firstFeature.setStyle(highlightStyle)
+              return ([...previousSelection, firstFeature])
+            } else {
+              firstFeature.setStyle(undefined)
+              const newSelection = [...previousSelection]
+              newSelection.splice(previousSelection.indexOf(firstFeature), 1)
+              return newSelection
+            }
+          })
         }
-        const view = map.current.values_.view
-        const viewRes = view.getResolution()
-        const projection = view.values_.projection
-        const url = overlayLayer.getFeatureInfoUrl(
-          map.current.getCoordinateFromPixel(pixel),
-          viewRes,
-          projection,
-          { 'INFO_FORMAT': 'text/xml' }
-        );
-        if (url) {
-          fetch(url)
-            .then((response) => response.text())
-            .then((html) => {
-              const parser = new DOMParser();
-              const xmlDoc = parser.parseFromString(html, 'text/xml');
+      } else {
+        if (ovIndicator !== null) {
+          var pixel = [e.pageX, e.pageY]
+          for (let layer of map.current.values_.layergroup.values_.layers.array_) {
+            if (layer.className_ === 'overlay') {
+              var overlayLayer = layer.values_.source
+              break
+            }
+          }
+          const view = map.current.values_.view
+          const viewRes = view.getResolution()
+          const projection = view.values_.projection
+          const url = overlayLayer.getFeatureInfoUrl(
+            map.current.getCoordinateFromPixel(pixel),
+            viewRes,
+            projection,
+            { 'INFO_FORMAT': 'text/xml' }
+          );
+          if (url) {
+            fetch(url)
+              .then((response) => response.text())
+              .then((html) => {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(html, 'text/xml');
 
-              const lon = parseFloat(xmlDoc.getElementsByTagName('longitude')[0].textContent)
-              const lat = parseFloat(xmlDoc.getElementsByTagName('latitude')[0].textContent)
-              const value = xmlDoc.getElementsByTagName('value').length > 0 ? parseFloat(xmlDoc.getElementsByTagName('value')[0].textContent) : null
-              setPopoverInfo({ left: e.clientX, top: e.clientY, lon: lon, lat: lat, value: value })
-            });
+                const lon = parseFloat(xmlDoc.getElementsByTagName('longitude')[0].textContent)
+                const lat = parseFloat(xmlDoc.getElementsByTagName('latitude')[0].textContent)
+                const value = xmlDoc.getElementsByTagName('value').length > 0 ? parseFloat(xmlDoc.getElementsByTagName('value')[0].textContent) : null
+                setPopoverInfo({ left: e.clientX, top: e.clientY, lon: lon, lat: lat, value: value })
+              });
+          }
         }
       }
     }
   }
   // render component
+  function handleMove(e) {
+    if (e.buttons == 1) {
+      setPopoverInfo(null)
+    }
+  }
   return (
     <>
-      <div id='map' className="map-container" onClick={(e) => handleClick(e)}></div>
+      <div id='map' className="map-container" onPointerMove={(e) => handleMove(e)} onMouseDown={(e) => setMouseDownPosition([e.clientX, e.clientY])} onMouseUp={(e) => handleMouseUp(e)}></div>
       {/* When there is raster overlay, clicking a pixel displays a popup showing the value at that pixel */}
       {popoverInfo !== null && (
         <div style={{ border: 'solid black 1px', borderRadius: 5, backgroundColor: 'white', position: 'fixed', left: popoverInfo.left, top: popoverInfo.top, padding: 3 }}>
-          <div style={{borderBottom: 'solid black 1px', borderRadius: '5px 5px 0px 0px', display: 'flex', justifyContent: 'center'}}>
+          <div style={{ borderBottom: 'solid black 1px', borderRadius: '5px 5px 0px 0px', display: 'flex', justifyContent: 'center' }}>
             <h6 style={{ color: '#0A58CA', fontWeight: 'bold', marginBottom: 0, paddingRight: 5, flexGrow: 1 }}>Pixel Information</h6>
             <div style={{ cursor: "pointer", marginLeft: 'auto' }} onClick={() => setPopoverInfo(null)}>X</div>
           </div>
