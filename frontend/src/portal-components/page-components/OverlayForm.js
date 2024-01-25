@@ -87,7 +87,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
                             <Select menuPortalTarget={document.body} options={optionsYears} value={optionsYears[yearValueList.indexOf(sliderYear)]} onChange={(e) => {setCurrentYear(e.value); setSliderYear(e.value)}}></Select>
                         </div>
                         <div style={{ display: 'flex', justifyContent: "center" }}>
-                            <RangeSlider type="range" min={0} max={yearValueList.length - 1} step={1} value={yearValueList.indexOf(sliderYear)} onChange={(e) => setSliderYear(yearValueList[e.target.value])} tooltipStyle={{ display: "none" }} style={{ width: 200 }} onAfterChange={(e) => {console.log(yearValueList[e.target.value]); setCurrentYear(yearValueList[e.target.value])}} />
+                            <RangeSlider type="range" min={0} max={yearValueList.length - 1} step={1} value={yearValueList.indexOf(sliderYear)} onChange={(e) => setSliderYear(yearValueList[e.target.value])} tooltipStyle={{ display: "none" }} style={{ width: 200 }} onAfterChange={(e) => setCurrentYear(yearValueList[e.target.value])} />
                         </div>
                     </Form.Label>
                 </Row>

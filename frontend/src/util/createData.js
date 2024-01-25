@@ -24,8 +24,7 @@ export const yearsObject = Object.fromEntries(
     yearValueList.map((element, index) => [element, yearNameList[index]])
 )
 
-
-// indicator object, popc : Population Count
+// indicator object relating to the .txt files
 export const indicatorTxtObj = {
     demographic: {
         popc: 'Population',
@@ -52,7 +51,7 @@ export const indicatorTxtObj = {
     }
 }
 
-// indicator object, popc : Population Count
+// indicator object relating to the netcdf Files, as filenames don't coincide
 export const indicatorNcObj = {
     demographic: {
         population: 'Population',
@@ -77,8 +76,6 @@ export const indicatorNcObj = {
         total_rainfed: 'Total Rainfed'
     }
 }
-
-export const indicatorNcOrder = ['urban_area', 'total_rice', 'urban_population', 'total_irrigated', 'rural_population', 'rainfed_not_rice', 'pasture', 'cropland', 'rainfed_rice', 'rangeland', 'grazing_land', 'irrigated_not_rice', 'population', 'total_rainfed', 'irrigated_rice', 'population_density'] 
 
 export const rangeValues = {popAbs: '0.0001,3200', popDens:'0.0001,500', lu: '0.0001,70'}
 export const styleValues = {pop: 'x-Rainbow', lu: 'div-Spectral-inv'}

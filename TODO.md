@@ -11,25 +11,18 @@ SHOULD HAVE
 - [] misschien niet verschillende yas diingen in 1 
 - [] Start & End year begin bij huidige waarde
 - [] make zooming more clear
+- [] Tried to move dot.
+- [] just 1 api.
 
 WANT HAVE
-/// nieuwe indicator
 Modal Changes:
 - which ind available?
--  ‘Using this portal you can select countries,
-download raw data for a time series, and export maps for specific
-years”
 - [] Change (last) Modal Image
 - [] 'doesn't look like a slidebar, looks like buttons'.
-- [] Box around different values, at high zoom levels can't distinguish pixels
-click presentation to do public outreach!
-- [] Tried to move dot.
 - [] Year is pretty far away from the timeline.
+- [] Database contains also totals for the whole world, allow these also to be plotted -> wait until potetial regions are chosen
 
 COULD HAVE
-- [] Database contains also totals for the whole world, allow these also to be plotted -> wait until potetial regions are chosen
 - [] Clip to countries, perhaps use print screen?
-- [] How big is a cell?
-Value for pasture land? 
-cell at equator are larger than at poles. Can this be computed on the fly? ncWMS
-- [] more immediate data portal for familiar users -> copernicus data portal
+- [] cell at equator are larger than at poles. Can this be computed on the fly? Differently sized cells?
+- [] more immediate data portal for familiar users, such as for example [copernicus data portal](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-land?tab=form)

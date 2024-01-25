@@ -193,7 +193,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         currentIndicator.current = null;
         for (const country of selection) {
           const newDataset = allDataRef.current[country.values_.ISO_A3].all
-          console.log('newDataset', newDataset)
           for (var i = 0; i < tsIndicators.length; i++) {
             datasets.push({ ...newDataset[i], label: newDataset[i].label + ` - ${country.values_.ADMIN}` })
           }
@@ -208,7 +207,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         plotOptions.combinedIndicators,
         tsIndicators
       );
-      console.log(datasets)
       setOptions(newOptions);
       setData({ labels: labels.current, datasets: datasets });
       setCurrentChartNb(newChartNb);
@@ -446,12 +444,15 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
 
 // Little helper function
 function chooseYLabel(ind, combinedIndicators = false, all_indicators = []) {
+  const demInd = Object.keys(indicatorTxtObj['demographic'])
+  const demIndWODensity = Object.keys(indicatorTxtObj['demographic'])
+  demIndWODensity.splice(demIndWODensity.indexOf('popd'), 1)
   if (combinedIndicators) {
     if (
-      all_indicators.every((val) => ["popc", "urbc", "rurc"].includes(val)) ||
+      all_indicators.every((val) => demIndWODensity.includes(val)) ||
       all_indicators.every((val) => ["popd"].includes(val)) ||
       all_indicators.every(
-        (val) => !["popc", "urbc", "rurc", "popd"].includes(val)
+        (val) => !demInd.includes(val)
       )
     ) {
       return chooseYLabel(all_indicators[0]);
@@ -459,7 +460,7 @@ function chooseYLabel(ind, combinedIndicators = false, all_indicators = []) {
       return null;
     }
   } else {
-    if (["popc", "urbc", "rurc"].includes(ind)) {
+    if (demIndWODensity.includes(ind)) {
       return "[inh]";
     } else if ("popd" === ind) {
       return `[inh/km\u00b2]`;

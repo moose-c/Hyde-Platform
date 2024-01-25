@@ -44,11 +44,14 @@ The website and backend components can now be tested and accessed as follows:
     - To change homepage content:
         - To change the Left (blue) part: change Jubmotron within ./frontend/src/Home.js 
         - To change the Right (Era Text): change the periodText from ./frontend/src/util/timelineObjects.js
+    - To add remove indicators:
+        - change indicatorTxtObj & indicatorNcObj within ./frontend/src/util/createData.js. Add indicator file name and the pretty name for on the website to both of the objects. 
+        - place the data files for the new indicators within the same directory as where the old indicators are.
 2) Execute `npm run buid` from ./frontend, if npm not available, execute `sudo dnf install nodejs` first.
 3) Execute `docker-compose down` from ./
 4) remove the image from the component that was changed:
     - `docker system prune`
-    - `docker rmi hyde-platform-map-website`
+    - `docker rmi $(docker image list -aq)`
 4) `docker-compose up`
 
 ## 2) Structure
