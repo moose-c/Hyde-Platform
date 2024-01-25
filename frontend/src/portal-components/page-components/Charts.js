@@ -149,6 +149,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     } // eslint-disable-next-line
   }, [plotOptions, selection, tsIndicators, startYear, endYear]);
 
+  // Dynamically compute charts based on plotting options
   function handleChangeChart(newChartNb) {
     if (
       plotOptions.plotting &&
@@ -218,11 +219,50 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
 
   function exportCSV() {
     var rowContent = "";
-    var title = "";
+    var title;
     var header = "Year";
     if (exportAmt === "displayed") {
-      if (plotOptions.combinedIndicators) {
-        title = "combined indicators";
+      if (plotOptions.combinedIndicators && plotOptions.combinedCountries) {
+        title = computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, '.csv')
+        measurementPoints.forEach((value, i) => {
+          var row = value;
+          for (const country of selection) {
+            for (const indicator of tsIndicators) {
+              const newHeader = `,${country.values_.ADMIN} - ${indicatorValueName[indicator]
+                } ${chooseYLabel(indicator)}`;
+              if (!header.includes(newHeader)) {
+                header += newHeader;
+              }
+              row +=
+                "," +
+                allDataRef.current[country.values_.ISO_A3][
+                `${indicator}_json`
+                ][0][i];
+            }
+          }
+          rowContent += `${row}\r\n`;
+        });
+      } else if (!plotOptions.combinedIndicators && plotOptions.combinedCountries) {
+        title = computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, '.csv')
+        measurementPoints.forEach((value, i) => {
+          var row = value;
+          for (const country of selection) {
+            const newHeader = `,${country.values_.ADMIN} - ${indicatorValueName[currentIndicator.current]
+              } ${chooseYLabel(currentIndicator.current)}`;
+            if (!header.includes(newHeader)) {
+              header += newHeader;
+            }
+            // titel += `, ${indicatorValueName[indicator]}`
+            row +=
+              "," +
+              allDataRef.current[country.values_.ISO_A3][
+              `${currentIndicator.current}_json`
+              ][0][i];
+          }
+          rowContent += `${row}\r\n`;
+        });
+      } else if (plotOptions.combinedIndicators && !plotOptions.combinedCountries) {
+        title = computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, '.csv')
         measurementPoints.forEach((value, i) => {
           var row = value;
           for (const indicator of tsIndicators) {
@@ -231,7 +271,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
             if (!header.includes(newHeader)) {
               header += newHeader;
             }
-            // titel += `, ${indicatorValueName[indicator]}`
             row +=
               "," +
               allDataRef.current[currentCountry.current.values_.ISO_A3][
@@ -240,13 +279,9 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           }
           rowContent += `${row}\r\n`;
         });
-      } else {
-        header += `,${currentCountry.current.values_.ADMIN} - ${indicatorValueName[
-          currentIndicator.current
-        ]
-          } ${chooseYLabel(currentIndicator.current)}`;
-        title = "single";
-        // titel += `${currentCountry.current.values_.ADMIN}, ${indicatorValueName[currentIndicator.current]}`
+      } else if (!plotOptions.combinedIndicators && !plotOptions.combinedCountries) {
+        header += `,${currentCountry.current.values_.ADMIN} - ${indicatorValueName[currentIndicator.current]} ${chooseYLabel(currentIndicator.current)}`;
+        title = computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, '.csv')
         measurementPoints.forEach((value, i) => {
           rowContent += `${value},${allDataRef.current[currentCountry.current.values_.ISO_A3][
             `${currentIndicator.current}_json`
@@ -255,7 +290,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         });
       }
     } else if (exportAmt === "all") {
-      title = "all";
+      title = computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, '.csv')
       measurementPoints.forEach((value, i) => {
         var row = value;
         for (const country of selection) {
@@ -279,19 +314,15 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     var encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.href = encodedUri;
-    link.download = `${title}.csv`;
+    link.download = title;
     link.click();
   }
 
   function exportJpeg() {
     if (exportAmt === "displayed") {
       const link = document.createElement("a");
-      link.download = plotOptions.combinedIndicators
-        ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg`
-        : `Chart - ${currentCountry.current.values_.ADMIN}, ${indicatorValueName[
-        currentIndicator.current
-        ]
-        }.jpeg`;
+      var filename = computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, '.jpeg');
+      link.download = filename
       link.href = chartRef.current.toBase64Image("image/jpeg", 1);
       link.click();
     } else if (exportAmt === "all") {
@@ -308,12 +339,8 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           }
           chartFinishedRendering.current = false;
           const link = document.createElement("a");
-          link.download = plotOptions.combinedIndicators
-            ? `Chart - ${currentCountry.current.values_.ADMIN}.jpeg`
-            : `Chart - ${currentCountry.current.values_.ADMIN}, ${indicatorValueName[
-            currentIndicator.current
-            ]
-            }.jpeg`;
+          var filename = computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, '.jpeg');
+          link.download = filename
           link.href = chartRef.current.toBase64Image("image/jpeg", 1);
           link.click();
           link.remove();
@@ -451,5 +478,18 @@ function calculateNbOfCharts(plotOptions, indLength, countriesLength) {
     return countriesLength
   } else if (!plotOptions.combinedCountries && !plotOptions.combinedIndicators) {
     return indLength * countriesLength
+  }
+}
+
+// Computing the name of the jpeg file
+function computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, filetype) {
+  if (plotOptions.combinedIndicators && plotOptions.combinedCountries) {
+    return `Chart - combined${filetype}`
+  } else if (!plotOptions.combinedIndicators && plotOptions.combinedCountries) {
+    return `Chart - ${indicatorValueName[currentIndicator.current]}${filetype}`
+  } else if (plotOptions.combinedIndicators && !plotOptions.combinedCountries) {
+    return `Chart - ${currentCountry.current.values_.ADMIN}${filetype}`
+  } else if (!plotOptions.combinedIndicators && !plotOptions.combinedCountries) {
+    return `Chart - ${currentCountry.current.values_.ADMIN}, ${indicatorValueName[currentIndicator.current]}${filetype}`;
   }
 }

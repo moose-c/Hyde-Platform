@@ -150,7 +150,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
 
   // If clicked on map, do one of two things
   function handleMouseUp(e) {
-    if (mouseDownPosition[0] == e.clientX && mouseDownPosition[1] == e.clientY) {
+    if (mouseDownPosition[0] === e.clientX && mouseDownPosition[1] === e.clientY) {
       if (currentlySelecting) {
         // Only use first of the selected values, this way when you select precicely a border only 1 country is selected
         const firstFeature = map.current.getFeaturesAtPixel([e.pageX, e.pageY])[0]
@@ -205,7 +205,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
   }
   // render component
   function handleMove(e) {
-    if (e.buttons == 1) {
+    if (e.buttons === 1) {
       setPopoverInfo(null)
     }
   }

@@ -1,5 +1,4 @@
-MUST HAVE
-- [] vgm werkt exporteren van graphs nu helemaal niet meer. 
+MUST HAVE 
 - [] Full name on homepage!  
 - [] Initial text more clearly explain what the purposes of the homepage and the portal is.
 
