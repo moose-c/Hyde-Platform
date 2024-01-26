@@ -26,6 +26,7 @@ export default function Home() {
       <div className="timeline-overlay">
         <Timeline currentYear={currentYear} setCurrentYear={setCurrentYear} />
       </div>
+
     </div>
   );
 }
