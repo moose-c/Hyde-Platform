@@ -78,6 +78,9 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
                 link.click()
             })
     }
+    console.log(optionsYears[yearValueList.indexOf(sliderYear)])
+    console.log()
+    console.log(overlayOptions)
     return (
         <>
             <Form>

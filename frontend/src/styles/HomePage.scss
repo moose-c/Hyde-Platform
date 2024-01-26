@@ -147,3 +147,7 @@ $globe-dimension: 300px;
   flex-direction: column;
   align-items: center;
 }
+
+a, b, strong, u {
+  font-size: inherit;
+}
