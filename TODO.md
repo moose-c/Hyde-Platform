@@ -2,10 +2,12 @@ MUST HAVE
 - [] Full name on homepage!  
 - [] Initial text more clearly explain what the purposes of the homepage and the portal is.
 - [] weet je zeker dat je deze kaart gewoon mag gebruiken?
+- [] lezen en schrijven
+- [] BUG: switching from to maps doesn't display the map
+- [] analytics
 
 SHOULD HAVE
 - [] Britta wants geotiff export. Difficult I think
-- [] clear graph, X button
 - [] display current year indicator values
 - [] 'tick marks to distinguish time periods'. 'line of years, and the below all of the eras'
 - [] Why is timeseries a seperate tab?

@@ -10,6 +10,7 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import CloseButton from 'react-bootstrap/CloseButton';
 
 import {
   yearsObject,
@@ -353,6 +354,9 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
     <>
       {plotOptions.plotting && data && (
         <div style={{ backgroundColor: "white" }}>
+          <div style={{ position: "absolute", top: 0, right: 0 }}>
+            <CloseButton onClick={() => setPlotOptions(oldOptions => ({ ...oldOptions, plotting: false }))} />
+          </div>
           <div
             style={{ height: "300px", display: "flex", alignItems: "center" }}
           >
@@ -377,33 +381,35 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           <Form>
             <Dropdown style={{ position: "absolute", right: 0, bottom: 0 }} drop="end" >
               <Dropdown.Toggle>Export</Dropdown.Toggle>
-              <Dropdown.Menu style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div className="menu-section-header">Which?</div>
-                <ToggleButtonGroup type="radio" name="exportTs" defaultValue="displayed" onChange={(e) => setExportAmt(e)}>
-                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-exportTs-1" value="displayed">
-                    Current Figure
-                  </ToggleButton>
-                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-exportTs-2" value="all">
-                    All Figures
-                  </ToggleButton>
-                </ToggleButtonGroup>
-                <div className="menu-section-header">Format?</div>
-                <Button onClick={() => exportCSV()}>
-                  Export CSV
-                </Button>
-                <Button onClick={() => exportJpeg()}>
-                  Export JPEG
-                </Button>
+              <Dropdown.Menu>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div className="menu-section-header">Which?</div>
+                  <ToggleButtonGroup type="radio" name="exportTs" defaultValue="displayed" onChange={(e) => setExportAmt(e)}>
+                    <ToggleButton variant="outline-primary" size="sm" id="tbg-exportTs-1" value="displayed">
+                      Current Figure
+                    </ToggleButton>
+                    <ToggleButton variant="outline-primary" size="sm" id="tbg-exportTs-2" value="all">
+                      All Figures
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                  <div className="menu-section-header">Format?</div>
+                  <Button onClick={() => exportCSV()}>
+                    Export CSV
+                  </Button>
+                  <Button onClick={() => exportJpeg()}>
+                    Export JPEG
+                  </Button>
+                </div>
               </Dropdown.Menu>
             </Dropdown>
             <Row>
               <Form.Label>
                 Change X-axis:
                 <ToggleButtonGroup type="radio" name="xAxis" defaultValue={2} onChange={() => setPlotOptions({ ...plotOptions, absolute: !plotOptions.absolute })} >
-                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-axis-1" value={1}>
+                  <ToggleButton variant="outline-primary" size="sm" id="tbg-axis-1" value={1}>
                     Relative
                   </ToggleButton>
-                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-axis-2" value={2}>
+                  <ToggleButton variant="outline-primary" size="sm" id="tbg-axis-2" value={2}>
                     Absolute
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -413,10 +419,10 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
               <Form.Label>
                 Display Indicators:
                 <ToggleButtonGroup type="radio" name="combinedIndicators" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combinedIndicators: !plotOptions.combinedIndicators })}>
-                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedIndicators-1" value={1}>
+                  <ToggleButton variant="outline-primary" size="sm" id="tbg-combinedIndicators-1" value={1}>
                     Seperate
                   </ToggleButton>
-                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedIndicators-2" value={2}>
+                  <ToggleButton variant="outline-primary" size="sm" id="tbg-combinedIndicators-2" value={2}>
                     Combined
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -426,10 +432,10 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
               <Form.Label>
                 Display Countries:
                 <ToggleButtonGroup type="radio" name="combinedCountries" defaultValue={1} onChange={() => setPlotOptions({ ...plotOptions, combinedCountries: !plotOptions.combinedCountries })}>
-                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedCountries-1" value={1}>
+                  <ToggleButton variant="outline-primary" size="sm" id="tbg-combinedCountries-1" value={1}>
                     Seperate
                   </ToggleButton>
-                  <ToggleButton variant="outline-secondary" size="sm" id="tbg-combinedCountries-2" value={2}>
+                  <ToggleButton variant="outline-primary" size="sm" id="tbg-combinedCountries-2" value={2}>
                     Combined
                   </ToggleButton>
                 </ToggleButtonGroup>

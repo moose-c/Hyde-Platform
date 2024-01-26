@@ -12,6 +12,8 @@ import GeoJSON from 'ol/format/GeoJSON.js'
 import { TileWMS } from 'ol/source';
 import { Zoom } from 'ol/control';
 
+import CloseButton from 'react-bootstrap/CloseButton';
+
 // Borders
 import Borders from "../data/countries.geojson"
 
@@ -214,11 +216,25 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
       <div id='map' className="map-container" onPointerMove={(e) => handleMove(e)} onMouseDown={(e) => setMouseDownPosition([e.clientX, e.clientY])} onMouseUp={(e) => handleMouseUp(e)}></div>
       {/* When there is raster overlay, clicking a pixel displays a popup showing the value at that pixel */}
       {popoverInfo !== null && (
-        <div style={{ border: 'solid black 1px', borderRadius: 5, backgroundColor: 'white', position: 'fixed', left: popoverInfo.left, top: popoverInfo.top, padding: 3 }}>
-          <div style={{ borderBottom: 'solid black 1px', borderRadius: '5px 5px 0px 0px', display: 'flex', justifyContent: 'center' }}>
-            <h6 style={{ color: '#0A58CA', fontWeight: 'bold', marginBottom: 0, paddingRight: 5, flexGrow: 1 }}>Pixel Information</h6>
-            <div style={{ cursor: "pointer", marginLeft: 'auto' }} onClick={() => setPopoverInfo(null)}>X</div>
-          </div>
+        <div style={{ border: 'solid black 1px', borderRadius: 5, backgroundColor: 'white', position: 'fixed', left: popoverInfo.left, top: popoverInfo.top, padding: 3 }}><div style={{
+          borderBottom: 'solid black 1px',
+          borderRadius: '5px 5px 0 0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <h5 style={{
+            color: '#0A58CA',
+            fontWeight: 'bold',
+            marginBottom: 0,
+            paddingLeft: 5,
+            paddingRight: 10
+          }}>
+            Pixel Information
+          </h5>
+          <CloseButton onClick={() => setPopoverInfo(null)} />
+        </div>
+
           <div>
             Longitude = {popoverInfo.lon.toFixed(3)} <br />
             Latitude = {popoverInfo.lat.toFixed(3)} <br />
