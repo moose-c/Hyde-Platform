@@ -2,6 +2,7 @@ MUST HAVE
 - [] Full name on homepage!  
 - [] Initial text more clearly explain what the purposes of the homepage and the portal is.
 - [] Remove 'Beta, email dev' Button.
+- [] weet je zeker dat je deze kaart gewoon mag gebruiken?
 
 SHOULD HAVE
 - [] Britta wants geotiff export. Difficult I think
@@ -17,8 +18,9 @@ SHOULD HAVE
 
 WANT HAVE
 Modal Changes:
-- which ind available?
-- [] Change (last) Modal Image
+    - which ind available?
+    - [] Change (last) Modal Image
+    - [] exporting text is now incomplete
 - [] 'doesn't look like a slidebar, looks like buttons'.
 - [] Year is pretty far away from the timeline.
 - [] Database contains also totals for the whole world, allow these also to be plotted -> wait until potetial regions are chosen
