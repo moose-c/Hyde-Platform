@@ -180,7 +180,7 @@ export default function Timeline({ currentYear, setCurrentYear }) {
             </div>
           </div>
         </div>
-        <img src="/pointer.png" id="pin" alt="pointer" />
+        <img src="/pointer.png" id="pin" alt="pointer" pointerEvents="none" draggable="false"/>
         {notDragged && (
           <div className='bg-primary' style={{ position: "absolute", left: 'calc(50% + 20px)', top: -20, borderRadius: '10px', padding: '10px', color: 'white', fontWeight: 'bold', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
             Drag the Timeline to explore different years and eras!

@@ -94,13 +94,14 @@ Secondly, information of an indicator within a certain year can be **overlayed**
 ### Mind map of components
 The following image summarizes all components of the final Hyde Portal.
 
-**From here on! Improve**
 ![Mind map](images/Structure.jpg)
 
 Here, the different types of data that are visualised each have their own chain through which they are displayed, and how they are combined into a single website is also shown. 
 
-## Text files
-On the left, the path to expose the .txt files from the HYDE model is explained. Each indicator has one text file, which contains information for each country and year that was modelled. The data from this .txt files will be stored in a postgres database, which has the following structure: \
+## static files
+On the left, the path to expose the .txt, .png and .zip files from the HYDE model is explained. 
+### .txt files
+For the .txt files, each indicator has one text file, which contains information for each country and year that was modelled. The data from this .txt files will be stored in a postgres database, which has the following structure: \
 For any indicator, there is one table which looks as follows
 | | bce_10000 | bce_9000 | ... | ce_2017 |
 | --- | --- | --- | --- | --- |
@@ -112,10 +113,12 @@ For any indicator, there is one table which looks as follows
 In this way, for each indicator information for all countries and all years will be stored in a concise way.
 
 This database will be populating by running a python script. This python scripts will read the txt files, connect to the database and insert the desired tables.  
-Finally, a FLASK API runs, which is connected to the database. Requests can be made to this API to extract data out of the database. A request is done by connecting to a relevant URL, for example: http://localhost:8000/test or http://localhost:8000/uopp/4/bce_1000/ce_700. This API is exposed via gunicorn, this allows multiple users to access the API at the same time.
+Finally, a FLASK API runs, which is connected to the database. Requests can be made to this API to extract data out of the database. A request is done by connecting to a relevant URL, for example: http://localhost:8000/api/txt/test or http://localhost:8000/uopp/4/bce_1000/ce_700. This API is exposed via gunicorn, this allows multiple users to access the API at the same time.
+### .png and .zip files
+Images and ascii files (from .zip files) can also be also be accessed through the website. These are produced by the hyde model and served without any processing. Again a FLASK API is used to access these, the can be accessed at http://localhost:8100/api/raster/png/pasture/ce_0 or http://localhost:8100/api/raster/asc/pasture/ce_0
 
 ## Netcdf Files
-On the right, the path to expose the .nc files from the HYDE model is explained. Each indicator has one netcdf file, which contains raster for the value of that indicator at a resolution of 5 arc minutes for each modelled year. After some searching and considering other ways of serving (most notably, geoserver was carefully investigated and considered), ncWMS2 was selected as the most promosing tool for publishing netcdf data. ncWMS serves nc data in a WMS compliant way. ncWMS is populated using a python scripts, which uses the API of ncWMS to load the local .nc files into ncWMS. ncWMS is a java servlet (java web application) which we have setup to run in Apache Tomcat.
+On the right, the path to expose the .nc files from the HYDE model is explained. Each indicator has one netcdf file, which contains raster for the value of that indicator at a resolution of 5 arc minutes for each modelled year. After some searching and considering other ways of serving (most notably, geoserver was carefully investigated and considered), ncWMS2 was selected as the most promosing tool for publishing netcdf data. ncWMS serves nc data in a WMS compliant way. ncWMS is populated using a python scripts, which uses the API of ncWMS to load the local .nc files into ncWMS. ncWMS is a java servlet (java web application) which we have setup to run in Apache Tomcat. Click [here](https://reading-escience-centre.gitbooks.io/ncwms-user-guide/content/) to learn more about ncWMS
 
 ## Combined Website
 The final website must show a map with multiple different aspects such as selectability and raster overlay. A suitable library for this is Openlayers. For the plotting of the timeseries, Chart.js was selected. Finally, React was chosen as an overall framework to aid in the development flow.
