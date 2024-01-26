@@ -1,7 +1,6 @@
 MUST HAVE 
 - [] Full name on homepage!  
 - [] Initial text more clearly explain what the purposes of the homepage and the portal is.
-- [] Remove 'Beta, email dev' Button.
 - [] weet je zeker dat je deze kaart gewoon mag gebruiken?
 
 SHOULD HAVE

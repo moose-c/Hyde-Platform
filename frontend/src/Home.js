@@ -26,11 +26,6 @@ export default function Home() {
       <div className="timeline-overlay">
         <Timeline currentYear={currentYear} setCurrentYear={setCurrentYear} />
       </div>
-      {/* Temporary div! Remove on release */}
-      <div style={{position: "fixed", top: 0, right: 0, border: 'red solid 3px', backgroundColor: 'red'}}>
-        <h5>BETA</h5>
-        Encountered a problem or noticed an improvement? <a styles={{color: 'black'}} href="mailto: hydeportal.info@gmail.com">Email Developer</a>
-      </div>
     </div>
   );
 }
