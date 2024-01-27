@@ -1,15 +1,17 @@
 MUST HAVE 
 - [] BUG: switching from to maps doesn't display the map
 - [] sluit de apis voor buitenaf
+- [] Britta wants geotiff export. Difficult I think
+- [] make zooming more clear
+- [] Eenheid in pixel show
+- [] Why is timeseries a seperate tab?
+- [] google analytica
 
 SHOULD HAVE
-- [] Britta wants geotiff export. Difficult I think
 - [] 'tick marks to distinguish time periods'. 'line of years, and the below all of the eras'
-- [] Why is timeseries a seperate tab?
 - [] misschien niet verschillende yas diingen in 1 
 - [] Start & End year begin bij huidige waarde
-- [] make zooming more clear
-- [] just 1 api.
+
 
 WANT HAVE
 Modal Changes:
