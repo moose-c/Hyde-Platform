@@ -60,7 +60,7 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
                 const url = window.URL.createObjectURL(new Blob([blob]))
                 const link = document.createElement('a');
                 link.href = url
-                link.setAttribute('download', `${ovIndicator}-${currentYear}.asc`)
+                link.setAttribute('download', `${ovIndicator}-${currentYear}.tif`)
                 link.click()
             })
     }
