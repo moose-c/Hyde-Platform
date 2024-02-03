@@ -10,7 +10,7 @@ import Timeline from "./home-components/Timeline";
 
 import { yearIndexToYear } from "./util/yearIndexToYear";
 import { timelineObjects } from "./util/timelineObjects";
-import { roundYear } from "./util/roundYear";
+import { roundYear } from "./util/helperFunctions";
 import opaqueColor from "./util/opaqueColor";
 
 export default function Home() {

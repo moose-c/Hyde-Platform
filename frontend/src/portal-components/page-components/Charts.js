@@ -18,6 +18,8 @@ import {
   indicatorTxtObj,
 } from "../../util/createData"; /* First an object from value to name, second a list */
 
+import { getUnit } from "../../util/helperFunctions";
+
 // For requesting iso codes
 import countries from "i18n-iso-countries";
 import language from "i18n-iso-countries/langs/en.json";
@@ -203,11 +205,11 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
       const titleList = [title]
       if (title.includes('Sudan') || title.includes('South Sudan')) { titleList.push(`Sudan and South Sudan have the same grouped values!`) }
       newOptions.plugins.title.text = titleList
-      newOptions.scales.y.title.text = chooseYLabel(
+      newOptions.scales.y.title.text = '[' + getUnit(
         currentIndicator.current,
         plotOptions.combinedIndicators,
         tsIndicators
-      );
+      ) + ']'
       setOptions(newOptions);
       setData({ labels: labels.current, datasets: datasets });
       setCurrentChartNb(newChartNb);
@@ -227,8 +229,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           var row = value;
           for (const country of selection) {
             for (const indicator of tsIndicators) {
-              const newHeader = `,${country.values_.ADMIN} - ${indicatorValueName[indicator]
-                } ${chooseYLabel(indicator)}`;
+              const newHeader = `,${country.values_.ADMIN} - ${indicatorValueName[indicator]} [${getUnit(indicator)}]`;
               if (!header.includes(newHeader)) {
                 header += newHeader;
               }
@@ -246,8 +247,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         measurementPoints.forEach((value, i) => {
           var row = value;
           for (const country of selection) {
-            const newHeader = `,${country.values_.ADMIN} - ${indicatorValueName[currentIndicator.current]
-              } ${chooseYLabel(currentIndicator.current)}`;
+            const newHeader = `,${country.values_.ADMIN} - ${indicatorValueName[currentIndicator.current]} [${getUnit(currentIndicator.current)}]`;
             if (!header.includes(newHeader)) {
               header += newHeader;
             }
@@ -266,7 +266,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           var row = value;
           for (const indicator of tsIndicators) {
             const newHeader = `,${currentCountry.current.values_.ADMIN} - ${indicatorValueName[indicator]
-              } ${chooseYLabel(currentIndicator.current)}`;
+              } [${getUnit(currentIndicator.current)}]`;
             if (!header.includes(newHeader)) {
               header += newHeader;
             }
@@ -279,7 +279,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
           rowContent += `${row}\r\n`;
         });
       } else if (!plotOptions.combinedIndicators && !plotOptions.combinedCountries) {
-        header += `,${currentCountry.current.values_.ADMIN} - ${indicatorValueName[currentIndicator.current]} ${chooseYLabel(currentIndicator.current)}`;
+        header += `,${currentCountry.current.values_.ADMIN} - ${indicatorValueName[currentIndicator.current]} [${getUnit(currentIndicator.current)}]`;
         title = computeFilename(plotOptions, indicatorValueName, currentCountry, currentIndicator, '.csv')
         measurementPoints.forEach((value, i) => {
           rowContent += `${value},${allDataRef.current[currentCountry.current.values_.ISO_A3][
@@ -295,7 +295,7 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
         for (const country of selection) {
           for (const indicator of tsIndicators) {
             const newHeader = `,${country.values_.ADMIN} - ${indicatorValueName[indicator]
-              } ${chooseYLabel(currentIndicator.current)}`;
+              } [${getUnit(currentIndicator.current)}]`;
             if (!header.includes(newHeader)) {
               header += newHeader;
             }
@@ -446,34 +446,6 @@ export default function Charts({ selection, startYear, endYear, tsIndicators, pl
       )}
     </>
   );
-}
-
-// Little helper function
-function chooseYLabel(ind, combinedIndicators = false, all_indicators = []) {
-  const demInd = Object.keys(indicatorTxtObj['demographic'])
-  const demIndWODensity = Object.keys(indicatorTxtObj['demographic'])
-  demIndWODensity.splice(demIndWODensity.indexOf('popd'), 1)
-  if (combinedIndicators) {
-    if (
-      all_indicators.every((val) => demIndWODensity.includes(val)) ||
-      all_indicators.every((val) => ["popd"].includes(val)) ||
-      all_indicators.every(
-        (val) => !demInd.includes(val)
-      )
-    ) {
-      return chooseYLabel(all_indicators[0]);
-    } else {
-      return null;
-    }
-  } else {
-    if (demIndWODensity.includes(ind)) {
-      return "[inh]";
-    } else if ("popd" === ind) {
-      return `[inh/km\u00b2]`;
-    } else {
-      return "[km\u00b2]";
-    }
-  }
 }
 
 function calculateNbOfCharts(plotOptions, indLength, countriesLength) {

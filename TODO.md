@@ -1,6 +1,5 @@
 MUST HAVE 
 - [] BUG: switching from to maps doesn't display the map
-- [] Eenheid in pixel show
 - [] google analytica
 
 

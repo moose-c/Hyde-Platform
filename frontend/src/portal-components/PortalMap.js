@@ -18,6 +18,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Borders from "../data/countries.geojson"
 
 import { indicatorNcObj, rangeValues, styleValues } from "../util/createData"
+import { getUnit } from '../util/helperFunctions';
 
 
 export default function PortalMap({ currentlySelecting, setSelection, ovIndicator, setOvIndicator, currentYear, popoverInfo, setPopoverInfo }) {
@@ -238,7 +239,7 @@ export default function PortalMap({ currentlySelecting, setSelection, ovIndicato
           <div>
             Longitude = {popoverInfo.lon.toFixed(3)} <br />
             Latitude = {popoverInfo.lat.toFixed(3)} <br />
-            {popoverInfo.value !== null && (<span style={{ fontWeight: 'bold' }}> {Object.assign({}, ...Object.values(indicatorNcObj))[ovIndicator]} = {popoverInfo.value.toFixed(3)}<br /></span>)}
+            {popoverInfo.value !== null && (<span style={{ fontWeight: 'bold' }}> {Object.assign({}, ...Object.values(indicatorNcObj))[ovIndicator]} = {popoverInfo.value.toFixed(3)} {getUnit(ovIndicator, false, [], indicatorNcObj)}<br /></span>)}
             {popoverInfo.value === null && (<span style={{ fontWeight: 'bold' }}>No Pixel Value<br /></span>)}
           </div>
         </div>
