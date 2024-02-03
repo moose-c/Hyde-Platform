@@ -129,6 +129,7 @@ export default function Portal() {
           setPopoverInfo={setPopoverInfo}
         />
         <Page
+          currentlySelecting={currentlySelecting}
           setCurrentlySelecting={setCurrentlySelecting}
           selection={selection}
           setSelection={setSelection}

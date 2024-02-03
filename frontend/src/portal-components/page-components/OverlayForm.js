@@ -1,4 +1,4 @@
-import { React, useState } from "react"
+import { React, useState, useEffect, useRef } from "react"
 
 import { yearsObject, yearValueList, indicatorNcObj, indicatorTxtObj } from "../../util/createData"  /* as ind.type : {ind -> Indicator Name} */
 
@@ -9,10 +9,11 @@ import RangeSlider from 'react-bootstrap-range-slider';
 
 import Select from "react-select"
 
-export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, setOvIndicator, setPopoverInfo }) {
+export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, setOvIndicator, setPopoverInfo, currentlySelecting }) {
     /* Form to request timeseries. */
     // Changing currentYear causes retrieval of netcdf. To do this continuously is to intensive, therefore sliderYear changes continuously but currentYear only after sliding has finished
     const [sliderYear, setSliderYear] = useState(currentYear)
+    const selectInputRef = useRef();
 
     // Create options for the years
     const optionsYears = Object.entries(yearsObject).map(([key, value]) => (
@@ -27,6 +28,10 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
             label: indicatorName
         }))
     }))
+
+    useEffect(() => {
+        selectInputRef.current.clearValue()
+    }, [currentlySelecting])
 
     // Strange because one can select a new indicator, or click the x removing the indicator.
     function handleSelect(e) {
@@ -95,9 +100,9 @@ export default function OverlayForm({ currentYear, setCurrentYear, ovIndicator, 
                     </Form.Label>
                 </Row>
                 <Row>
-                    <Form.Label style={{}}>Indicator
+                    <Form.Label>Indicator
                         <div style={{ width: 200, margin: '0 auto' }}>
-                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} onChange={(e) => {setPopoverInfo(null); handleSelect(e)}} />
+                            <Select menuPortalTarget={document.body} isClearable options={overlayOptions} onChange={(e) => {setPopoverInfo(null); handleSelect(e)}} ref={selectInputRef}/>
                         </div>
                     </Form.Label>
                 </Row>

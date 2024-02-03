@@ -12,7 +12,7 @@ import OverlayForm from './page-components/OverlayForm';
 import Legend from './page-components/Legend'
 import Attributions from './page-components/Attributions'
 
-export default function Page({ map, setMap, setCurrentlySelecting, selection, setSelection, ovIndicator, setOvIndicator, currentYear, setCurrentYear, setPopoverInfo }) {
+export default function Page({ currentlySelecting, setCurrentlySelecting, selection, setSelection, ovIndicator, setOvIndicator, currentYear, setCurrentYear, setPopoverInfo }) {
     const [startYear, setStartYear] = useState('bce_10000')
     const [endYear, setEndYear] = useState(`ce_${process.env.REACT_APP_END_YEAR}`)
     const [tsIndicators, setTsIndicators] = useState([])
@@ -25,11 +25,19 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
         combinedIndicators: false
     })
 
+    function changeTab(e) {
+        if (e === 'mapsForm') {
+            setCurrentlySelecting(false)
+        } else {
+            setCurrentlySelecting(true)
+        }
+    }
+
     return (
         <>
             <div style={{ position: 'fixed', top: 0, backgroundColor: 'white' }}>
                 {/* The first two tabs are for selecting countries, the last is for laying raster over the map. This changes regime according to which tab is selected */}
-                {<Tabs transition={false} style={{ fontWeight: 'bold' }} onSelect={(e) => { if (e === 'mapsForm') { setCurrentlySelecting(false) } else { setCurrentlySelecting(true) } }}>
+                {<Tabs transition={false} style={{ fontWeight: 'bold' }} onSelect={(e) => changeTab(e)}>
                     <Tab eventKey="selection" title="Selected Countries" >
                         <Selection selection={selection} setSelection={setSelection} />
                     </Tab>
@@ -37,7 +45,7 @@ export default function Page({ map, setMap, setCurrentlySelecting, selection, se
                         <TimeseriesForm startYear={startYear} endYear={endYear} setStartYear={setStartYear} setEndYear={setEndYear} setTsIndicators={setTsIndicators} setPlotOptions={setPlotOptions} />
                     </Tab>
                     <Tab eventKey="mapsForm" title="Maps">
-                        <OverlayForm map={map} setMap={setMap} currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator} setPopoverInfo={setPopoverInfo}/>
+                        <OverlayForm currentYear={currentYear} setCurrentYear={setCurrentYear} ovIndicator={ovIndicator} setOvIndicator={setOvIndicator} setPopoverInfo={setPopoverInfo} currentlySelecting={currentlySelecting} />
                     </Tab>
                 </Tabs>}
             </div>
