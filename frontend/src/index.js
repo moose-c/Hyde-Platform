@@ -4,10 +4,6 @@ import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import App from './App';
 
-// Needed for google analytics
-import ReactGA from 'react-ga';
-ReactGA.initialize('G-6GRT1DF10Q');
-
 const container = document.getElementById('root');
 
 // Create a root - https://github.com/reactwg/react-18/discussions/5

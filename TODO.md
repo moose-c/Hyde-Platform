@@ -1,8 +1,6 @@
 MUST HAVE 
-- [] BUG: switching from to maps doesn't display the map
+- [] BUG: switching from charts to maps doesn't display the map
 - [] google analytica
-
-
 
 SHOULD HAVE
 - [] 'tick marks to distinguish time periods'. 'line of years, and the below all of the eras'
