@@ -135,5 +135,7 @@ services:
       timeseries-fill:
         condition: service_completed_successfully
 
+    restart: always # Restart upon failure 
+
     ports:
       - 8000:8000 # Expose port 8000 for external access
