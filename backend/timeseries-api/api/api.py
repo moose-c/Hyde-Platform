@@ -42,14 +42,10 @@ class Timeseries(Resource):
         cur.execute(
             f"SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name='{indicator}');"
         )
-        tableExists = cur.fetchone()[0]
 
-        if tableExists:
-            cur.execute(f"SELECT {columns} FROM {indicator} WHERE iso_code={isocode};")
-            ts = cur.fetchall()
-            return ts
-        else:
-            return "indicator doesnt exist"
+        cur.execute(f"SELECT {columns} FROM {indicator} WHERE iso_code={isocode};")
+        ts = cur.fetchall()
+        return ts
 
 
 # test class to see whether the api is setup correctly
