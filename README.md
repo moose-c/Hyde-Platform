@@ -24,7 +24,7 @@ The website and backend components can now be tested and accessed as follows:
 - Test Database locally: `curl 127.0.0.1:8000/api/txt/uopp/4/ce_600/ce_700` should give "[[6.344291354067953e-06, 1.846188784028077e-05]]" 
 #### ncWMS
 - Get password from .env file
-- Test Server setup: `curl -H "Accept: text/plain" -u ncwms:trompetboom -X GET localhost:8080/ncWMS/admin/datasetStatus?dataset=0` SHould give: "Dataset: 0 not found on this server" 
+- Test Server setup: `curl -H "Accept: text/plain" -u ncwms:[password] -X GET localhost:8080/ncWMS/admin/datasetStatus?dataset=0` SHould give: "Dataset: 0 not found on this server" 
 - Test Data setup: `curl -H "Accept: text/plain" -u ncwms:[password] -X GET localhost:8080/ncWMS/admin/datasetStatus?dataset=irrigated_rice` Should give: "Dataset 16: (....): READY"
 #### raster-api
 - Test png retrieval: `curl http://localhost:8100/api/raster/png/pasture/ce_0` 
@@ -40,7 +40,7 @@ The website and backend components can now be tested and accessed as follows:
 ### Change Website
 1) Change content:
     - Website is stored in ./frontend/src. If you open this directory in a code editor, search within all subfile the existing text you want to change, and insert the new text. 
-    - To change final year, change the value in .env
+    - To change final year, change the value in ./frontend/.env
     - To change homepage content:
         - To change the Left (blue) part: change Jubmotron within ./frontend/src/Home.js 
         - To change the Right (Era Text): change the periodText from ./frontend/src/util/timelineObjects.js
@@ -122,3 +122,6 @@ On the right, the path to expose the .nc files from the HYDE model is explained.
 
 ## Combined Website
 The final website must show a map with multiple different aspects such as selectability and raster overlay. A suitable library for this is Openlayers. For the plotting of the timeseries, Chart.js was selected. Finally, React was chosen as an overall framework to aid in the development flow.
+
+To change something from local:
+Cisco secure client

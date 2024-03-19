@@ -10,6 +10,4 @@ old/
 
 package-lock.json
 .env
-External-communication.md
-overdracht.md
-laatstedag.md
+restart_docker.bat
