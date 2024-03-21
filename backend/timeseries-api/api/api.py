@@ -93,7 +93,7 @@ class Timeseries(Resource):
 # Test class to see whether the API is setup correctly
 class Test(Resource):
     def get(self):
-        return {"message": "versie sqlAlchemy"}
+        return {"message": "versie sqlAlchemy2"}
 
 
 api.add_resource(Test, "/test")
