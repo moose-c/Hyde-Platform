@@ -86,7 +86,7 @@ class Timeseries(Resource):
 # Test class to see whether the API is setup correctly
 class Test(Resource):
     def get(self):
-        return {"message": "Setup is correct!"}
+        return {"message": "versie sqlAlchemy"}
 
 
 api.add_resource(Test, "/test")
