@@ -84,10 +84,11 @@ class Timeseries(Resource):
         result = db.session.execute(query).fetchall()
 
         temp_list = [dict(row._mapping) for row in result]
+        # Je kan ook de templist terug geven als je de jaren erbij wilt, handig voor debuggen
 
         result_list = [[value for value in row.values()] for row in temp_list]
 
-        return temp_list
+        return result_list
 
 
 # Test class to see whether the API is setup correctly
