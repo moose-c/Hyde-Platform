@@ -12,9 +12,15 @@ CORS(app)  # Mitigate CORS error
 
 # Database configuration
 password = os.environ["POSTGRES_PASSWORD"]
+# place here if developing! and then don't commit!
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     f"postgresql://postgres:{password}@timeseries-database/timeseries"
 )
+## Dev
+# app.config["SQLALCHEMY_DATABASE_URI"] = (
+#     f"postgresql://postgres:{password}@localhost:5432/timeseries"
+# )
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -68,8 +74,9 @@ class Timeseries(Resource):
 
         columns = get_safe_columns()
         # Filter columns by start and end year, assuming they are part of the column names
-        filtered_columns = [col for col in columns if start <= col <= end]
-
+        index_start = columns.index(start)
+        index_end = columns.index(end)
+        filtered_columns = columns[index_start : index_end + 1]
         query = construct_query(indicator, filtered_columns, isocode)
         if query is None:
             return {"error": "No valid columns found for query"}, 400
@@ -80,7 +87,7 @@ class Timeseries(Resource):
 
         result_list = [[value for value in row.values()] for row in temp_list]
 
-        return result_list
+        return temp_list
 
 
 # Test class to see whether the API is setup correctly
